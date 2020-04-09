@@ -11,7 +11,7 @@ import comp.GUIComponent;
 import comp.GUIComponent.alignment;
 
 /**
- * lays out the components of the parent {@link GUIComponent} or {@link Frame}
+ * The Window Layout lays out the components of the parent {@link GUIComponent} or {@link Frame}
  * in a horizontal arrangement. The layout takes the individual component's
  * weight and uses it to create a percentage of coverage within the parent
  * container.
