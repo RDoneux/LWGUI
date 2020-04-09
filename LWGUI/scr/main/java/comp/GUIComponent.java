@@ -20,6 +20,9 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int width;
 	protected int height;
 	protected int id;
+	
+	protected int gridx;
+	protected int gridy;
 
 	protected double weightX;
 	protected double weightY;
@@ -169,4 +172,20 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.name = name;
 	}
 
+	public int getGridx() {
+		return gridx;
+	}
+
+	public void setGridx(int gridx) {
+		this.gridx = gridx;
+	}
+
+	public int getGridy() {
+		return gridy;
+	}
+
+	public void setGridy(int gridy) {
+		this.gridy = gridy;
+	}
+	
 }

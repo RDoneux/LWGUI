@@ -3,8 +3,6 @@ package comp;
 import java.util.ArrayList;
 
 import constraints.Layout;
-import constraints.WindowConstraint;
-import constraints.WindowLayout;
 
 public abstract class Container extends GUIComponent {
 
@@ -14,19 +12,6 @@ public abstract class Container extends GUIComponent {
 	public void add(GUIComponent child) {
 		child.setParent(this);
 		children.add(child);
-	}
-
-	public void add(GUIComponent child, WindowConstraint w) {
-		if (layout instanceof WindowLayout) {
-			child.setParent(this);
-			children.add(child);
-			((WindowLayout) layout).add(child, w);
-		} else {
-			throw new IllegalArgumentException(
-					"In order to use WindowConstraint, the containers layout must be set to WindowLayout. Current Layout: "
-							+ layout);
-		}
-
 	}
 
 	public GUIComponent getChild(int i) {

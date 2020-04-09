@@ -19,8 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import constraints.Layout;
-import constraints.WindowConstraint;
-import constraints.WindowLayout;
 
 public class Frame extends Canvas
 		implements Runnable, MouseWheelListener, MouseListener, MouseMotionListener, KeyListener {
@@ -134,19 +132,6 @@ public class Frame extends Canvas
 	public void add(GUIComponent child) {
 		child.setParent(frame);
 		children.add(child);
-	}
-
-	public void add(GUIComponent child, WindowConstraint w) {
-		if (layout instanceof WindowLayout) {
-			child.setParent(frame);
-			children.add(child);
-			((WindowLayout) layout).add(child, w);
-		} else {
-			throw new IllegalArgumentException(
-					"In order to use WindowConstraint, the containers layout must be set to WindowLayout. Current Layout: "
-							+ layout);
-		}
-
 	}
 
 	public GUIComponent getChild(int i) {
