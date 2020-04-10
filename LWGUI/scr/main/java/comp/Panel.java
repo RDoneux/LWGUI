@@ -13,6 +13,10 @@ public class Panel extends Container {
 
 	private Color background;
 
+	public Panel() {
+		setName("GUIComponent/Container/Panel");
+	}
+
 	@Override
 	public void revise() {
 
@@ -30,14 +34,15 @@ public class Panel extends Container {
 
 		g.setColor(background);
 		g.fillRect(x, y, width, height);
-		
-		// draw centre line
-		/*
-		 * g.setColor(Color.BLACK); g.drawLine(x + (width / 2), y, x + (width / 2), y +
-		 * height);
-		 */
+
 		for (GUIComponent child : children) {
 			child.paint(g);
+		}
+
+		if (layout != null) {
+			if (layout.isDebugging()) {
+				layout.debug(g);
+			}
 		}
 
 	}
@@ -138,4 +143,5 @@ public class Panel extends Container {
 			}
 		}
 	}
+
 }

@@ -36,4 +36,12 @@ public abstract class Container extends GUIComponent {
 		this.layout = layout;
 	}
 
+	public void debugLayout() {
+		if (layout != null) {
+			layout.setDebugging(true);
+		} else {
+			throw new NullPointerException(name + " does not have a specified layout");
+		}
+	}
+
 }

@@ -20,9 +20,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int width;
 	protected int height;
 	protected int id;
-	
+
 	protected int gridx;
 	protected int gridy;
+	protected int gridWidth;
+	protected int gridHeight;
 
 	protected double weightX;
 	protected double weightY;
@@ -34,7 +36,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	protected alignment alignmentX;
 	protected alignment alignmentY;
-	protected alignment bias = alignment.EAST;
+	protected alignment bias;
 
 	public enum alignment {
 		NORTH, EAST, SOUTH, WEST, CENTRE;
@@ -42,6 +44,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public GUIComponent() {
 		id = IDGenerator.generateID();
+		weightX = 1;
+		weightY = 1;
+		alignmentX = alignment.WEST;
+		alignmentY = alignment.NORTH;
+		gridWidth = 1;
+		gridHeight = 1;
 	}
 
 	public abstract void revise();
@@ -155,7 +163,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public alignment getAlignmentY() {
 		return alignmentY;
 	}
-	
+
 	public alignment getBias() {
 		return bias;
 	}
@@ -177,6 +185,9 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public void setGridx(int gridx) {
+		if (gridx < 0) {
+			throw new IllegalArgumentException("Gridx must be a positive number");
+		}
 		this.gridx = gridx;
 	}
 
@@ -185,7 +196,32 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public void setGridy(int gridy) {
+		if (gridy < 0) {
+			throw new IllegalArgumentException("Gridy must be a positive number");
+		}
 		this.gridy = gridy;
 	}
-	
+
+	public int getGridWidth() {
+		return gridWidth;
+	}
+
+	public void setGridWidth(int gridWidth) {
+		if (gridWidth < 0) {
+			throw new IllegalArgumentException("gridWidth must be a positive number");
+		}
+		this.gridWidth = gridWidth;
+	}
+
+	public int getGridHeight() {
+		return gridHeight;
+	}
+
+	public void setGridHeight(int gridHeight) {
+		if (gridHeight < 0) {
+			throw new IllegalArgumentException("gridHeight must be a positive number");
+		}
+		this.gridHeight = gridHeight;
+	}
+
 }

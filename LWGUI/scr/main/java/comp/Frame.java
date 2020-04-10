@@ -108,6 +108,10 @@ public class Frame extends Canvas
 					child.paint(g);
 				}
 
+				if (layout.isDebugging()) {
+					layout.debug(g);
+				}
+
 				bs.show();
 				g.dispose();
 			}
@@ -162,12 +166,16 @@ public class Frame extends Canvas
 	public Rectangle getFrameBounds() {
 		return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
+	
+	public void debugLayout() {
+		layout.setDebugging(true);
+	}
 
 	@Override
 	public void run() {
 
 		long lastTime = System.nanoTime();
-		double targetUPS = 60.0;
+		double targetUPS = 30.0;
 		double us = 1000000000 / targetUPS;
 		double targetFPS = 30.0;
 		double fs = 1000000000 / targetFPS;
