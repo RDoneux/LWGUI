@@ -12,10 +12,12 @@ public class TestClass {
 
 	public static void main(String args[]) {
 
+		PercentLayout layout = new PercentLayout(5,5);
+		
 		Frame frame = new Frame();
 		frame.setSize(new Dimension(400, 400));
-		frame.setLayout(new PercentLayout(5, 5));
-		//frame.debugLayout();
+		frame.setLayout(layout);
+		frame.debugLayout();
 		
 		Panel basePanel = new Panel();
 		basePanel.setBackground(Color.GREEN);
@@ -63,14 +65,12 @@ public class TestClass {
 		bottomRightPanel.setAlignmentX(alignment.EAST);
 		bottomRightPanel.setWeightX(0.5);
 
-		// make grid numbers changeable in percentlayout.
-
 		frame.add(basePanel);
 		frame.add(centrePanel);
 		frame.add(rightPanel);
 		frame.add(bottomPanel);
 		frame.add(bottomRightPanel);
-
+		
 	}
 
 }

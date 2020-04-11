@@ -8,6 +8,17 @@ import comp.GUIComponent.alignment;
 
 public abstract class Layout {
 
+	/**
+	 * Abstract class for all Layouts. Contains abstract methods, 'updateLayout()'
+	 * and 'debug();
+	 * 
+	 * @param container
+	 * @param frame
+	 * 
+	 * @author Robert Doneux
+	 * @version 0.1
+	 */
+
 	protected Container container;
 	protected Frame topLevelContainer;
 

@@ -11,14 +11,14 @@ import comp.GUIComponent.alignment;
 import tools.Maths;
 
 /**
+ * Basic grid based layout manager. Creates a grid of {@link Tile}, splitting
+ * the width and height of the parent window evenly. The user specifies the
+ * width and height of the grid (and thus the size of the {@link Tile} grid)
+ * within the constructor.
+ * 
  * @author Robert Doneux
  * 
  * @version 0.1
- * 
- * @Description Basic grid based layout manager. Creates a grid of {@link Tile},
- *              splitting the width and height of the parent window evenly. The
- *              user specifies the width and height of the grid (and thus the
- *              size of the {@link Tile} grid) within the constructor.
  */
 
 public class PercentLayout extends Layout {
@@ -34,6 +34,10 @@ public class PercentLayout extends Layout {
 		tiles = new Tile[columns][rows];
 	}
 
+	/**
+	 * inherited method that identifies which type of container the layout manager
+	 * has been added to, {@link Container} or {@link Frame}
+	 */
 	@Override
 	public void updateLayout() {
 
@@ -45,6 +49,14 @@ public class PercentLayout extends Layout {
 
 	}
 
+	/**
+	 * 
+	 * completes the layout of each {@link GUIComponent} from the parent
+	 * {@link Container}
+	 * 
+	 * @param bounds
+	 * @param children
+	 */
 	private void layout(Rectangle bounds, ArrayList<GUIComponent> children) {
 
 		// set up-to-date tile locations and sizes
@@ -62,14 +74,14 @@ public class PercentLayout extends Layout {
 		for (GUIComponent child : children) {
 
 			// ensure that the child's grid value is within the managers grid range
-			if (child.getGridx() > columns) {
+			if (child.getGridx() >= columns) {
 				throw new IllegalArgumentException("GUIComponent: " + child.getName()
-						+ " had a gridX value outside of Layout Managers range. Current range = " + columns
+						+ " has a gridX value outside of Layout Managers range. Current range = " + columns
 						+ " Current value = " + child.getGridx());
 			}
-			if (child.getGridy() > rows) {
+			if (child.getGridy() >= rows) {
 				throw new IllegalArgumentException("GUIComponent: " + child.getName()
-						+ " had a gridY value outside of Layout Managers range. Current range = " + rows
+						+ " has a gridY value outside of Layout Managers range. Current range = " + rows
 						+ " Current value = " + child.getGridy());
 			}
 
@@ -107,6 +119,11 @@ public class PercentLayout extends Layout {
 
 	}
 
+	/**
+	 * Shows the tile grid to the user for debugging purposes. This should never be
+	 * directly called from this class. The container class has a debugging boolean
+	 * which, when set to true will call this method within it's paint method
+	 */
 	@Override
 	public void debug(Graphics g) {
 		g.setColor(Color.BLACK);
@@ -117,6 +134,27 @@ public class PercentLayout extends Layout {
 		}
 	}
 
+	/**
+	 * enables the user to update the {@link Tile} width and height after the layout
+	 * manager has been created and added to a {@link Container} or {@link Frame}
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void updateGrid(int width, int height) {
+		columns = width;
+		rows = height;
+		tiles = new Tile[columns][rows];
+	}
+
+	/**
+	 * holds an x, y, width and height value which the {@link PercentLayout} layout
+	 * manager uses to split the screen evenly and layout the attached
+	 * {@link Container}'s or {@link Frame}'s children {@link GUIComponent}s
+	 * 
+	 * @author Rober
+	 *
+	 */
 	private class Tile {
 
 		private int x;
