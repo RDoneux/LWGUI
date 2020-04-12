@@ -87,15 +87,22 @@ public class PercentLayout extends Layout {
 
 			Tile targetTile = tiles[child.getGridx()][child.getGridy()];
 
-			// calculate the size of the component based upon its weight and grid width /
-			// height
-			int percentWidth = (int) Maths.round(child.getWeightX() * 100, 2)
-					* (targetTile.width * child.getGridWidth()) / 100;
-			int percentHeight = (int) Maths.round(child.getWeightY() * 100, 2)
-					* (targetTile.height * child.getGridHeight()) / 100;
+			// If the child component is size editable, calculate the size of the component
+			// based upon its weight and grid width /
+			// height.
+			if (child.isSizeEditable()) {
+				int percentWidth = (int) Maths.round(child.getWeightX() * 100, 2)
+						* (targetTile.width * child.getGridWidth()) / 100;
+				int percentHeight = (int) Maths.round(child.getWeightY() * 100, 2)
+						* (targetTile.height * child.getGridHeight()) / 100;
 
-			child.setWidth(percentWidth);
-			child.setHeight(percentHeight);
+				child.setWidth(percentWidth);
+				child.setHeight(percentHeight);
+			} else {
+				// ask the child to check it's size in comparison to the given Tile size. If it
+				// is larger, the component will minimise
+				child.minimise(targetTile.getBounds());
+			}
 
 			// set the alignment of the child component within the window frame. This will
 			// only have an effect if the child component is smaller than the window frame
@@ -114,9 +121,7 @@ public class PercentLayout extends Layout {
 			} else if (child.getAlignmentY() == alignment.SOUTH) {
 				child.setY(targetTile.y - child.getHeight() * child.getGridHeight());
 			}
-
 		}
-
 	}
 
 	/**
@@ -174,6 +179,10 @@ public class PercentLayout extends Layout {
 
 		private void showGrid(Graphics g) {
 			g.drawRect(x, y, width, height);
+		}
+
+		private Rectangle getBounds() {
+			return new Rectangle(x, y, width, height);
 		}
 	}
 }

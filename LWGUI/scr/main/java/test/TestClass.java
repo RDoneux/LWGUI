@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import comp.Frame;
 import comp.GUIComponent.alignment;
+import comp.Label;
 import comp.Panel;
 import constraints.PercentLayout;
 
@@ -12,13 +13,13 @@ public class TestClass {
 
 	public static void main(String args[]) {
 
-		PercentLayout layout = new PercentLayout(5,5);
-		
+		PercentLayout layout = new PercentLayout(5, 5);
+
 		Frame frame = new Frame();
 		frame.setSize(new Dimension(400, 400));
 		frame.setLayout(layout);
-		frame.debugLayout();
-		
+		// frame.debugLayout();
+
 		Panel basePanel = new Panel();
 		basePanel.setBackground(Color.GREEN);
 		basePanel.setGridx(0);
@@ -31,8 +32,8 @@ public class TestClass {
 		centrePanel.setGridy(0);
 		centrePanel.setGridWidth(3);
 		centrePanel.setGridHeight(4);
-		centrePanel.setLayout(new PercentLayout(1,1));
-		
+		centrePanel.setLayout(new PercentLayout(1, 1));
+
 		Panel intPanel = new Panel();
 		intPanel.setBackground(Color.MAGENTA);
 		intPanel.setGridx(0);
@@ -41,9 +42,26 @@ public class TestClass {
 		intPanel.setWeightY(0.5);
 		intPanel.setAlignmentX(alignment.CENTRE);
 		intPanel.setAlignmentY(alignment.CENTRE);
+		intPanel.setLayout(new PercentLayout(3, 3));
+		
+		TestLabel label = new TestLabel("This is a test label");
+		label.setAlignmentX(alignment.CENTRE);
+		label.setAlignmentY(alignment.CENTRE);
+		
+		TestLabel label1 = new TestLabel("this is a test label");
+		label1.setGridx(2);
+		label1.setAlignmentX(alignment.CENTRE);
+		label1.setAlignmentY(alignment.CENTRE);
+		intPanel.debugLayout();
+		
+		intPanel.add(label);
+		intPanel.add(label1);
 		
 		centrePanel.add(intPanel);
 		
+		
+
+
 		Panel rightPanel = new Panel();
 		rightPanel.setBackground(Color.RED);
 		rightPanel.setGridx(4);
@@ -70,7 +88,7 @@ public class TestClass {
 		frame.add(rightPanel);
 		frame.add(bottomPanel);
 		frame.add(bottomRightPanel);
-		
+
 	}
 
 }

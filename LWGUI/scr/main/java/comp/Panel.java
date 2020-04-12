@@ -15,6 +15,7 @@ public class Panel extends Container {
 
 	public Panel() {
 		setName("GUIComponent/Container/Panel");
+		sizeEditable = true;
 	}
 
 	@Override
@@ -63,7 +64,9 @@ public class Panel extends Container {
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		for (GUIComponent child : children) {
-			if (child.getBounds().contains(arg0.getPoint())) {
+			if (child instanceof Component) {
+				child.mouseMoved(arg0);
+			} else if (child.getBounds().contains(arg0.getPoint())) {
 				child.mouseMoved(arg0);
 			}
 		}
@@ -142,6 +145,12 @@ public class Panel extends Container {
 				child.mouseWheelMoved(arg0);
 			}
 		}
+	}
+
+	@Override
+	public void minimise(Rectangle parentSpace) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
