@@ -9,56 +9,53 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 
-/**
- * A class that displays a given string within a parent {@link Container}. The
- * Class respects the parent {@link Container}'s {@link Tile} boundary size and
- * will display a shortened version of the given string if the container size
- * reduces below the desired width and height. The width and height are not
- * changed when User alters size of window however
- * 
- * Mouse and Key Events are passed to this parent class. To utilise them, extend
- * this class and @Override the appropriate method
- * 
- * @author Robert Doneux
- * @version 0.1
- */
-public class Label extends Component {
+import tools.Maths;
 
-	public Label(String text) {
+public class Button extends Component {
+
+	private Color background;
+	private Color boarder;
+
+	private int roundEdge;
+
+	public Button(String text) {
+
 		this.text = text;
 		this.protectedText = text;
-		foreground = Color.BLACK;
-		name = "Label";
+		this.foreground = Color.BLACK;
+		this.setName("Button");
 
-		sizeEditable = false;
+		this.setSizeEditable(false);
+
+		background = Color.LIGHT_GRAY;
+		boarder = Color.BLACK;
+		roundEdge = 5;
 
 	}
 
-	public Label() {
-		foreground = Color.BLACK;
-		name = "Label";
+	public Button() {
+		this.foreground = Color.BLACK;
+		this.setName("Button");
 
-		sizeEditable = false;
+		this.setSizeEditable(false);
+
+		background = Color.LIGHT_GRAY;
+		boarder = Color.BLACK;
+		roundEdge = 5;
 	}
 
 	@Override
 	public void revise() {
-		// the update method. The label requires no updates currently as the width and
-		// height variables are set within the paint method
+		// TODO Auto-generated method stub
+
 	}
 
-	/**
-	 * Paints the desired string to the screen. The width and height values are also
-	 * set here
-	 */
 	@Override
 	public void paint(Graphics g) {
 
-		g.setColor(foreground);
 		g.setFont(font);
-		width = g.getFontMetrics().stringWidth(text);
-		height = g.getFontMetrics().getHeight();
-		int assent = g.getFontMetrics().getAscent();
+		width = g.getFontMetrics().stringWidth(text) + 20;
+		height = g.getFontMetrics().getHeight() + 10;
 
 		// save the previous clip bounds so that it can be reset after this components
 		// clip bounds are set
@@ -71,7 +68,17 @@ public class Label extends Component {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		g.drawString(text, x, y + assent);
+		// draw the background
+		g.setColor(background);
+		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+		// draw the boarder
+		g.setColor(boarder);
+		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+		// draw the string in the centre of the button
+		g.setColor(foreground);
+		Maths.drawCentredString(g, text, getBounds(), g.getFont());
 
 		// reset the clip area
 		g.setClip(clipArea);
@@ -87,7 +94,7 @@ public class Label extends Component {
 	 */
 	@Override
 	public void minimise(Rectangle parentSpace) {
-		
+
 		FontRenderContext frc = new FontRenderContext(null, false, false);
 		TextLayout layout = new TextLayout(protectedText, font, frc);
 
@@ -121,13 +128,14 @@ public class Label extends Component {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		// simulate button press by slightly moving button. The layout manager resets
+		// the location
+		width -= 3;
+		height -= 3;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -139,24 +147,21 @@ public class Label extends Component {
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	public void keyPressed(KeyEvent e) {
 
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent e) {
 
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
@@ -166,5 +171,4 @@ public class Label extends Component {
 		// TODO Auto-generated method stub
 
 	}
-
 }

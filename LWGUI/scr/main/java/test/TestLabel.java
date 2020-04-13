@@ -10,7 +10,6 @@ public class TestLabel extends Label{
 
 	public TestLabel(String text) {
 		super(text);
-		setFont(new Font("Times Roman", Font.PLAIN, 12));
 	}
 	
 	@Override

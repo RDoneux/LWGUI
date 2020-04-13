@@ -8,9 +8,9 @@ public abstract class Container extends GUIComponent {
 
 	/**
 	 * Abstract class for all Container objects. This differentiates a
-	 * {@link GUIComponent} as being either a container or {@link Component}. Containers can
-	 * have layout managers and can contain children GUIComponents, components
-	 * cannot.
+	 * {@link GUIComponent} as being either a container or {@link Component}.
+	 * Containers can have layout managers and can contain children GUIComponents,
+	 * components cannot.
 	 * 
 	 * @author Robert Doneux
 	 * @version 0.1
@@ -20,6 +20,9 @@ public abstract class Container extends GUIComponent {
 	protected ArrayList<GUIComponent> children = new ArrayList<>();
 
 	public void add(GUIComponent child) {
+		if (layout == null) {
+			System.err.print("Container component: " + name + " does not have a valid layout.");
+		}
 		child.setParent(this);
 		children.add(child);
 	}

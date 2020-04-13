@@ -3,9 +3,9 @@ package test;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import comp.Button;
 import comp.Frame;
 import comp.GUIComponent.alignment;
-import comp.Label;
 import comp.Panel;
 import constraints.PercentLayout;
 
@@ -38,29 +38,24 @@ public class TestClass {
 		intPanel.setBackground(Color.MAGENTA);
 		intPanel.setGridx(0);
 		intPanel.setGridy(0);
-		intPanel.setWeightX(0.5);
+		intPanel.setWeightX(0.9);
 		intPanel.setWeightY(0.5);
 		intPanel.setAlignmentX(alignment.CENTRE);
 		intPanel.setAlignmentY(alignment.CENTRE);
-		intPanel.setLayout(new PercentLayout(3, 3));
-		
+		intPanel.setLayout(new PercentLayout(2, 1));
+
 		TestLabel label = new TestLabel("This is a test label");
 		label.setAlignmentX(alignment.CENTRE);
 		label.setAlignmentY(alignment.CENTRE);
-		
-		TestLabel label1 = new TestLabel("this is a test label");
-		label1.setGridx(2);
-		label1.setAlignmentX(alignment.CENTRE);
-		label1.setAlignmentY(alignment.CENTRE);
-		intPanel.debugLayout();
-		
-		intPanel.add(label);
-		intPanel.add(label1);
-		
-		centrePanel.add(intPanel);
-		
-		
 
+		Button button = new Button("This is a test button");
+		button.setGridx(1);
+		button.setAlignmentX(alignment.CENTRE);
+		button.setAlignmentY(alignment.CENTRE);
+
+		intPanel.add(label);
+		intPanel.add(button);
+		centrePanel.add(intPanel);
 
 		Panel rightPanel = new Panel();
 		rightPanel.setBackground(Color.RED);

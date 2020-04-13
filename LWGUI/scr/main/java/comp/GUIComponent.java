@@ -21,8 +21,6 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int height;
 	protected int id;
 	
-	protected int fullWidth;
-
 	protected int gridx;
 	protected int gridy;
 	protected int gridWidth;

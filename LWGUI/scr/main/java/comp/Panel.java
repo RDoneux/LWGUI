@@ -14,7 +14,7 @@ public class Panel extends Container {
 	private Color background;
 
 	public Panel() {
-		setName("GUIComponent/Container/Panel");
+		setName("Panel");
 		sizeEditable = true;
 	}
 

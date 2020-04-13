@@ -14,6 +14,7 @@ public abstract class Component extends GUIComponent {
 
 	public Component() {
 		id = IDGenerator.generateID();
+		font = new Font("Times Roman", Font.PLAIN, 12);
 	}
 
 	public String getText() {
