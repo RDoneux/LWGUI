@@ -1,15 +1,29 @@
 package comp;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
+import java.awt.image.BufferedImage;
 
+import constraints.Layout;
 import tools.Maths;
+
+/**
+ * 
+ * Standard button class that draws an interactive {@link Component} to the
+ * screen. To program the button pressed method, override the 'action()' method.
+ * 
+ * @author Robert Doneux
+ * @version 0.1
+ *
+ */
 
 public class Button extends Component {
 
@@ -17,6 +31,8 @@ public class Button extends Component {
 	private Color boarder;
 
 	private int roundEdge;
+
+	private Image image;
 
 	public Button(String text) {
 
@@ -44,6 +60,29 @@ public class Button extends Component {
 		roundEdge = 5;
 	}
 
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
+	private boolean firstTimeCalled = true;
+
+	private void sizeImage() {
+		if (firstTimeCalled) {
+			Dimension size = Maths.getScaledDimension(new Dimension(image.getWidth(null), image.getHeight(null)),
+					new Dimension(width, height - 2));
+
+			image = image.getScaledInstance(size.width, size.height, Image.SCALE_SMOOTH);
+			firstTimeCalled = false;
+		}
+	}
+
+	/**
+	 * use this method to program the button press action.
+	 */
+	public void action() {
+
+	}
+
 	@Override
 	public void revise() {
 		// TODO Auto-generated method stub
@@ -54,7 +93,7 @@ public class Button extends Component {
 	public void paint(Graphics g) {
 
 		g.setFont(font);
-		width = g.getFontMetrics().stringWidth(text) + 20;
+		width = g.getFontMetrics().stringWidth(text) + 50;
 		height = g.getFontMetrics().getHeight() + 10;
 
 		// save the previous clip bounds so that it can be reset after this components
@@ -68,13 +107,24 @@ public class Button extends Component {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		// draw the background
-		g.setColor(background);
-		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+		// if an image has been set, use that as the button. If not, use the defualt layout.
+		if (image == null) {
+			// draw the shadow.
+			g.setColor(Color.DARK_GRAY);
+			g.fillRoundRect(x + 3, y + 3, width, height, roundEdge + 3, roundEdge + 3);
 
-		// draw the boarder
-		g.setColor(boarder);
-		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+			// draw the background
+			g.setColor(background);
+			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+			// draw the boarder
+			g.setColor(boarder);
+			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+		} else {
+			// if an image has been set as the background, draw it under the text
+			//sizeImage();
+			g.drawImage(image, x, y, width, height, null);
+		}
 
 		// draw the string in the centre of the button
 		g.setColor(foreground);
@@ -129,9 +179,11 @@ public class Button extends Component {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// simulate button press by slightly moving button. The layout manager resets
-		// the location
+		// the location. Also call user action method. This should be overridden in
+		// parent class
 		width -= 3;
 		height -= 3;
+		action();
 	}
 
 	@Override
@@ -171,4 +223,5 @@ public class Button extends Component {
 		// TODO Auto-generated method stub
 
 	}
+
 }

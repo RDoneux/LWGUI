@@ -9,14 +9,13 @@ public abstract class Component extends GUIComponent {
 
 	protected String text;
 	protected String protectedText;
-	protected Font font;
+	protected Font font = new Font("Times Roman", Font.PLAIN, 12);;
 	protected Color foreground;
 
 	public Component() {
 		id = IDGenerator.generateID();
-		font = new Font("Times Roman", Font.PLAIN, 12);
 	}
-
+	
 	public String getText() {
 		return protectedText;
 	}

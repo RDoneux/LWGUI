@@ -4,7 +4,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -166,7 +166,7 @@ public class Frame extends Canvas
 	public Rectangle getFrameBounds() {
 		return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
-	
+
 	public void debugLayout() {
 		layout.setDebugging(true);
 	}

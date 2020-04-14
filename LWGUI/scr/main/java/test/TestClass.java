@@ -42,14 +42,14 @@ public class TestClass {
 		intPanel.setWeightY(0.5);
 		intPanel.setAlignmentX(alignment.CENTRE);
 		intPanel.setAlignmentY(alignment.CENTRE);
-		intPanel.setLayout(new PercentLayout(2, 1));
+		intPanel.setLayout(new PercentLayout(1, 2));
 
 		TestLabel label = new TestLabel("This is a test label");
 		label.setAlignmentX(alignment.CENTRE);
 		label.setAlignmentY(alignment.CENTRE);
 
-		Button button = new Button("This is a test button");
-		button.setGridx(1);
+		TestButton button = new TestButton("Start");
+		button.setGridy(1);
 		button.setAlignmentX(alignment.CENTRE);
 		button.setAlignmentY(alignment.CENTRE);
 
