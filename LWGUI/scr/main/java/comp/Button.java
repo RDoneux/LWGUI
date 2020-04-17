@@ -64,18 +64,6 @@ public class Button extends Component {
 		this.image = image;
 	}
 
-	private boolean firstTimeCalled = true;
-
-	private void sizeImage() {
-		if (firstTimeCalled) {
-			Dimension size = Maths.getScaledDimension(new Dimension(image.getWidth(null), image.getHeight(null)),
-					new Dimension(width, height - 2));
-
-			image = image.getScaledInstance(size.width, size.height, Image.SCALE_SMOOTH);
-			firstTimeCalled = false;
-		}
-	}
-
 	/**
 	 * use this method to program the button press action.
 	 */
@@ -122,7 +110,6 @@ public class Button extends Component {
 			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 		} else {
 			// if an image has been set as the background, draw it under the text
-			//sizeImage();
 			g.drawImage(image, x, y, width, height, null);
 		}
 

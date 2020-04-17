@@ -7,6 +7,7 @@ import comp.Button;
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
+import comp.ProgressBar;
 import constraints.PercentLayout;
 
 public class TestClass {
@@ -42,7 +43,7 @@ public class TestClass {
 		intPanel.setWeightY(0.5);
 		intPanel.setAlignmentX(alignment.CENTRE);
 		intPanel.setAlignmentY(alignment.CENTRE);
-		intPanel.setLayout(new PercentLayout(1, 2));
+		intPanel.setLayout(new PercentLayout(1, 3));
 
 		TestLabel label = new TestLabel("This is a test label");
 		label.setAlignmentX(alignment.CENTRE);
@@ -53,7 +54,16 @@ public class TestClass {
 		button.setAlignmentX(alignment.CENTRE);
 		button.setAlignmentY(alignment.CENTRE);
 
+		ProgressBar bar = new ProgressBar();
+		bar.setGridy(2);
+		bar.setWeightX(0.8);
+		bar.setWeightY(0.4);
+		bar.updateValue(80, 100);
+		bar.setAlignmentX(alignment.CENTRE);
+		bar.setAlignmentY(alignment.CENTRE);
+
 		intPanel.add(label);
+		intPanel.add(bar);
 		intPanel.add(button);
 		centrePanel.add(intPanel);
 
@@ -83,6 +93,16 @@ public class TestClass {
 		frame.add(rightPanel);
 		frame.add(bottomPanel);
 		frame.add(bottomRightPanel);
+
+		for (int i = 0; i <= 100; i++) {
+			bar.updateValue(i, 100);
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 

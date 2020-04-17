@@ -16,11 +16,11 @@ public class TestButton extends Button {
 		super(text);
 		setFont(new Font("Lucida Console", Font.PLAIN, 20));
 		setForeground(new Color(10,20,235));
-		try {
-			setImage(ImageIO.read(new File("C:\\Users\\Rober\\Desktop\\Untitled.png")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			setImage(ImageIO.read(new File("C:\\Users\\Rober\\Desktop\\Untitled.png")));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override
