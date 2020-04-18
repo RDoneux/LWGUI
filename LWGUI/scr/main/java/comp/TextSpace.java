@@ -1,8 +1,9 @@
 package comp;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -15,6 +16,7 @@ public class TextSpace extends Component {
 	private int roundEdge;
 	private int textX;
 	private int textY;
+	private int textHeight;
 
 	private StringBuilder sb;
 
@@ -30,8 +32,6 @@ public class TextSpace extends Component {
 
 	@Override
 	public void revise() {
-		textX = x + 10;
-		textY = y + 5;
 	}
 
 	private long timer = System.currentTimeMillis();
@@ -39,18 +39,48 @@ public class TextSpace extends Component {
 
 	private void drawCursor(Graphics g) {
 
+		textX = x + 10;
+		textY = y + 5;
+
 		if (timer + 500 < System.currentTimeMillis()) {
 			show = !show;
 			timer = System.currentTimeMillis();
 		}
 		if (show) {
 			g.setColor(Color.BLACK);
-			g.fillRect(textX, textY, 2, g.getFontMetrics(font).getHeight());
+			g.fillRect(textX + g.getFontMetrics().stringWidth(protectedText), textY, 2,
+					g.getFontMetrics(font).getHeight());
 		}
+	}
+
+	private void wrapString(Graphics g) {
+
+		String words[] = protectedText.split(" ");
+		int lineWidth = 0;
+		int lineHeight = 0;
+		for (int i = 0; i < words.length; i++) {
+			String word = words[i];
+			if (word.equals("><...")) {
+				lineHeight += textHeight;
+				return;
+			}
+			if (lineWidth + g.getFontMetrics().stringWidth(word + " ") > getBounds().width) {
+				lineHeight += textHeight;
+				lineWidth = 0;
+			}
+			g.drawString(word, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
+
+			lineWidth += g.getFontMetrics().stringWidth(word + " ");
+
+		}
+
 	}
 
 	@Override
 	public void paint(Graphics g) {
+
+		// set the global height value for setting enter
+		textHeight = g.getFontMetrics().getHeight();
 
 		// draw the background
 		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
@@ -60,9 +90,14 @@ public class TextSpace extends Component {
 		g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
 		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 
-		drawCursor(g);
+		// save the old clip bounds
+		Rectangle oldClip = g.getClipBounds();
+		g.setClip(getBounds());
 		g.setColor(foreground);
-		g.drawString(protectedText, textX, textY + g.getFontMetrics().getAscent());
+		// render the text to the window and render the cursor
+		wrapString(g);
+		drawCursor(g);
+		g.setClip(oldClip);
 
 	}
 
@@ -114,6 +149,19 @@ public class TextSpace extends Component {
 		switch (arg0.getKeyCode()) {
 		case KeyEvent.VK_BACK_SPACE:
 			sb.setLength(sb.length() - 1);
+			break;
+		case KeyEvent.VK_SHIFT:
+			break;
+		case KeyEvent.VK_WINDOWS:
+			break;
+		case KeyEvent.VK_CAPS_LOCK:
+			break;
+		case KeyEvent.VK_CONTROL:
+			break;
+		case KeyEvent.VK_ALT:
+			break;
+		case KeyEvent.VK_ENTER:
+			sb.append("><...");
 			break;
 		default:
 			sb.append(arg0.getKeyChar());
