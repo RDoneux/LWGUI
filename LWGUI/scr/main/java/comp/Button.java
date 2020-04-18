@@ -1,7 +1,6 @@
 package comp;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -95,18 +94,20 @@ public class Button extends Component {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		// if an image has been set, use that as the button. If not, use the defualt layout.
+		// if an image has been set, use that as the button. If not, use the defualt
+		// layout.
 		if (image == null) {
 			// draw the shadow.
-			g.setColor(Color.DARK_GRAY);
+			g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
+					transparency));
 			g.fillRoundRect(x + 3, y + 3, width, height, roundEdge + 3, roundEdge + 3);
 
 			// draw the background
-			g.setColor(background);
+			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
 			// draw the boarder
-			g.setColor(boarder);
+			g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
 			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 		} else {
 			// if an image has been set as the background, draw it under the text
@@ -114,35 +115,12 @@ public class Button extends Component {
 		}
 
 		// draw the string in the centre of the button
-		g.setColor(foreground);
-		Maths.drawCentredString(g, text, getBounds(), g.getFont());
+		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
+		Maths.drawCentredString(g, text, getBounds());
 
 		// reset the clip area
 		g.setClip(clipArea);
 
-	}
-
-	/**
-	 * Receives a boundary from the Parent {@link Container}'s {@link Layout}. The
-	 * Class will minimise the string size to the first three chars followed by
-	 * "[...]" if the width of the string is larger than this given boundary
-	 * 
-	 * @param Rectangle parentSpace
-	 */
-	@Override
-	public void minimise(Rectangle parentSpace) {
-
-		FontRenderContext frc = new FontRenderContext(null, false, false);
-		TextLayout layout = new TextLayout(protectedText, font, frc);
-
-		if (layout.getBounds().getWidth() > parentSpace.width && !minimised) {
-			text = protectedText.substring(0, 3) + "[...]";
-			minimised = true;
-		}
-		if (layout.getBounds().getWidth() < parentSpace.width && minimised) {
-			text = protectedText;
-			minimised = false;
-		}
 	}
 
 	@Override

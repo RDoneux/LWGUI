@@ -33,7 +33,7 @@ public class Panel extends Container {
 	@Override
 	public void paint(Graphics g) {
 
-		g.setColor(background);
+		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 		g.fillRect(x, y, width, height);
 
 		for (GUIComponent child : children) {
@@ -146,11 +146,4 @@ public class Panel extends Container {
 			}
 		}
 	}
-
-	@Override
-	public void minimise(Rectangle parentSpace) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -25,6 +25,8 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int gridy;
 	protected int gridWidth;
 	protected int gridHeight;
+	
+	protected int transparency;
 
 	protected double weightX;
 	protected double weightY;
@@ -53,14 +55,13 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		alignmentY = alignment.NORTH;
 		gridWidth = 1;
 		gridHeight = 1;
+		transparency = 255;
 	}
 
 	public abstract void revise();
 
 	public abstract void paint(Graphics g);
 	
-	public abstract void minimise(Rectangle parentSpace);
-
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
@@ -236,5 +237,13 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public void setSizeEditable(boolean sizeEditable) {
 		this.sizeEditable = sizeEditable;
 	}
-	
+
+	public int getTransparency() {
+		return transparency;
+	}
+
+	public void setTransparency(int transparency) {
+		this.transparency = transparency;
+	}
+		
 }

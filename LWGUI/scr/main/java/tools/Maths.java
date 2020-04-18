@@ -4,7 +4,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 public class Maths {
 
@@ -31,14 +33,14 @@ public class Maths {
 	 * @param text The String to draw.
 	 * @param rect The Rectangle to centre the text in.
 	 */
-	public static void drawCentredString(Graphics g, String text, Rectangle rect, Font font) {
-		FontMetrics metrics = g.getFontMetrics(font);
+	public static void drawCentredString(Graphics g, String text, Rectangle rect) {
+		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		// Determine the X coordinate for the text
 		int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
 		// Determine the Y coordinate for the text (note we add the ascent, as in java
 		// 2d 0 is top of the screen)
 		int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-		g.setFont(font);
+		g.setFont(g.getFont());
 		g.drawString(text, x, y);
 	}
 
@@ -75,6 +77,27 @@ public class Maths {
 			new_width = (new_height * original_width) / original_height;
 		}
 		return new Dimension(new_width, new_height);
+	}
+
+	
+	public static int scaleFont (Graphics g, String title, Rectangle bounds) {
+	    Rectangle2D rect = null;
+
+	    int fontSize = 30; //initial value
+	    do {
+	        fontSize--;
+	        Font font = new Font("Arial", Font.PLAIN, fontSize);
+	        rect = getStringBoundsRectangle2D(g, title, font);
+	    } while (rect.getWidth() >= bounds.width || rect.getHeight() >= bounds.height);
+
+	    System.out.println(fontSize);
+	    return fontSize;
+	}
+	private static Rectangle2D getStringBoundsRectangle2D (Graphics g, String title, Font font) {
+	    g.setFont(font);
+	    FontMetrics fm = g.getFontMetrics();
+	    Rectangle2D rect = fm.getStringBounds(title, g);
+	    return rect;
 	}
 
 }

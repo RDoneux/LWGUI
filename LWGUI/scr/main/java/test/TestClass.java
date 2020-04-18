@@ -19,7 +19,6 @@ public class TestClass {
 		Frame frame = new Frame();
 		frame.setSize(new Dimension(400, 400));
 		frame.setLayout(layout);
-		// frame.debugLayout();
 
 		Panel basePanel = new Panel();
 		basePanel.setBackground(Color.GREEN);
@@ -49,7 +48,7 @@ public class TestClass {
 		label.setAlignmentX(alignment.CENTRE);
 		label.setAlignmentY(alignment.CENTRE);
 
-		TestButton button = new TestButton("Start");
+		TestButton button = new TestButton("This is a test button");
 		button.setGridy(1);
 		button.setAlignmentX(alignment.CENTRE);
 		button.setAlignmentY(alignment.CENTRE);
@@ -59,6 +58,7 @@ public class TestClass {
 		bar.setWeightX(0.8);
 		bar.setWeightY(0.4);
 		bar.updateValue(80, 100);
+		bar.gradientColour(new Color(75, 0, 130), new Color(251, 206, 177));
 		bar.setAlignmentX(alignment.CENTRE);
 		bar.setAlignmentY(alignment.CENTRE);
 
@@ -94,12 +94,11 @@ public class TestClass {
 		frame.add(bottomPanel);
 		frame.add(bottomRightPanel);
 
-		for (int i = 0; i <= 100; i++) {
-			bar.updateValue(i, 100);
+		for (int i = 0; i <= 53; i++) {
+			bar.updateValue(i, 53);
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

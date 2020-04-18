@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import comp.Component;
 import comp.GUIComponent;
 import comp.GUIComponent.alignment;
 import tools.Maths;
@@ -101,7 +102,9 @@ public class PercentLayout extends Layout {
 			} else {
 				// ask the child to check it's size in comparison to the given Tile size. If it
 				// is larger, the component will minimise
-				child.minimise(targetTile.getBounds());
+				if (child instanceof Component) {
+					((Component) child).minimise(targetTile.getBounds());
+				}
 			}
 
 			// set the alignment of the child component within the window frame. This will

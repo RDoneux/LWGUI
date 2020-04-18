@@ -54,7 +54,7 @@ public class Label extends Component {
 	@Override
 	public void paint(Graphics g) {
 
-		g.setColor(foreground);
+		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
 		g.setFont(font);
 		width = g.getFontMetrics().stringWidth(text);
 		height = g.getFontMetrics().getHeight();
@@ -76,29 +76,6 @@ public class Label extends Component {
 		// reset the clip area
 		g.setClip(clipArea);
 
-	}
-
-	/**
-	 * Receives a boundary from the Parent {@link Container}'s {@link Layout}. The
-	 * Class will minimise the string size to the first three chars followed by
-	 * "[...]" if the width of the string is larger than this given boundary
-	 * 
-	 * @param Rectangle parentSpace
-	 */
-	@Override
-	public void minimise(Rectangle parentSpace) {
-		
-		FontRenderContext frc = new FontRenderContext(null, false, false);
-		TextLayout layout = new TextLayout(protectedText, font, frc);
-
-		if (layout.getBounds().getWidth() > parentSpace.width && !minimised) {
-			text = protectedText.substring(0, 3) + "[...]";
-			minimised = true;
-		}
-		if (layout.getBounds().getWidth() < parentSpace.width && minimised) {
-			text = protectedText;
-			minimised = false;
-		}
 	}
 
 	@Override
