@@ -1,22 +1,28 @@
 package comp;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 
 public class TextSpace extends Component {
 
 	private Color background;
 	private Color boarder;
 
+	private String chars[];
+
 	private int roundEdge;
 	private int textX;
 	private int textY;
 	private int textHeight;
+
+	private int cursorLocation;
 
 	private StringBuilder sb;
 
@@ -32,6 +38,7 @@ public class TextSpace extends Component {
 
 	@Override
 	public void revise() {
+		chars = protectedText.split("");
 	}
 
 	private long timer = System.currentTimeMillis();
@@ -42,34 +49,44 @@ public class TextSpace extends Component {
 		textX = x + 10;
 		textY = y + 5;
 
+		String length = protectedText.substring(0, cursorLocation);
+		int width = g.getFontMetrics().stringWidth(length);
+		int height = width / (getBounds().width -10);
+		int rem = width % (getBounds().width - 10);
+
+		width -= getBounds().width * height;
+		//width += rem;
+
+		Point cursorPoint = new Point(rem, height * textHeight);
+
 		if (timer + 500 < System.currentTimeMillis()) {
 			show = !show;
 			timer = System.currentTimeMillis();
 		}
 		if (show) {
 			g.setColor(Color.BLACK);
-			g.fillRect(textX + g.getFontMetrics().stringWidth(protectedText), textY, 2,
-					g.getFontMetrics(font).getHeight());
+			g.fillRect(textX + cursorPoint.x, textY + cursorPoint.y, 2, g.getFontMetrics(font).getHeight());
 		}
 	}
 
 	private void wrapString(Graphics g) {
 
-		String words[] = protectedText.split(" ");
 		int lineWidth = 0;
 		int lineHeight = 0;
+		String words[] = protectedText.split(" ");
+
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
-			if (word.equals("><...")) {
-				lineHeight += textHeight;
-				return;
-			}
+
 			if (lineWidth + g.getFontMetrics().stringWidth(word + " ") > getBounds().width) {
 				lineHeight += textHeight;
 				lineWidth = 0;
 			}
+			if (word.equals("\n")) {
+				lineHeight += textHeight;
+				lineWidth = -g.getFontMetrics().stringWidth("\n ");
+			}
 			g.drawString(word, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
-
 			lineWidth += g.getFontMetrics().stringWidth(word + " ");
 
 		}
@@ -92,7 +109,7 @@ public class TextSpace extends Component {
 
 		// save the old clip bounds
 		Rectangle oldClip = g.getClipBounds();
-		g.setClip(getBounds());
+		// g.setClip(getBounds());
 		g.setColor(foreground);
 		// render the text to the window and render the cursor
 		wrapString(g);
@@ -143,11 +160,15 @@ public class TextSpace extends Component {
 
 	}
 
+	AffineTransform affinetransform = new AffineTransform();
+	FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
 		switch (arg0.getKeyCode()) {
 		case KeyEvent.VK_BACK_SPACE:
+			cursorLocation--;
 			sb.setLength(sb.length() - 1);
 			break;
 		case KeyEvent.VK_SHIFT:
@@ -161,10 +182,21 @@ public class TextSpace extends Component {
 		case KeyEvent.VK_ALT:
 			break;
 		case KeyEvent.VK_ENTER:
-			sb.append("><...");
+			sb.append(" \n ");
+			break;
+		case KeyEvent.VK_LEFT:
+			if (cursorLocation > 0) {
+				cursorLocation--;
+			}
+			break;
+		case KeyEvent.VK_RIGHT:
+			if (cursorLocation < chars.length) {
+				cursorLocation++;
+			}
 			break;
 		default:
 			sb.append(arg0.getKeyChar());
+			cursorLocation++;
 			break;
 		}
 		text = sb.toString();
