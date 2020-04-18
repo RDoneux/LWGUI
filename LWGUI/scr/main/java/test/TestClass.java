@@ -3,11 +3,11 @@ package test;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import comp.Button;
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
+import comp.TextSpace;
 import constraints.PercentLayout;
 
 public class TestClass {
@@ -42,7 +42,7 @@ public class TestClass {
 		intPanel.setWeightY(0.5);
 		intPanel.setAlignmentX(alignment.CENTRE);
 		intPanel.setAlignmentY(alignment.CENTRE);
-		intPanel.setLayout(new PercentLayout(1, 3));
+		intPanel.setLayout(new PercentLayout(1, 4));
 
 		TestLabel label = new TestLabel("This is a test label");
 		label.setAlignmentX(alignment.CENTRE);
@@ -58,13 +58,18 @@ public class TestClass {
 		bar.setWeightX(0.8);
 		bar.setWeightY(0.4);
 		bar.updateValue(80, 100);
+		bar.displayProgress(true);
 		bar.gradientColour(new Color(75, 0, 130), new Color(251, 206, 177));
 		bar.setAlignmentX(alignment.CENTRE);
 		bar.setAlignmentY(alignment.CENTRE);
 
+		TextSpace space = new TextSpace();
+		space.setGridy(3);
+
 		intPanel.add(label);
 		intPanel.add(bar);
 		intPanel.add(button);
+		intPanel.add(space);
 		centrePanel.add(intPanel);
 
 		Panel rightPanel = new Panel();
