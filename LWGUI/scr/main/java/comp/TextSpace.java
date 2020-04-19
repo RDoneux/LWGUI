@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 public class TextSpace extends Component {
 
@@ -38,7 +39,6 @@ public class TextSpace extends Component {
 
 	@Override
 	public void revise() {
-		chars = protectedText.split("");
 	}
 
 	private long timer = System.currentTimeMillis();
@@ -50,14 +50,28 @@ public class TextSpace extends Component {
 		textY = y + 5;
 
 		String length = protectedText.substring(0, cursorLocation);
-		int width = g.getFontMetrics().stringWidth(length);
-		int height = width / (getBounds().width -10);
-		int rem = width % (getBounds().width - 10);
 
-		width -= getBounds().width * height;
-		//width += rem;
+		String split[] = length.split("\f");
 
-		Point cursorPoint = new Point(rem, height * textHeight);
+		int lineWidth = 0;
+		int lineHeight = 0;
+		for (String word : split) {
+			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
+				lineHeight += textHeight;
+				lineWidth = -g.getFontMetrics().stringWidth(" ");
+			}
+			if (word.equals("\n")) {
+				lineHeight += textHeight;
+				lineWidth = -g.getFontMetrics().stringWidth("\n");
+			}
+
+			lineWidth += g.getFontMetrics().stringWidth(word);
+		}
+//		int width = g.getFontMetrics().stringWidth(length);
+//		int height = width / (getBounds().width);
+//		int rem = width % (getBounds().width);
+
+		Point cursorPoint = new Point(lineWidth, lineHeight);
 
 		if (timer + 500 < System.currentTimeMillis()) {
 			show = !show;
@@ -65,7 +79,7 @@ public class TextSpace extends Component {
 		}
 		if (show) {
 			g.setColor(Color.BLACK);
-			g.fillRect(textX + cursorPoint.x, textY + cursorPoint.y, 2, g.getFontMetrics(font).getHeight());
+			g.fillRect(textX + (cursorPoint.x), textY + cursorPoint.y, 2, g.getFontMetrics(font).getHeight());
 		}
 	}
 
@@ -73,21 +87,21 @@ public class TextSpace extends Component {
 
 		int lineWidth = 0;
 		int lineHeight = 0;
-		String words[] = protectedText.split(" ");
+		String words[] = protectedText.split("\f");
 
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
-
-			if (lineWidth + g.getFontMetrics().stringWidth(word + " ") > getBounds().width) {
+			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
 				lineHeight += textHeight;
-				lineWidth = 0;
+				lineWidth = -g.getFontMetrics().stringWidth(" ");
 			}
 			if (word.equals("\n")) {
 				lineHeight += textHeight;
-				lineWidth = -g.getFontMetrics().stringWidth("\n ");
+				lineWidth = -g.getFontMetrics().stringWidth("\n");
 			}
+
 			g.drawString(word, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
-			lineWidth += g.getFontMetrics().stringWidth(word + " ");
+			lineWidth += g.getFontMetrics().stringWidth(word);
 
 		}
 
@@ -168,6 +182,11 @@ public class TextSpace extends Component {
 
 		switch (arg0.getKeyCode()) {
 		case KeyEvent.VK_BACK_SPACE:
+			if (sb.charAt(sb.length() - 1) == '\f') {
+				System.out.println("this is the spot");
+				cursorLocation -= 1;
+			sb.setLength(sb.length() - 1);
+			}
 			cursorLocation--;
 			sb.setLength(sb.length() - 1);
 			break;
@@ -182,7 +201,8 @@ public class TextSpace extends Component {
 		case KeyEvent.VK_ALT:
 			break;
 		case KeyEvent.VK_ENTER:
-			sb.append(" \n ");
+			sb.append("\f\n\f");
+			cursorLocation += 3;
 			break;
 		case KeyEvent.VK_LEFT:
 			if (cursorLocation > 0) {
@@ -194,11 +214,15 @@ public class TextSpace extends Component {
 				cursorLocation++;
 			}
 			break;
+		case KeyEvent.VK_SPACE:
+			sb.append("\f");
+			cursorLocation += 1;
 		default:
 			sb.append(arg0.getKeyChar());
 			cursorLocation++;
 			break;
 		}
+
 		text = sb.toString();
 		protectedText = text;
 	}
