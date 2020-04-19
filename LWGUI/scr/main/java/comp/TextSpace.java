@@ -11,21 +11,35 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
+/**
+ * 
+ * VERY Light weight text editor. Component is size editable and will fill to
+ * fit a given space as dictated by a layout manager. Currently has
+ * functionality to wrap text when it exceeds the bounds width. Text that
+ * extends out of the height axis won't be rendered however will be processed.
+ * User can create new lines using enter and can navigate through text using
+ * left and right arrows. Currently up and down arrows do not function. User can
+ * also insert text at cursor location
+ * 
+ * @author Robert Doneux
+ * @version 0.1
+ *
+ */
+
 public class TextSpace extends Component {
 
 	private Color background;
 	private Color boarder;
 
-	private String chars[];
-
 	private int roundEdge;
 	private int textX;
 	private int textY;
 	private int textHeight;
-
 	private int cursorLocation;
 
 	private StringBuilder sb;
+
+	private boolean focused;
 
 	public TextSpace() {
 		background = new Color(220, 220, 220);
@@ -39,6 +53,7 @@ public class TextSpace extends Component {
 
 	@Override
 	public void revise() {
+		sb = new StringBuilder(protectedText);
 	}
 
 	private long timer = System.currentTimeMillis();
@@ -57,7 +72,6 @@ public class TextSpace extends Component {
 
 		for (String word : split) {
 			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
-				System.out.println("cursor line width: " + lineWidth + g.getFontMetrics().stringWidth(word));
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth(" ");
 			}
@@ -74,7 +88,7 @@ public class TextSpace extends Component {
 			show = !show;
 			timer = System.currentTimeMillis();
 		}
-		if (show) {
+		if (show && focused) {
 			g.setColor(Color.BLACK);
 			g.fillRect(textX + (cursorPoint.x), textY + cursorPoint.y, 2, g.getFontMetrics(font).getHeight());
 		}
@@ -89,7 +103,6 @@ public class TextSpace extends Component {
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
-				System.out.println("wrap line width: " + lineWidth + g.getFontMetrics().stringWidth(word));
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth(" ");
 			}
@@ -121,7 +134,7 @@ public class TextSpace extends Component {
 
 		// save the old clip bounds
 		Rectangle oldClip = g.getClipBounds();
-		// g.setClip(getBounds());
+		g.setClip(getBounds());
 		g.setColor(foreground);
 		// render the text to the window and render the cursor
 		wrapString(g);
@@ -132,8 +145,11 @@ public class TextSpace extends Component {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		if (getBounds().contains(arg0.getPoint())) {
+			focused = true;
+		} else {
+			focused = false;
+		}
 	}
 
 	@Override
@@ -178,59 +194,82 @@ public class TextSpace extends Component {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
-		switch (arg0.getKeyCode()) {
-		case KeyEvent.VK_BACK_SPACE:
-			if (sb.charAt(cursorLocation - 1) == '\f') {
-				cursorLocation--;
-				sb.replace(cursorLocation, cursorLocation + 1, "");
-			}
-			cursorLocation--;
-			sb.replace(cursorLocation, cursorLocation + 1, "");
-			break;
-		case KeyEvent.VK_SHIFT:
-			break;
-		case KeyEvent.VK_WINDOWS:
-			break;
-		case KeyEvent.VK_CAPS_LOCK:
-			break;
-		case KeyEvent.VK_CONTROL:
-			break;
-		case KeyEvent.VK_ALT:
-			break;
-		case KeyEvent.VK_ENTER:
-			sb.insert(cursorLocation, ("\f\n\f"));
-			cursorLocation += 3;
-			break;
-		case KeyEvent.VK_LEFT:
-			if (cursorLocation > 0) {
-				if (sb.charAt(cursorLocation - 1) == '\f') {
+		if (focused) {
+			switch (arg0.getKeyCode()) {
+			case KeyEvent.VK_BACK_SPACE:
+				if (cursorLocation - 1 >= 0) {
+					if (sb.charAt(cursorLocation - 1) == '\f') {
+						cursorLocation--;
+						sb.replace(cursorLocation, cursorLocation + 1, "");
+					}
+					cursorLocation--;
+					sb.replace(cursorLocation, cursorLocation + 1, "");
+				}
+				break;
+			case KeyEvent.VK_DELETE:
+				// this needs some work!
+				if (cursorLocation + 1 <= protectedText.length()) {
+					if (sb.charAt(cursorLocation + 1) == '\f') {
+						sb.replace(cursorLocation, cursorLocation + 1, "");
+					}
+					sb.replace(cursorLocation, cursorLocation + 1, "");
+				}
+				break;
+			case KeyEvent.VK_SHIFT:
+				break;
+			case KeyEvent.VK_WINDOWS:
+				break;
+			case KeyEvent.VK_CAPS_LOCK:
+				break;
+			case KeyEvent.VK_CONTROL:
+				break;
+			case KeyEvent.VK_ALT:
+				break;
+			case KeyEvent.VK_ENTER:
+				sb.insert(cursorLocation, ("\f\n\f"));
+				cursorLocation += 3;
+				break;
+			case KeyEvent.VK_LEFT:
+				if (cursorLocation > 0) {
+					if (sb.charAt(cursorLocation - 1) == '\f') {
+						cursorLocation--;
+					}
 					cursorLocation--;
 				}
-				cursorLocation--;
-			}
-			break;
-		case KeyEvent.VK_RIGHT:
-			if (cursorLocation < protectedText.length()) {
-				if (sb.charAt(cursorLocation) == '\f') {
+				break;
+			case KeyEvent.VK_RIGHT:
+				if (cursorLocation < protectedText.length()) {
+					if (sb.charAt(cursorLocation) == '\f') {
+						cursorLocation++;
+					}
 					cursorLocation++;
 				}
+				break;
+			case KeyEvent.VK_UP:
+				if (cursorLocation - 10 > 0) {
+					cursorLocation -= 10;
+				} else {
+					cursorLocation = 0;
+				}
+				break;
+			case KeyEvent.VK_DOWN:
+				if (cursorLocation + 10 < protectedText.length()) {
+					cursorLocation += 10;
+				} else {
+					cursorLocation = protectedText.length();
+				}
+				break;
+			case KeyEvent.VK_SPACE:
+				sb.insert(cursorLocation, ("\f"));
 				cursorLocation++;
+			default:
+				sb.insert(cursorLocation, arg0.getKeyChar());
+				cursorLocation++;
+				break;
 			}
-			break;
-		case KeyEvent.VK_UP:
-
-			break;
-		case KeyEvent.VK_SPACE:
-			sb.insert(cursorLocation, ("\f"));
-			cursorLocation++;
-		default:
-			sb.insert(cursorLocation, arg0.getKeyChar());
-			cursorLocation++;
-			break;
+			text = sb.toString();
+			protectedText = text;
 		}
-
-		text = sb.toString();
-		protectedText = text;
 	}
 
 	@Override
