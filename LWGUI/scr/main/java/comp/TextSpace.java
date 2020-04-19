@@ -51,12 +51,13 @@ public class TextSpace extends Component {
 
 		String length = protectedText.substring(0, cursorLocation);
 
-		String split[] = length.split("\f");
-
 		int lineWidth = 0;
 		int lineHeight = 0;
+		String split[] = length.split("\f");
+
 		for (String word : split) {
 			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
+				System.out.println("cursor line width: " + lineWidth + g.getFontMetrics().stringWidth(word));
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth(" ");
 			}
@@ -64,12 +65,8 @@ public class TextSpace extends Component {
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth("\n");
 			}
-
 			lineWidth += g.getFontMetrics().stringWidth(word);
 		}
-//		int width = g.getFontMetrics().stringWidth(length);
-//		int height = width / (getBounds().width);
-//		int rem = width % (getBounds().width);
 
 		Point cursorPoint = new Point(lineWidth, lineHeight);
 
@@ -92,6 +89,7 @@ public class TextSpace extends Component {
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
+				System.out.println("wrap line width: " + lineWidth + g.getFontMetrics().stringWidth(word));
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth(" ");
 			}
@@ -182,13 +180,12 @@ public class TextSpace extends Component {
 
 		switch (arg0.getKeyCode()) {
 		case KeyEvent.VK_BACK_SPACE:
-			if (sb.charAt(sb.length() - 1) == '\f') {
-				System.out.println("this is the spot");
-				cursorLocation -= 1;
-			sb.setLength(sb.length() - 1);
+			if (sb.charAt(cursorLocation - 1) == '\f') {
+				cursorLocation--;
+				sb.replace(cursorLocation, cursorLocation + 1, "");
 			}
 			cursorLocation--;
-			sb.setLength(sb.length() - 1);
+			sb.replace(cursorLocation, cursorLocation + 1, "");
 			break;
 		case KeyEvent.VK_SHIFT:
 			break;
@@ -201,24 +198,33 @@ public class TextSpace extends Component {
 		case KeyEvent.VK_ALT:
 			break;
 		case KeyEvent.VK_ENTER:
-			sb.append("\f\n\f");
+			sb.insert(cursorLocation, ("\f\n\f"));
 			cursorLocation += 3;
 			break;
 		case KeyEvent.VK_LEFT:
 			if (cursorLocation > 0) {
+				if (sb.charAt(cursorLocation - 1) == '\f') {
+					cursorLocation--;
+				}
 				cursorLocation--;
 			}
 			break;
 		case KeyEvent.VK_RIGHT:
-			if (cursorLocation < chars.length) {
+			if (cursorLocation < protectedText.length()) {
+				if (sb.charAt(cursorLocation) == '\f') {
+					cursorLocation++;
+				}
 				cursorLocation++;
 			}
 			break;
+		case KeyEvent.VK_UP:
+
+			break;
 		case KeyEvent.VK_SPACE:
-			sb.append("\f");
-			cursorLocation += 1;
+			sb.insert(cursorLocation, ("\f"));
+			cursorLocation++;
 		default:
-			sb.append(arg0.getKeyChar());
+			sb.insert(cursorLocation, arg0.getKeyChar());
 			cursorLocation++;
 			break;
 		}
