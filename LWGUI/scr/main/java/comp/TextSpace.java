@@ -56,6 +56,10 @@ public class TextSpace extends Component {
 		sb = new StringBuilder(protectedText);
 	}
 
+	/**
+	 * Draw the cursor in the correct location, given the current cursorLocation.
+	 */
+
 	private long timer = System.currentTimeMillis();
 	private boolean show;
 
@@ -208,10 +212,12 @@ public class TextSpace extends Component {
 				break;
 			case KeyEvent.VK_DELETE:
 				// this needs some work!
-				if (cursorLocation + 1 <= protectedText.length()) {
+				if (cursorLocation + 1 < protectedText.length()) {
 					if (sb.charAt(cursorLocation + 1) == '\f') {
 						sb.replace(cursorLocation, cursorLocation + 1, "");
 					}
+					sb.replace(cursorLocation, cursorLocation + 1, "");
+				} else {
 					sb.replace(cursorLocation, cursorLocation + 1, "");
 				}
 				break;
