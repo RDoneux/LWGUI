@@ -57,7 +57,8 @@ public class TextSpace extends Component {
 	}
 
 	/**
-	 * Draw the cursor in the correct location, given the current cursorLocation.
+	 * Draw the cursor in the correct x and y location, given the current
+	 * cursorLocation.
 	 */
 
 	private long timer = System.currentTimeMillis();
@@ -98,6 +99,9 @@ public class TextSpace extends Component {
 		}
 	}
 
+	/**
+	 * Draw the current protected text wrapped within the current bounds
+	 */
 	private void wrapString(Graphics g) {
 
 		int lineWidth = 0;
@@ -147,6 +151,15 @@ public class TextSpace extends Component {
 
 	}
 
+	/**
+	 * If there are multiple text panels added to a single frame, key presses will
+	 * be registered by them all and the user will not be able to type into
+	 * individual text boxes. The focus variable is triggered if the user presses
+	 * the mouse within the window. If the mouse click is outside of the bounds of
+	 * this component, the focus variable is set to false, if it is within the
+	 * bounds, the variable is set to true. The key inputs below are only registered
+	 * if the focus variable is true
+	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if (getBounds().contains(arg0.getPoint())) {
@@ -192,9 +205,10 @@ public class TextSpace extends Component {
 
 	}
 
-	AffineTransform affinetransform = new AffineTransform();
-	FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-
+	/**
+	 * register and update the users typed input. delete and back space variables
+	 * are also held here.
+	 */
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
@@ -211,7 +225,6 @@ public class TextSpace extends Component {
 				}
 				break;
 			case KeyEvent.VK_DELETE:
-				// this needs some work!
 				if (cursorLocation + 1 < protectedText.length()) {
 					if (sb.charAt(cursorLocation + 1) == '\f') {
 						sb.replace(cursorLocation, cursorLocation + 1, "");
