@@ -18,7 +18,7 @@ public class TestClass {
 		PercentLayout layout = new PercentLayout(5, 5);
 
 		Frame frame = new Frame();
-		frame.setSize(new Dimension(400, 600));
+		frame.setSize(new Dimension(400, 300));
 		frame.setLayout(layout);
 
 		Panel basePanel = new Panel();
@@ -87,7 +87,12 @@ public class TestClass {
 		bottomPanel.setGridy(4);
 		bottomPanel.setGridWidth(5);
 		bottomPanel.setWeightX(0.5);
+		bottomPanel.setLayout(new PercentLayout(1, 1));
 
+		TextArea textArea = new TextArea();
+
+		bottomPanel.add(textArea);
+		
 		Panel bottomRightPanel = new Panel();
 		bottomRightPanel.setBackground(Color.PINK);
 		bottomRightPanel.setGridx(0);
@@ -96,10 +101,6 @@ public class TestClass {
 		bottomRightPanel.setAlignmentX(alignment.EAST);
 		bottomRightPanel.setWeightX(0.5);
 		bottomRightPanel.setLayout(new PercentLayout(1, 1));
-
-		TextArea textArea = new TextArea();
-
-		bottomRightPanel.add(textArea);
 
 		frame.add(basePanel);
 		frame.add(centrePanel);
