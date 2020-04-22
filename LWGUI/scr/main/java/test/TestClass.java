@@ -7,6 +7,7 @@ import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
+import comp.TextArea;
 import comp.TextSpace;
 import constraints.PercentLayout;
 
@@ -64,7 +65,8 @@ public class TestClass {
 		bar.setAlignmentY(alignment.CENTRE);
 
 		TextSpace space = new TextSpace();
-		space.setText("this is the text of the screen and it includes this stuff which will hopefully be displayed nicely");
+		space.setText(
+				"this is the text of the screen and it includes this stuff which will hopefully be displayed nicely");
 		space.setGridy(3);
 
 		intPanel.add(label);
@@ -93,6 +95,11 @@ public class TestClass {
 		bottomRightPanel.setGridWidth(5);
 		bottomRightPanel.setAlignmentX(alignment.EAST);
 		bottomRightPanel.setWeightX(0.5);
+		bottomRightPanel.setLayout(new PercentLayout(1, 1));
+
+		TextArea textArea = new TextArea();
+
+		bottomRightPanel.add(textArea);
 
 		frame.add(basePanel);
 		frame.add(centrePanel);
