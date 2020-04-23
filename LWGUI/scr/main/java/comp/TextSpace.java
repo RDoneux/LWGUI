@@ -285,6 +285,7 @@ public class TextSpace extends Component {
 			}
 			text = sb.toString();
 			protectedText = text;
+			System.out.println(protectedText);
 		}
 	}
 

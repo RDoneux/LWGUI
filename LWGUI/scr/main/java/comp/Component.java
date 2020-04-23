@@ -49,10 +49,8 @@ public abstract class Component extends GUIComponent {
 	}
 
 	public void setText(String text) {
-		this.text = text;
-		this.protectedText = text;
-		protectedText = protectedText.replace(" ", "\f ");
-		text = text.replace(" ", "\f ");
+		this.text = text.replace(" ", "\f");
+		this.protectedText = this.text;
 	}
 
 	public Font getFont() {

@@ -19,7 +19,7 @@ public class TextArea extends Component {
 	private int textX;
 	private int textY;
 	private int roundEdge;
-	private int flatCursorPostion;
+	private int flatCursorPosition;
 
 	private Color background;
 	private Color shadow;
@@ -28,6 +28,8 @@ public class TextArea extends Component {
 	private Point cursorLocation;
 
 	private boolean focused;
+	
+	private int typedWord;
 
 	public TextArea() {
 
@@ -61,32 +63,37 @@ public class TextArea extends Component {
 		int lineHeight = 0;
 		int textHeight = g.getFontMetrics(font).getHeight() + 2;
 		String words[] = protectedText.split("\f");
-		String[] lines = new String[(g.getFontMetrics().stringWidth(protectedText) / (getBounds().width - 10)) + 1];
+		String[] lines = new String[(g.getFontMetrics().stringWidth(protectedText) / (getBounds().width - 40)) + 1];
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			if (lineWidth + g.getFontMetrics().stringWidth(word) > (getBounds().width - 10)) {
 				lineHeight += textHeight;
-				lineWidth = -g.getFontMetrics().stringWidth(" ");
+				lineWidth = -g.getFontMetrics().stringWidth("");
 				lines[line] = sb.toString();
+				lineTotal += lines[line].length();
 				sb = new StringBuilder();
 				line++;
-				lineTotal = i;
 			}
 			if (word.equals("\n")) {
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth("\n");
 				lines[line] = sb.toString();
+				lineTotal += lines[line].length();
 				sb = new StringBuilder();
 				line++;
 				lineTotal = i;
 			}
-			sb.append(word);
+			sb.append(word + " ");
+
+			if (line == cursorLocation.y) {
+				flatCursorPosition = lineTotal + cursorLocation.x;
+			}
 
 			g.setColor(foreground);
-			g.drawString(word, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
-			lineWidth += g.getFontMetrics().stringWidth(word);
+			g.drawString(word + " ", textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
+			lineWidth += g.getFontMetrics().stringWidth(word + " ");
 
 		}
 
@@ -101,7 +108,7 @@ public class TextArea extends Component {
 		if (cursorLocation.x > lines[cursorLocation.y].length()) {
 			if (cursorLocation.y < lines.length - 1) {
 				cursorLocation.y++;
-				cursorLocation.x = 0;
+				cursorLocation.x = typedWord;
 			} else {
 				cursorLocation.x = lines[cursorLocation.y].length();
 			}
@@ -126,8 +133,9 @@ public class TextArea extends Component {
 			g.setColor(Color.BLACK);
 			g.fillRect(textX + cursorX, textY + cursorY, 2, g.getFontMetrics(font).getHeight());
 		}
-	}
 
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 
@@ -193,19 +201,41 @@ public class TextArea extends Component {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
-		if (arg0.getKeyCode() == KeyEvent.VK_UP) {
-			cursorLocation.y--;
-		}
-		if (arg0.getKeyCode() == KeyEvent.VK_DOWN) {
-			cursorLocation.y++;
-		}
-		if (arg0.getKeyCode() == KeyEvent.VK_LEFT) {
-			cursorLocation.x--;
-		}
-		if (arg0.getKeyCode() == KeyEvent.VK_RIGHT) {
-			cursorLocation.x++;
-		}
+		if (focused) {
+			StringBuilder sb = new StringBuilder(protectedText);
 
+			switch (arg0.getKeyCode()) {
+			case KeyEvent.VK_UP:
+				cursorLocation.y--;
+				typedWord = 0;
+				break;
+			case KeyEvent.VK_DOWN:
+				cursorLocation.y++;
+				typedWord = 0;
+				break;
+			case KeyEvent.VK_LEFT:
+				cursorLocation.x--;
+				typedWord = 0;
+				break;
+			case KeyEvent.VK_RIGHT:
+				cursorLocation.x++;
+				typedWord = 0;
+				break;
+			case KeyEvent.VK_SPACE:
+				sb.insert(flatCursorPosition, ("\f"));
+				cursorLocation.x++;
+				typedWord = 0;
+				break;
+			default:
+				sb.insert(flatCursorPosition, arg0.getKeyChar());
+				cursorLocation.x++;
+				typedWord ++;
+				break;
+			}
+			setText(sb.toString());
+			// protectedText = text;
+			// System.out.println(protectedText);
+		}
 	}
 
 	@Override
