@@ -25,6 +25,9 @@ public abstract class Component extends GUIComponent {
 	 */
 	public void minimise(Rectangle parentSpace) {
 
+		if(protectedText == null) {
+			return;
+		}
 		FontRenderContext frc = new FontRenderContext(null, false, false);
 		TextLayout layout = new TextLayout(protectedText, font, frc);
 
