@@ -18,7 +18,7 @@ public class TestClass {
 		PercentLayout layout = new PercentLayout(5, 5);
 
 		Frame frame = new Frame();
-		frame.setSize(new Dimension(400, 300));
+		frame.setSize(new Dimension(600, 400));
 		frame.setLayout(layout);
 
 		Panel basePanel = new Panel();
@@ -64,15 +64,9 @@ public class TestClass {
 		bar.setAlignmentX(alignment.CENTRE);
 		bar.setAlignmentY(alignment.CENTRE);
 
-		TextSpace space = new TextSpace();
-		space.setText(
-				"this is the text of the screen and it includes this stuff which will hopefully be displayed nicely");
-		space.setGridy(3);
-
 		intPanel.add(label);
 		intPanel.add(bar);
 		intPanel.add(button);
-		intPanel.add(space);
 		centrePanel.add(intPanel);
 
 		Panel rightPanel = new Panel();
