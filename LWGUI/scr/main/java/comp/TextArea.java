@@ -48,8 +48,8 @@ public class TextArea extends Component {
 
 		textX = x + 10;
 		textY = y + 5;
-		
-		System.out.println(flatCursorPosition);
+
+		System.out.println(cursorLocation.x + " ~ " + lines[cursorLocation.y].length());
 
 	}
 
@@ -78,6 +78,7 @@ public class TextArea extends Component {
 				lineTotal += lines[line].length();
 				sb = new StringBuilder();
 				line++;
+				// space = "";
 			}
 
 			if (word.equals("\n")) {
@@ -87,14 +88,14 @@ public class TextArea extends Component {
 				lineTotal += lines[line].length();
 				sb = new StringBuilder();
 				line++;
-				space = "\n";
+				space = "\f";
 			}
 
 			sb.append(word + space);
 
 			g.setColor(foreground);
-			g.drawString(word + " ", textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
-			lineWidth += g.getFontMetrics().stringWidth(word + " ");
+			g.drawString(word + space, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
+			lineWidth += g.getFontMetrics().stringWidth(word + space);
 
 			if (i == words.length - 1) {
 				lines[line] = sb.toString();
@@ -106,7 +107,9 @@ public class TextArea extends Component {
 					backwardsCheckCursor = false;
 				}
 			} else {
-				normaliseXandY(lines);
+				if (i == words.length - 1) {
+					normaliseXandY(lines);
+				}
 			}
 
 		}
@@ -144,14 +147,23 @@ public class TextArea extends Component {
 		// check each line to see if it contains the flatCursorPosition. If it doesn't,
 		// increase the cursorLocation.y variable and continue. If it does, set the
 		// cursorLocation.x variable to the left over text
+
+		if (cursorLocation.x == 0) {
+			// System.out.println();
+		}
+
 		for (String l : lines) {
 			if (l != null) {
 				total += l.length();
-				// System.out.println(lines.length + ": " + total + " ~ " + flatCursorPosition);
 				if (total < flatCursorPosition) {
 					y++;
 				} else {
-					x = l.length() - (total - flatCursorPosition);
+					if (cursorLocation.x == 0 && lines.length > 3 && cursorLocation.y > 0) {
+						y++;
+						x = 0;
+					} else {
+						x = l.length() - (total - flatCursorPosition);
+					}
 					break;
 				}
 			}
@@ -245,7 +257,7 @@ public class TextArea extends Component {
 					cursorLocation.y++;
 				}
 				if (cursorLocation.x > lines[cursorLocation.y].length()) {
-					cursorLocation.x = lines[cursorLocation.y].length() - 1;
+					cursorLocation.x = lines[cursorLocation.y].length();
 				}
 				backwardsCheckCursor = true;
 				break;
@@ -270,32 +282,29 @@ public class TextArea extends Component {
 					sb.deleteCharAt(flatCursorPosition - 1);
 					cursorLocation.x--;
 					flatCursorPosition--;
-				} else {
-					cursorLocation.x--;
-					flatCursorPosition--;
 				}
 				break;
 			case KeyEvent.VK_SPACE:
-				sb.insert(flatCursorPosition, ("\f"));
-				cursorLocation.x++;
-				flatCursorPosition++;
+				if (cursorLocation.x < lines[cursorLocation.y].length()
+						|| cursorLocation.y == 0 && cursorLocation.y == lines.length + 3) {
+					sb.insert(flatCursorPosition, ("\f"));
+					cursorLocation.x++;
+					flatCursorPosition++;
+				}
 				break;
 			case KeyEvent.VK_ENTER:
 				sb.insert(flatCursorPosition, ("\f\n\f"));
 				flatCursorPosition += 3;
 				cursorLocation.y++;
 				cursorLocation.x = 0;
-
 				break;
 			default:
 				backwardsCheckCursor = true;
 				sb.insert(flatCursorPosition, arg0.getKeyChar());
 				cursorLocation.x++;
-
 				break;
 			}
-			
-			
+
 			setText(sb.toString());
 
 		}
