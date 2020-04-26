@@ -3,14 +3,24 @@ package comp;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 
 /**
- * This will eventually be the TextSpace mk2
+ * A very light weight text editor used for displaying and making simple edits
+ * to text
  * 
- * @author Rober
+ * @bugs
+ * 
+ *       when user moves cursor from first line down to a returned line,
+ *       cursorLocation.x will be at 0 when it should be a 1
+ * 
+ * @author Robert Doneux
+ * @version 0.2
  *
  */
 
@@ -40,7 +50,7 @@ public class TextArea extends Component {
 		foreground = Color.BLACK;
 		sizeEditable = true;
 		cursorLocation = new Point(0, 0);
-		setText("");
+		setText("The text can also be added at this stage and it will continue to work exactly as it should do and exactly as planned");
 	}
 
 	@Override
@@ -48,8 +58,6 @@ public class TextArea extends Component {
 
 		textX = x + 10;
 		textY = y + 5;
-
-		System.out.println(cursorLocation.x + " ~ " + lines[cursorLocation.y].length());
 
 	}
 
@@ -71,31 +79,27 @@ public class TextArea extends Component {
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			String space = " ";
-			if (lineWidth + g.getFontMetrics().stringWidth(word) > (getBounds().width - 10)) {
+			if (word.contains("\n")) {
 				lineHeight += textHeight;
 				lineWidth = -g.getFontMetrics().stringWidth("");
 				lines[line] = sb.toString();
 				lineTotal += lines[line].length();
 				sb = new StringBuilder();
 				line++;
-				// space = "";
-			}
 
-			if (word.equals("\n")) {
+			} else if (lineWidth + g.getFontMetrics().stringWidth(word) > (getBounds().width - 10)) {
 				lineHeight += textHeight;
-				lineWidth = -g.getFontMetrics().stringWidth("\n\f");
+				lineWidth = -g.getFontMetrics().stringWidth("");
 				lines[line] = sb.toString();
 				lineTotal += lines[line].length();
 				sb = new StringBuilder();
 				line++;
-				space = "\f";
 			}
-
-			sb.append(word + space);
 
 			g.setColor(foreground);
 			g.drawString(word + space, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
 			lineWidth += g.getFontMetrics().stringWidth(word + space);
+			sb.append(word + space);
 
 			if (i == words.length - 1) {
 				lines[line] = sb.toString();
@@ -114,18 +118,19 @@ public class TextArea extends Component {
 
 		}
 
-		int cursorX = g.getFontMetrics().stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
-		int cursorY = cursorLocation.y * textHeight;
+		if (cursorLocation.x > -1) {
+			int cursorX = g.getFontMetrics().stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
+			int cursorY = cursorLocation.y * textHeight;
 
-		if (timer + 500 < System.currentTimeMillis()) {
-			show = !show;
-			timer = System.currentTimeMillis();
+			if (timer + 500 < System.currentTimeMillis()) {
+				show = !show;
+				timer = System.currentTimeMillis();
+			}
+			if (show && focused) {
+				g.setColor(Color.BLACK);
+				g.fillRect(textX + cursorX, textY + cursorY, 2, g.getFontMetrics(font).getHeight());
+			}
 		}
-		if (show && focused) {
-			g.setColor(Color.BLACK);
-			g.fillRect(textX + cursorX, textY + cursorY, 2, g.getFontMetrics(font).getHeight());
-		}
-
 	}
 
 	/**
@@ -153,7 +158,7 @@ public class TextArea extends Component {
 		}
 
 		for (String l : lines) {
-			if (l != null) {
+			if (l != null && l.length() > 0) {
 				total += l.length();
 				if (total < flatCursorPosition) {
 					y++;
@@ -172,6 +177,26 @@ public class TextArea extends Component {
 		// update the 2D location from the 1D location
 		cursorLocation.x = x;
 		cursorLocation.y = y;
+
+	}
+
+	private void findXandYfromMouseLocation(MouseEvent e) {
+
+		AffineTransform affinetransform = new AffineTransform();
+		FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i] != null) {
+				int height = (int) font.getStringBounds(lines[i], frc).getHeight();
+				int width = (int) font.getStringBounds(lines[i], frc).getWidth();
+
+				Rectangle rect = new Rectangle(x, y + height * i, width, height);
+
+				if (rect.contains(e.getPoint())) {
+					System.out.println("contains");
+				}
+			}
+		}
 
 	}
 
@@ -215,7 +240,8 @@ public class TextArea extends Component {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+
+		findXandYfromMouseLocation(arg0);
 
 	}
 
@@ -262,9 +288,14 @@ public class TextArea extends Component {
 				backwardsCheckCursor = true;
 				break;
 			case KeyEvent.VK_LEFT:
+
 				if (flatCursorPosition > 0) {
 					cursorLocation.x--;
-					flatCursorPosition--;
+					// flatCursorPosition--;
+				}
+				if (lines[cursorLocation.y].startsWith("\n") && cursorLocation.x == 0) {
+					cursorLocation.x--;
+					// flatCursorPosition--;
 				}
 				backwardsCheckCursor = true;
 				break;
@@ -277,11 +308,34 @@ public class TextArea extends Component {
 				break;
 			case KeyEvent.VK_SHIFT:
 				break;
+			case KeyEvent.VK_CAPS_LOCK:
+				break;
+			case KeyEvent.VK_END:
+				cursorLocation.x = lines[cursorLocation.y].length() - 1;
+				backwardsCheckCursor = true;
+				break;
+			case KeyEvent.VK_HOME:
+				cursorLocation.x = 0;
+				backwardsCheckCursor = true;
+				break;
 			case KeyEvent.VK_BACK_SPACE:
 				if (cursorLocation.x > 0) {
 					sb.deleteCharAt(flatCursorPosition - 1);
 					cursorLocation.x--;
 					flatCursorPosition--;
+				} else if (cursorLocation.y > 0) {
+					cursorLocation.x--;
+					flatCursorPosition--;
+				}
+				if (lines[cursorLocation.y].startsWith("\n") && cursorLocation.x == 0) {
+					sb.deleteCharAt(flatCursorPosition - 1);
+					cursorLocation.x--;
+					flatCursorPosition--;
+				}
+				break;
+			case KeyEvent.VK_DELETE:
+				if (flatCursorPosition < protectedText.length()) {
+					sb.deleteCharAt(flatCursorPosition);
 				}
 				break;
 			case KeyEvent.VK_SPACE:
@@ -293,15 +347,20 @@ public class TextArea extends Component {
 				}
 				break;
 			case KeyEvent.VK_ENTER:
-				sb.insert(flatCursorPosition, ("\f\n\f"));
-				flatCursorPosition += 3;
-				cursorLocation.y++;
-				cursorLocation.x = 0;
+				if (cursorLocation.x == lines[cursorLocation.y].length()) {
+					flatCursorPosition--;
+				}
+				sb.insert(flatCursorPosition, ("\f\n"));
+				flatCursorPosition += 2;
+
+				// cursorLocation.y++;
+				// cursorLocation.x = 0;
+				// backwardsCheckCursor = true;
 				break;
 			default:
-				backwardsCheckCursor = true;
 				sb.insert(flatCursorPosition, arg0.getKeyChar());
 				cursorLocation.x++;
+				backwardsCheckCursor = true;
 				break;
 			}
 
