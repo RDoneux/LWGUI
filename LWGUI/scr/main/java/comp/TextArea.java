@@ -42,6 +42,8 @@ public class TextArea extends Component {
 	private boolean focused;
 	private boolean backwardsCheckCursor;
 
+	private Graphics g;
+
 	public TextArea() {
 		roundEdge = 5;
 		background = Color.LIGHT_GRAY;
@@ -50,7 +52,7 @@ public class TextArea extends Component {
 		foreground = Color.BLACK;
 		sizeEditable = true;
 		cursorLocation = new Point(0, 0);
-		setText("The text can also be added at this stage and it will continue to work exactly as it should do and exactly as planned");
+		setText("");
 	}
 
 	@Override
@@ -75,7 +77,7 @@ public class TextArea extends Component {
 		int lineBreaks = protectedText.split("\n").length;
 		lines = new String[(g.getFontMetrics().stringWidth(protectedText) / (getBounds().width - 10)) + 2 + lineBreaks];
 		StringBuilder sb = new StringBuilder();
-
+		
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			String space = " ";
@@ -101,6 +103,8 @@ public class TextArea extends Component {
 			lineWidth += g.getFontMetrics().stringWidth(word + space);
 			sb.append(word + space);
 
+
+			
 			if (i == words.length - 1) {
 				lines[line] = sb.toString();
 			}
@@ -180,28 +184,44 @@ public class TextArea extends Component {
 
 	}
 
+	/**
+	 * 
+	 * searches the whole text displayed and checks if each character is within the
+	 * passed mouse click. If it finds a location, set the x and y cursor Location
+	 * to that point
+	 * 
+	 * @param e the mouse location
+	 */
 	private void findXandYfromMouseLocation(MouseEvent e) {
-
-		AffineTransform affinetransform = new AffineTransform();
-		FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
 
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i] != null) {
-				int height = (int) font.getStringBounds(lines[i], frc).getHeight();
-				int width = (int) font.getStringBounds(lines[i], frc).getWidth();
+				int totalWidth = 0;
 
-				Rectangle rect = new Rectangle(x, y + height * i, width, height);
+				for (int j = 0; j < lines[i].length(); j++) {
 
-				if (rect.contains(e.getPoint())) {
-					System.out.println("contains");
+					int height = g.getFontMetrics().getHeight() - 2;
+					int width = g.getFontMetrics().stringWidth(String.valueOf(lines[i].charAt(j)));
+
+					Rectangle rect = new Rectangle(textX + totalWidth, textY + height * i, width, height);
+					if (rect.contains(e.getPoint())) {
+						cursorLocation.y = i;
+						cursorLocation.x = j;
+						backwardsCheckCursor = true;
+						return;
+					}
+					totalWidth += width;
 				}
 			}
 		}
-
 	}
 
 	@Override
 	public void paint(Graphics g) {
+
+		// the graphics variable is necessary for finding the width and height values of
+		// each line of text from the getXandYfromMouseLocation method
+		this.g = g;
 
 		g.setColor(shadow);
 		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
@@ -218,12 +238,7 @@ public class TextArea extends Component {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		if (getBounds().contains(arg0.getPoint())) {
-			focused = true;
-			timer += 1000;
-		} else {
-			focused = false;
-		}
+
 	}
 
 	@Override
@@ -241,6 +256,21 @@ public class TextArea extends Component {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 
+		// check to see if the user has clicked within the bounds of the TextArea. if
+		// they have, set the focused variable to true. This is to ensure that not all
+		// text areas in the frame are updated at the same time with the users key
+		// presses
+		if (getBounds().contains(arg0.getPoint())) {
+			focused = true;
+			// half the timer value so that it shows immediately
+			timer /= 2;
+		} else {
+			// if the user clicks outside of the area, don't update the values
+			focused = false;
+		}
+
+		// find the user click location and set the x and y cusor values to that
+		// location.
 		findXandYfromMouseLocation(arg0);
 
 	}
@@ -266,6 +296,7 @@ public class TextArea extends Component {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
+		// if the TextArea is focused, update the text values from the user input
 		if (focused) {
 			StringBuilder sb = new StringBuilder(protectedText);
 			switch (arg0.getKeyCode()) {
@@ -288,14 +319,11 @@ public class TextArea extends Component {
 				backwardsCheckCursor = true;
 				break;
 			case KeyEvent.VK_LEFT:
-
 				if (flatCursorPosition > 0) {
 					cursorLocation.x--;
-					// flatCursorPosition--;
 				}
 				if (lines[cursorLocation.y].startsWith("\n") && cursorLocation.x == 0) {
 					cursorLocation.x--;
-					// flatCursorPosition--;
 				}
 				backwardsCheckCursor = true;
 				break;
@@ -309,6 +337,8 @@ public class TextArea extends Component {
 			case KeyEvent.VK_SHIFT:
 				break;
 			case KeyEvent.VK_CAPS_LOCK:
+				break;
+			case KeyEvent.VK_CONTROL:
 				break;
 			case KeyEvent.VK_END:
 				cursorLocation.x = lines[cursorLocation.y].length() - 1;
@@ -352,10 +382,6 @@ public class TextArea extends Component {
 				}
 				sb.insert(flatCursorPosition, ("\f\n"));
 				flatCursorPosition += 2;
-
-				// cursorLocation.y++;
-				// cursorLocation.x = 0;
-				// backwardsCheckCursor = true;
 				break;
 			default:
 				sb.insert(flatCursorPosition, arg0.getKeyChar());

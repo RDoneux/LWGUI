@@ -74,18 +74,19 @@ public class TestClass {
 		rightPanel.setGridx(4);
 		rightPanel.setGridy(0);
 		rightPanel.setGridHeight(4);
+		rightPanel.setLayout(new PercentLayout(1,1));
 
+		TextArea textArea = new TextArea();
+		rightPanel.add(textArea);
+		
 		Panel bottomPanel = new Panel();
 		bottomPanel.setBackground(Color.YELLOW);
 		bottomPanel.setGridx(0);
 		bottomPanel.setGridy(4);
 		bottomPanel.setGridWidth(5);
 		bottomPanel.setWeightX(0.5);
-		bottomPanel.setLayout(new PercentLayout(1, 1));
 
-		TextArea textArea = new TextArea();
 
-		bottomPanel.add(textArea);
 		
 		Panel bottomRightPanel = new Panel();
 		bottomRightPanel.setBackground(Color.PINK);

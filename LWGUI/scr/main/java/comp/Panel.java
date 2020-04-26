@@ -100,9 +100,7 @@ public class Panel extends Container {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		for (GUIComponent child : children) {
-			if (child.getBounds().contains(arg0.getPoint())) {
-				child.mousePressed(arg0);
-			}
+			child.mousePressed(arg0);
 		}
 	}
 
