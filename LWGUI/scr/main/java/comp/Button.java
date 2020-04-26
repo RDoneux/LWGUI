@@ -146,9 +146,11 @@ public class Button extends Component {
 		// simulate button press by slightly moving button. The layout manager resets
 		// the location. Also call user action method. This should be overridden in
 		// parent class
-		width -= 3;
-		height -= 3;
-		action();
+		if (getBounds().contains(arg0.getPoint())) {
+			width -= 3;
+			height -= 3;
+			action();
+		}
 	}
 
 	@Override
