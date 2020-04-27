@@ -15,6 +15,7 @@ public class Panel extends Container {
 
 	public Panel() {
 		setName("Panel");
+		background = Color.LIGHT_GRAY;
 		sizeEditable = true;
 	}
 

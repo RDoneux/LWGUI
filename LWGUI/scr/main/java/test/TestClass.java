@@ -2,18 +2,18 @@ package test;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
 import comp.TextArea;
-import comp.TextSpace;
 import constraints.PercentLayout;
 
 public class TestClass {
 
-	public static void main(String args[]) {
+	public static void testSetup() {
 
 		PercentLayout layout = new PercentLayout(5, 5);
 
@@ -74,11 +74,11 @@ public class TestClass {
 		rightPanel.setGridx(4);
 		rightPanel.setGridy(0);
 		rightPanel.setGridHeight(4);
-		rightPanel.setLayout(new PercentLayout(1,1));
+		rightPanel.setLayout(new PercentLayout(1, 1));
 
 		TextArea textArea = new TextArea();
 		rightPanel.add(textArea);
-		
+
 		Panel bottomPanel = new Panel();
 		bottomPanel.setBackground(Color.YELLOW);
 		bottomPanel.setGridx(0);
@@ -86,8 +86,6 @@ public class TestClass {
 		bottomPanel.setGridWidth(5);
 		bottomPanel.setWeightX(0.5);
 
-
-		
 		Panel bottomRightPanel = new Panel();
 		bottomRightPanel.setBackground(Color.PINK);
 		bottomRightPanel.setGridx(0);
@@ -111,7 +109,24 @@ public class TestClass {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public static void writingSetup() {
+		Frame frame = new Frame();
+		frame.setSize(new Dimension(800, 600));
+		frame.setLayout(new PercentLayout(1, 1));
+
+		Panel basePanel = new Panel();
+		basePanel.setLayout(new PercentLayout(1, 1));
+
+		TextArea area = new TextArea();
+
+		basePanel.add(area);
+		frame.add(basePanel);
+	}
+
+	public static void main(String args[]) {
+		writingSetup();
 	}
 
 }
