@@ -86,6 +86,9 @@ public class TextArea extends Component {
 		textX = x + 10;
 		textY = y + 5;
 
+		//System.out.println(cursorLocation.x);
+		//System.out.println(flatCursorPosition);
+		
 		// set the protectedText string length to the max charCount variable. If the
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
@@ -227,12 +230,12 @@ public class TextArea extends Component {
 	 */
 	private void findXandYfromMouseLocation(MouseEvent e) {
 
-		int height = g.getFontMetrics().getHeight() - 3;
+		int height = g.getFontMetrics().getHeight() - 5;
 
 		for (int i = 0; i < lines.length; i++) {
-			if (lines[i] != null) {
+			//if (lines[i] != null) {
 				int totalWidth = 0;
-				if (new Rectangle(textX, textY + ((g.getFontMetrics().getHeight() - 3) * i), getBounds().width, height)
+				if (new Rectangle(textX, textY + ((g.getFontMetrics().getHeight() - 5) * i), getBounds().width, height)
 						.contains(e.getPoint())) {
 					for (int j = 0; j < lines[i].length(); j++) {
 
@@ -252,9 +255,10 @@ public class TextArea extends Component {
 					cursorLocation.y = i;
 					cursorLocation.x = lines[i].length();
 					backwardsCheckCursor = true;
+					return;
 				}
 			}
-		}
+		//}
 	}
 
 	@Override
@@ -349,6 +353,9 @@ public class TextArea extends Component {
 				if (cursorLocation.y > 0) {
 					cursorLocation.y--;
 				}
+				if (cursorLocation.y == 0) {
+					cursorLocation.x = 0;
+				}
 				if (cursorLocation.x > lines[cursorLocation.y].length()) {
 					cursorLocation.x = lines[cursorLocation.y].length() - 1;
 				}
@@ -359,7 +366,7 @@ public class TextArea extends Component {
 					cursorLocation.y++;
 				}
 				if (cursorLocation.x > lines[cursorLocation.y].length()) {
-					cursorLocation.x = lines[cursorLocation.y].length();
+					cursorLocation.x = lines[cursorLocation.y].length() - 1;
 				}
 				backwardsCheckCursor = true;
 				break;
@@ -373,7 +380,11 @@ public class TextArea extends Component {
 				backwardsCheckCursor = true;
 				break;
 			case KeyEvent.VK_RIGHT:
-				if (flatCursorPosition < protectedText.length()) {
+				if (flatCursorPosition < protectedText.length() - 1) {
+					cursorLocation.x++;
+					flatCursorPosition++;
+				}
+				if(cursorLocation.x == lines[cursorLocation.y].length()) {
 					cursorLocation.x++;
 					flatCursorPosition++;
 				}
@@ -410,7 +421,7 @@ public class TextArea extends Component {
 				}
 				break;
 			case KeyEvent.VK_DELETE:
-				if (flatCursorPosition < protectedText.length()) {
+				if (flatCursorPosition < protectedText.length() && cursorLocation.x < lines[cursorLocation.y].length()-1) {
 					sb.deleteCharAt(flatCursorPosition);
 				}
 				break;
@@ -423,11 +434,21 @@ public class TextArea extends Component {
 				}
 				break;
 			case KeyEvent.VK_ENTER:
-				if (cursorLocation.x == lines[cursorLocation.y].length()) {
-					flatCursorPosition--;
+				if (cursorLocation.x == lines[cursorLocation.y].length() - 1 && flatCursorPosition > 0) {
+					flatCursorPosition++;
+					System.out.println("called1");
 				}
+
 				sb.insert(flatCursorPosition, ("\f\n"));
 				flatCursorPosition += 2;
+				
+				if(cursorLocation.x == 0 && flatCursorPosition > 2) {
+					sb.insert(flatCursorPosition, ("\f\n"));
+					flatCursorPosition++;
+					System.out.println("called2");
+				}
+
+				
 				break;
 			default:
 				sb.insert(flatCursorPosition, arg0.getKeyChar());
