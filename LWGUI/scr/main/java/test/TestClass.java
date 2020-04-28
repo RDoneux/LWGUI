@@ -76,7 +76,7 @@ public class TestClass {
 		rightPanel.setGridHeight(4);
 		rightPanel.setLayout(new PercentLayout(1, 1));
 
-		TextArea textArea = new TextArea();
+		TestTextArea textArea = new TestTextArea();
 		rightPanel.add(textArea);
 
 		Panel bottomPanel = new Panel();
@@ -120,13 +120,17 @@ public class TestClass {
 		basePanel.setLayout(new PercentLayout(1, 1));
 
 		TextArea area = new TextArea();
+		area.setWeightX(0.8);
+		area.setWeightY(0.5);
+		area.setAlignmentX(alignment.CENTRE);
+		area.setAlignmentY(alignment.CENTRE);
 
 		basePanel.add(area);
 		frame.add(basePanel);
 	}
 
 	public static void main(String args[]) {
-		writingSetup();
+		testSetup();
 	}
 
 }

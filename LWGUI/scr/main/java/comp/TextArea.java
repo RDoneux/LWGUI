@@ -33,6 +33,7 @@ public class TextArea extends Component {
 	private Point cursorLocation;
 
 	private boolean focused;
+	private boolean editable;
 	private boolean backwardsCheckCursor;
 
 	private Graphics g;
@@ -240,6 +241,7 @@ public class TextArea extends Component {
 		g.setColor(background);
 		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
+		g.setFont(font);
 		wrapString(g);
 
 		g.setColor(boarder);
@@ -272,7 +274,7 @@ public class TextArea extends Component {
 		// they have, set the focused variable to true. This is to ensure that not all
 		// text areas in the frame are updated at the same time with the users key
 		// presses
-		if (getBounds().contains(arg0.getPoint())) {
+		if (getBounds().contains(arg0.getPoint()) && editable) {
 			focused = true;
 			// half the timer value so that it shows immediately
 			timer /= 2;
@@ -431,6 +433,13 @@ public class TextArea extends Component {
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+	public boolean isEditable() {
+		return editable;
 	}
 
 }
