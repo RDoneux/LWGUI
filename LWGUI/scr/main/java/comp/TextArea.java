@@ -25,6 +25,7 @@ public class TextArea extends Component {
 	private int charCount;
 	private int xScroll;
 	private int yScroll;
+	private int scrollHeight;
 
 	private String[] lines;
 
@@ -55,8 +56,20 @@ public class TextArea extends Component {
 
 	@Override
 	public void revise() {
+
+		System.out.println(textY + " ~ " + -scrollHeight);
+
+		if (textY >= 5 && yScroll > 0) {
+			yScroll = 0;
+		}
+
+		if (textY <= -scrollHeight && yScroll < 0) {
+			yScroll = -scrollHeight;
+		}
+
 		textX = (x + 10) + xScroll;
 		textY = (y + 5) + yScroll;
+
 		// set the protectedText string length to the max charCount variable. If the
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
@@ -81,9 +94,10 @@ public class TextArea extends Component {
 		int textHeight = g.getFontMetrics(font).getHeight() + 2;
 		String words[] = protectedText.split("\f");
 		int lineBreaks = protectedText.split("\n").length;
-		lines = new String[(((g.getFontMetrics().stringWidth(protectedText)) / (getBounds().width - 10)) + lineBreaks)
-				* 2];
+		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 10)) + 3
+				+ lineBreaks)];
 		StringBuilder sb = new StringBuilder();
+		scrollHeight = ((lines.length - 11) * (textHeight)) - (height);
 
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
@@ -432,17 +446,22 @@ public class TextArea extends Component {
 	}
 
 	private int scrollMagnitude = 20;
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
-		yScroll -= (int)arg0.getWheelRotation() * scrollMagnitude;
+
+		yScroll -= (int) arg0.getWheelRotation() * scrollMagnitude;
+
 	}
-	
+
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
+
 	public boolean isEditable() {
 		return editable;
 	}
+
 	public void setScrollMagnitude(int magnitude) {
 		this.scrollMagnitude = magnitude;
 	}

@@ -2,12 +2,12 @@ package test;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
+import comp.ScrollPanel;
 import comp.TextArea;
 import constraints.PercentLayout;
 
@@ -118,19 +118,21 @@ public class TestClass {
 
 		Panel basePanel = new Panel();
 		basePanel.setLayout(new PercentLayout(1, 1));
-
-		TextArea area = new TextArea();
-		area.setWeightX(0.8);
-		area.setWeightY(0.5);
+		basePanel.debugLayout();
+		
+		TestTextArea area = new TestTextArea();
+		//area.setWeightX(0.8);
+		//area.setWeightY(0.5);
 		area.setAlignmentX(alignment.CENTRE);
 		area.setAlignmentY(alignment.CENTRE);
 
 		basePanel.add(area);
+		
 		frame.add(basePanel);
 	}
 
 	public static void main(String args[]) {
-		testSetup();
+		writingSetup();
 	}
 
 }
