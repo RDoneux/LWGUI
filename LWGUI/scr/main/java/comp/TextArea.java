@@ -23,6 +23,8 @@ public class TextArea extends Component {
 	private int roundEdge;
 	private int flatCursorPosition;
 	private int charCount;
+	private int xScroll;
+	private int yScroll;
 
 	private String[] lines;
 
@@ -45,6 +47,7 @@ public class TextArea extends Component {
 		boarder = Color.BLACK;
 		foreground = Color.BLACK;
 		sizeEditable = true;
+		editable = true;
 		cursorLocation = new Point(0, 0);
 		charCount = 0;
 		setText("");
@@ -52,9 +55,8 @@ public class TextArea extends Component {
 
 	@Override
 	public void revise() {
-		textX = x + 10;
-		textY = y + 5;
-
+		textX = (x + 10) + xScroll;
+		textY = (y + 5) + yScroll;
 		// set the protectedText string length to the max charCount variable. If the
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
@@ -429,10 +431,10 @@ public class TextArea extends Component {
 
 	}
 
+	private int scrollMagnitude = 20;
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
-		// TODO Auto-generated method stub
-
+		yScroll -= (int)arg0.getWheelRotation() * scrollMagnitude;
 	}
 	
 	public void setEditable(boolean editable) {
@@ -440,6 +442,9 @@ public class TextArea extends Component {
 	}
 	public boolean isEditable() {
 		return editable;
+	}
+	public void setScrollMagnitude(int magnitude) {
+		this.scrollMagnitude = magnitude;
 	}
 
 }
