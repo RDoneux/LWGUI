@@ -64,7 +64,7 @@ public class TextArea extends Component {
 		}
 
 		if (textY <= -scrollHeight && yScroll < 0) {
-			yScroll = -scrollHeight;
+			yScroll = (-scrollHeight);
 		}
 
 		textX = (x + 10) + xScroll;
@@ -97,7 +97,6 @@ public class TextArea extends Component {
 		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 10)) + 3
 				+ lineBreaks)];
 		StringBuilder sb = new StringBuilder();
-		scrollHeight = ((lines.length - 11) * (textHeight)) - (height);
 
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
@@ -157,6 +156,7 @@ public class TextArea extends Component {
 				g.fillRect(textX + cursorX, textY + cursorY, 2, g.getFontMetrics(font).getHeight());
 			}
 		}
+		scrollHeight = lineHeight;
 	}
 
 	/**
