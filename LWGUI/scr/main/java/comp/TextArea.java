@@ -57,16 +57,6 @@ public class TextArea extends Component {
 	@Override
 	public void revise() {
 
-		System.out.println(textY + " ~ " + -scrollHeight);
-
-		if (textY >= 5 && yScroll > 0) {
-			yScroll = 0;
-		}
-
-		if (textY <= -scrollHeight && yScroll < 0) {
-			yScroll = (-scrollHeight);
-		}
-
 		textX = (x + 10) + xScroll;
 		textY = (y + 5) + yScroll;
 
@@ -450,7 +440,16 @@ public class TextArea extends Component {
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
 
-		yScroll -= (int) arg0.getWheelRotation() * scrollMagnitude;
+		// limit the scrolling bounds to the protectedText size
+		int scrollRate = arg0.getWheelRotation();
+		if (textY + scrollMagnitude >= 5 && scrollRate < 0) {
+			yScroll = 0;
+		} else if (textY - scrollMagnitude <= -scrollHeight && scrollRate > 0) {
+			yScroll = -scrollHeight;
+		} else {
+			yScroll -= scrollRate * scrollMagnitude;
+
+		}
 
 	}
 
