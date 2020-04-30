@@ -20,6 +20,8 @@ public class TextArea extends Component {
 
 	private int textX;
 	private int textY;
+	private int textHeight;
+	private int cursorY;
 	private int roundEdge;
 	private int flatCursorPosition;
 	private int charCount;
@@ -59,7 +61,7 @@ public class TextArea extends Component {
 
 		textX = (x + 10) + xScroll;
 		textY = (y + 5) + yScroll;
-
+		
 		// set the protectedText string length to the max charCount variable. If the
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
@@ -81,7 +83,8 @@ public class TextArea extends Component {
 		int line = 0;
 		int lineWidth = 0;
 		int lineHeight = 0;
-		int textHeight = g.getFontMetrics(font).getHeight() + 2;
+		textHeight = g.getFontMetrics(font).getHeight() + 2;
+		setScrollMagnitude(textHeight);
 		String words[] = protectedText.split("\f");
 		int lineBreaks = protectedText.split("\n").length;
 		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 10)) + 3
@@ -135,8 +138,9 @@ public class TextArea extends Component {
 			if (lines[cursorLocation.y] != null) {
 				cursorX = g.getFontMetrics().stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
 			}
-			int cursorY = cursorLocation.y * textHeight;
-
+			cursorY = cursorLocation.y * textHeight;
+			
+			//System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " + (-textY + (height + 2)));
 			if (timer + 500 < System.currentTimeMillis()) {
 				show = !show;
 				timer = System.currentTimeMillis();
@@ -418,6 +422,13 @@ public class TextArea extends Component {
 				break;
 			}
 
+			if (cursorY + textHeight >= (-textY + (height))) {
+				yScroll -= textHeight;
+			}
+			if (cursorY <= (-textY)) {
+				yScroll += textHeight;
+			}
+			
 			setText(sb.toString());
 
 		}
@@ -435,7 +446,7 @@ public class TextArea extends Component {
 
 	}
 
-	private int scrollMagnitude = 20;
+	private int scrollMagnitude;
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
