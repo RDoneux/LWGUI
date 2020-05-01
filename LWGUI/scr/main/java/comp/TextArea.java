@@ -28,7 +28,6 @@ public class TextArea extends Component {
 	private int xScroll;
 	private int yScroll;
 	private int scrollHeight;
-	private int linesTotal;
 
 	private String[] lines;
 
@@ -63,15 +62,6 @@ public class TextArea extends Component {
 		textX = (x + 10) + xScroll;
 		textY = (y + 5) + yScroll;
 
-		if (focused) {
-			if (cursorY >= y + (-textY + height)) {
-				yScroll -= textHeight;
-			}
-			if (cursorY <= y + -textY) {
-				yScroll += textHeight;
-			}
-		}
-
 		// set the protectedText string length to the max charCount variable. If the
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
@@ -99,7 +89,6 @@ public class TextArea extends Component {
 		int lineBreaks = protectedText.split("\n").length;
 		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 15)) + 3
 				+ lineBreaks) * 2];
-		// System.out.println(cursorLocation.y + " ~ " + lines.length);
 
 		StringBuilder sb = new StringBuilder();
 
@@ -110,22 +99,21 @@ public class TextArea extends Component {
 				String space = " ";
 				if (word.contains("\n")) {
 					lineHeight += textHeight;
-					lineWidth = -g.getFontMetrics(font).stringWidth("");
+					lineWidth = -g.getFontMetrics().stringWidth("");
 					lines[line] = sb.toString();
 					lineTotal += lines[line].length();
 					sb = new StringBuilder();
 					line++;
-
 				} else if (lineWidth + g.getFontMetrics(font).stringWidth(word) >= (getBounds().width - 15)) {
 					lineHeight += textHeight;
-					lineWidth = -g.getFontMetrics(font).stringWidth("");
+					lineWidth = -g.getFontMetrics().stringWidth("");
 					lines[line] = sb.toString();
 					lineTotal += lines[line].length();
 					sb = new StringBuilder();
 					line++;
 				}
 
-				if (textY + g.getFontMetrics(font).getAscent() + lineHeight > y) {
+				if (textY + g.getFontMetrics().getAscent() + lineHeight > y) {
 					g.setColor(foreground);
 					g.drawString(word + space, textX + lineWidth,
 							textY + g.getFontMetrics(font).getAscent() + lineHeight);
@@ -133,31 +121,30 @@ public class TextArea extends Component {
 				lineWidth += g.getFontMetrics(font).stringWidth(word + space);
 				sb.append(word + space);
 
-				if (i == words.length - 1) {
-					lines[line] = sb.toString();
-				}
+			}
 
-				if (backwardsCheckCursor) {
-					if (line == cursorLocation.y) {
-						flatCursorPosition = lineTotal + cursorLocation.x;
-						backwardsCheckCursor = false;
-					}
-				} else {
-					if (i == words.length - 1) {
-						normaliseXandY(lines);
-					}
+			if (i == words.length - 1) {
+				lines[line] = sb.toString();
+			}
+
+			if (backwardsCheckCursor) {
+				if (line == cursorLocation.y) {
+					flatCursorPosition = lineTotal + cursorLocation.x;
+					backwardsCheckCursor = false;
 				}
 			} else {
-				// break;
+				if (i == words.length - 1) {
+					normaliseXandY(lines);
+				}
 			}
-			linesTotal = line;
+
 		}
 
 		if (cursorLocation.x > -1) {
 			int cursorX = 0;
-			if (lines[cursorLocation.y] != null && cursorLocation.x < lines[cursorLocation.y].length()) {
-				cursorX = g.getFontMetrics(font).stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
-			}
+			// if (lines[cursorLocation.y] != null) {
+			cursorX = g.getFontMetrics(font).stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
+			// }
 			cursorY = cursorLocation.y * textHeight;
 
 			// System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " +
@@ -453,6 +440,12 @@ public class TextArea extends Component {
 				backwardsCheckCursor = true;
 				break;
 			}
+
+			// if the cursor is off the display screen, Jump the current scroll rate to the
+			// cursor location
+			if (cursorY >= y + (-textY + height) || cursorY <= y + -textY) {
+				yScroll = -cursorY;
+			}
 			setText(sb.toString());
 		}
 	}
@@ -483,19 +476,8 @@ public class TextArea extends Component {
 				yScroll = -scrollHeight;
 			} else {
 				yScroll -= scrollRate * scrollMagnitude;
-
-			}
-			if (cursorLocation.y + scrollRate >= 0 && cursorLocation.y + scrollRate <= linesTotal) {
-				cursorLocation.y += scrollRate;
-				backwardsCheckCursor = true;
-			} else if (cursorLocation.y < 0) {
-				cursorLocation.y = 0;
-				return;
-			} else if (cursorLocation.y > linesTotal) {
-				cursorLocation.y = linesTotal;
 			}
 		}
-
 	}
 
 	public void setEditable(boolean editable) {
