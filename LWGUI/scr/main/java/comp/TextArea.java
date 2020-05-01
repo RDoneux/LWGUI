@@ -28,6 +28,7 @@ public class TextArea extends Component {
 	private int xScroll;
 	private int yScroll;
 	private int scrollHeight;
+	private int linesTotal;
 
 	private String[] lines;
 
@@ -97,7 +98,9 @@ public class TextArea extends Component {
 		String words[] = protectedText.split("\f");
 		int lineBreaks = protectedText.split("\n").length;
 		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 15)) + 3
-				+ lineBreaks)];
+				+ lineBreaks) * 2];
+		// System.out.println(cursorLocation.y + " ~ " + lines.length);
+
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < words.length; i++) {
@@ -107,27 +110,27 @@ public class TextArea extends Component {
 				String space = " ";
 				if (word.contains("\n")) {
 					lineHeight += textHeight;
-					lineWidth = -g.getFontMetrics().stringWidth("");
+					lineWidth = -g.getFontMetrics(font).stringWidth("");
 					lines[line] = sb.toString();
 					lineTotal += lines[line].length();
 					sb = new StringBuilder();
 					line++;
 
-				} else if (lineWidth + g.getFontMetrics().stringWidth(word) >= (getBounds().width - 15)) {
+				} else if (lineWidth + g.getFontMetrics(font).stringWidth(word) >= (getBounds().width - 15)) {
 					lineHeight += textHeight;
-					lineWidth = -g.getFontMetrics().stringWidth("");
+					lineWidth = -g.getFontMetrics(font).stringWidth("");
 					lines[line] = sb.toString();
 					lineTotal += lines[line].length();
 					sb = new StringBuilder();
 					line++;
 				}
 
-
-				if (textY + g.getFontMetrics().getAscent() + lineHeight  > y) {
+				if (textY + g.getFontMetrics(font).getAscent() + lineHeight > y) {
 					g.setColor(foreground);
-					g.drawString(word + space, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
+					g.drawString(word + space, textX + lineWidth,
+							textY + g.getFontMetrics(font).getAscent() + lineHeight);
 				}
-				lineWidth += g.getFontMetrics().stringWidth(word + space);
+				lineWidth += g.getFontMetrics(font).stringWidth(word + space);
 				sb.append(word + space);
 
 				if (i == words.length - 1) {
@@ -145,14 +148,15 @@ public class TextArea extends Component {
 					}
 				}
 			} else {
-				//break;
+				// break;
 			}
+			linesTotal = line;
 		}
 
 		if (cursorLocation.x > -1) {
 			int cursorX = 0;
-			if (lines[cursorLocation.y] != null) {
-				cursorX = g.getFontMetrics().stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
+			if (lines[cursorLocation.y] != null && cursorLocation.x < lines[cursorLocation.y].length()) {
+				cursorX = g.getFontMetrics(font).stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
 			}
 			cursorY = cursorLocation.y * textHeight;
 
@@ -230,7 +234,7 @@ public class TextArea extends Component {
 				if (new Rectangle(textX, textY + (height * i), getBounds().width, height).contains(e.getPoint())) {
 					for (int j = 0; j < lines[i].length(); j++) {
 
-						int width = g.getFontMetrics().stringWidth(String.valueOf(lines[i].charAt(j)));
+						int width = g.getFontMetrics(font).stringWidth(String.valueOf(lines[i].charAt(j)));
 
 						Rectangle rect = new Rectangle(textX + totalWidth, textY + (height * i), width, height);
 						if (rect.contains(e.getPoint())) {
@@ -479,14 +483,16 @@ public class TextArea extends Component {
 				yScroll = -scrollHeight;
 			} else {
 				yScroll -= scrollRate * scrollMagnitude;
-				if (lines[cursorLocation.y + 1] != null || scrollRate < 0) {
-					cursorLocation.y += scrollRate;
-					backwardsCheckCursor = true;
-				}
-				if (lines[cursorLocation.y] == null) {
-					cursorLocation.y--;
-					backwardsCheckCursor = true;
-				}
+
+			}
+			if (cursorLocation.y + scrollRate >= 0 && cursorLocation.y + scrollRate <= linesTotal) {
+				cursorLocation.y += scrollRate;
+				backwardsCheckCursor = true;
+			} else if (cursorLocation.y < 0) {
+				cursorLocation.y = 0;
+				return;
+			} else if (cursorLocation.y > linesTotal) {
+				cursorLocation.y = linesTotal;
 			}
 		}
 
