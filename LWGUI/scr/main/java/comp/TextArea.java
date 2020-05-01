@@ -61,7 +61,16 @@ public class TextArea extends Component {
 
 		textX = (x + 10) + xScroll;
 		textY = (y + 5) + yScroll;
-		
+
+		if (focused) {
+			if (cursorY >= y + (-textY + height)) {
+				yScroll -= textHeight;
+			}
+			if (cursorY <= y + -textY) {
+				yScroll += textHeight;
+			}
+		}
+
 		// set the protectedText string length to the max charCount variable. If the
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
@@ -87,50 +96,57 @@ public class TextArea extends Component {
 		setScrollMagnitude(textHeight);
 		String words[] = protectedText.split("\f");
 		int lineBreaks = protectedText.split("\n").length;
-		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 10)) + 3
+		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 15)) + 3
 				+ lineBreaks)];
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < words.length; i++) {
-			String word = words[i];
-			String space = " ";
-			if (word.contains("\n")) {
-				lineHeight += textHeight;
-				lineWidth = -g.getFontMetrics().stringWidth("");
-				lines[line] = sb.toString();
-				lineTotal += lines[line].length();
-				sb = new StringBuilder();
-				line++;
 
-			} else if (lineWidth + g.getFontMetrics().stringWidth(word) > (getBounds().width - 10)) {
-				lineHeight += textHeight;
-				lineWidth = -g.getFontMetrics().stringWidth("");
-				lines[line] = sb.toString();
-				lineTotal += lines[line].length();
-				sb = new StringBuilder();
-				line++;
-			}
+			if ((lineHeight - -yScroll) < (y + height) + (textHeight * 2)) {
+				String word = words[i];
+				String space = " ";
+				if (word.contains("\n")) {
+					lineHeight += textHeight;
+					lineWidth = -g.getFontMetrics().stringWidth("");
+					lines[line] = sb.toString();
+					lineTotal += lines[line].length();
+					sb = new StringBuilder();
+					line++;
 
-			g.setColor(foreground);
-			g.drawString(word + space, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
-			lineWidth += g.getFontMetrics().stringWidth(word + space);
-			sb.append(word + space);
+				} else if (lineWidth + g.getFontMetrics().stringWidth(word) >= (getBounds().width - 15)) {
+					lineHeight += textHeight;
+					lineWidth = -g.getFontMetrics().stringWidth("");
+					lines[line] = sb.toString();
+					lineTotal += lines[line].length();
+					sb = new StringBuilder();
+					line++;
+				}
 
-			if (i == words.length - 1) {
-				lines[line] = sb.toString();
-			}
 
-			if (backwardsCheckCursor) {
-				if (line == cursorLocation.y) {
-					flatCursorPosition = lineTotal + cursorLocation.x;
-					backwardsCheckCursor = false;
+				if (textY + g.getFontMetrics().getAscent() + lineHeight  > y) {
+					g.setColor(foreground);
+					g.drawString(word + space, textX + lineWidth, textY + g.getFontMetrics().getAscent() + lineHeight);
+				}
+				lineWidth += g.getFontMetrics().stringWidth(word + space);
+				sb.append(word + space);
+
+				if (i == words.length - 1) {
+					lines[line] = sb.toString();
+				}
+
+				if (backwardsCheckCursor) {
+					if (line == cursorLocation.y) {
+						flatCursorPosition = lineTotal + cursorLocation.x;
+						backwardsCheckCursor = false;
+					}
+				} else {
+					if (i == words.length - 1) {
+						normaliseXandY(lines);
+					}
 				}
 			} else {
-				if (i == words.length - 1) {
-					normaliseXandY(lines);
-				}
+				//break;
 			}
-
 		}
 
 		if (cursorLocation.x > -1) {
@@ -139,8 +155,9 @@ public class TextArea extends Component {
 				cursorX = g.getFontMetrics().stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
 			}
 			cursorY = cursorLocation.y * textHeight;
-			
-			//System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " + (-textY + (height + 2)));
+
+			// System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " +
+			// (-textY + (height + 2)));
 			if (timer + 500 < System.currentTimeMillis()) {
 				show = !show;
 				timer = System.currentTimeMillis();
@@ -257,6 +274,11 @@ public class TextArea extends Component {
 		g.setColor(boarder);
 		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 
+		if (focused) {
+			g.setColor(new Color(50, 150, 200));
+			g.drawRect(x + 1, y + 1, width - 2, height - 2);
+		}
+
 		g.setClip(clipBounds);
 	}
 
@@ -295,8 +317,9 @@ public class TextArea extends Component {
 
 		// find the user click location and set the x and y cusor values to that
 		// location.
-		findXandYfromMouseLocation(arg0);
-
+		if (focused) {
+			findXandYfromMouseLocation(arg0);
+		}
 	}
 
 	@Override
@@ -322,6 +345,10 @@ public class TextArea extends Component {
 
 		// if the TextArea is focused, update the text values from the user input
 		if (focused) {
+			if (lines[cursorLocation.y].equals("\n ")) {
+				cursorLocation.x = 1;
+			}
+
 			StringBuilder sb = new StringBuilder(protectedText);
 			switch (arg0.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -358,7 +385,8 @@ public class TextArea extends Component {
 				break;
 			case KeyEvent.VK_RIGHT:
 				if (flatCursorPosition < protectedText.length() - 1) {
-					flatCursorPosition++;
+					cursorLocation.x++;
+					backwardsCheckCursor = true;
 				}
 				break;
 			case KeyEvent.VK_SHIFT:
@@ -421,16 +449,7 @@ public class TextArea extends Component {
 				backwardsCheckCursor = true;
 				break;
 			}
-
-			if (cursorY + textHeight >= (-textY + (height))) {
-				yScroll -= textHeight;
-			}
-			if (cursorY <= (-textY)) {
-				yScroll += textHeight;
-			}
-			
 			setText(sb.toString());
-
 		}
 	}
 
@@ -451,15 +470,24 @@ public class TextArea extends Component {
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {
 
-		// limit the scrolling bounds to the protectedText size
-		int scrollRate = arg0.getWheelRotation();
-		if (textY + scrollMagnitude >= 5 && scrollRate < 0) {
-			yScroll = 0;
-		} else if (textY - scrollMagnitude <= -scrollHeight && scrollRate > 0) {
-			yScroll = -scrollHeight;
-		} else {
-			yScroll -= scrollRate * scrollMagnitude;
-
+		if (focused) {
+			// limit the scrolling bounds to the protectedText size
+			int scrollRate = arg0.getWheelRotation();
+			if (-(y - textY) + scrollMagnitude >= 5 && scrollRate < 0) {
+				yScroll = 0;
+			} else if (-(y - textY) - scrollMagnitude <= -scrollHeight && scrollRate > 0) {
+				yScroll = -scrollHeight;
+			} else {
+				yScroll -= scrollRate * scrollMagnitude;
+				if (lines[cursorLocation.y + 1] != null || scrollRate < 0) {
+					cursorLocation.y += scrollRate;
+					backwardsCheckCursor = true;
+				}
+				if (lines[cursorLocation.y] == null) {
+					cursorLocation.y--;
+					backwardsCheckCursor = true;
+				}
+			}
 		}
 
 	}

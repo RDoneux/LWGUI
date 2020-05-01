@@ -26,6 +26,9 @@ public class TestClass {
 		basePanel.setGridx(0);
 		basePanel.setGridy(0);
 		basePanel.setGridHeight(4);
+		basePanel.setLayout(new PercentLayout(1,1));
+		
+		basePanel.add(new TestTextArea());
 
 		Panel centrePanel = new Panel();
 		centrePanel.setBackground(Color.BLUE);
@@ -85,6 +88,10 @@ public class TestClass {
 		bottomPanel.setGridy(4);
 		bottomPanel.setGridWidth(5);
 		bottomPanel.setWeightX(0.5);
+		bottomPanel.setLayout(new PercentLayout(1,1));
+		
+		TestTextArea testArea = new TestTextArea();
+		bottomPanel.add(testArea);
 
 		Panel bottomRightPanel = new Panel();
 		bottomRightPanel.setBackground(Color.PINK);
@@ -132,7 +139,7 @@ public class TestClass {
 	}
 
 	public static void main(String args[]) {
-		writingSetup();
+		testSetup();
 	}
 
 }
