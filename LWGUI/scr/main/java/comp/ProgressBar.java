@@ -80,7 +80,7 @@ public class ProgressBar extends Component {
 			g.setColor(new Color(255 - (background.getRed() + foreground.getRed()) / 2,
 					255 - (background.getGreen() + foreground.getGreen()) / 2,
 					255 - (background.getBlue() + foreground.getBlue()) / 2, transparency));
-			Maths.drawCentredString(g, text, getBounds());
+			Maths.drawCentredString(g, text, getAnimationBounds());
 		}
 
 	}

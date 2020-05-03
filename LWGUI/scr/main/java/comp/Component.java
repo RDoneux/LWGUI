@@ -32,7 +32,7 @@ public abstract class Component extends GUIComponent {
 		TextLayout layout = new TextLayout(protectedText, font, frc);
 
 		if (layout.getBounds().getWidth() > parentSpace.width && !minimised) {
-			if (!protectedText.equals("")) {
+			if (!protectedText.equals("") && protectedText.length() > 3) {
 				text = protectedText.substring(0, 3) + "[...]";
 				minimised = true;
 			}

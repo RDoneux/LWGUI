@@ -65,11 +65,7 @@ public class Panel extends Container {
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		for (GUIComponent child : children) {
-			if (child instanceof Component) {
-				child.mouseMoved(arg0);
-			} else if (child.getBounds().contains(arg0.getPoint())) {
-				child.mouseMoved(arg0);
-			}
+			child.mouseMoved(arg0);
 		}
 	}
 

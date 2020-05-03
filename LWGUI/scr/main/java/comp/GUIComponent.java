@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JFrame;
 
+import animation.Animation;
 import tools.IDGenerator;
 import tools.Maths;
 
@@ -20,12 +21,17 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int width;
 	protected int height;
 	protected int id;
-	
+
+	protected int animationX;
+	protected int animationY;
+	protected int animationWidth;
+	protected int animationHeight;
+
 	protected int gridx;
 	protected int gridy;
 	protected int gridWidth;
 	protected int gridHeight;
-	
+
 	protected int transparency;
 
 	protected double weightX;
@@ -39,9 +45,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected alignment alignmentX;
 	protected alignment alignmentY;
 	protected alignment bias;
-	
+
 	protected boolean sizeEditable;
-	protected boolean minimised;	
+	protected boolean minimised;
+	protected boolean loaded;
+
+	protected Animation currentAnimation;
 
 	public enum alignment {
 		NORTH, EAST, SOUTH, WEST, CENTRE;
@@ -61,8 +70,46 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public abstract void revise();
 
 	public abstract void paint(Graphics g);
-	
+
+	/**
+	 * This method is called when the user adds an animation to a particular
+	 * GUIComponent. Only one animation can be added at once currently
+	 * 
+	 * @see Animation
+	 * @see FlyIn
+	 * @see FlyOut
+	 * 
+	 * @param animation
+	 */
+	public void queAnimation(Animation animation) {
+
+		// if the animation hasn't been set yet, create a new animation and start the
+		// animation loop
+		if (currentAnimation == null) {
+			currentAnimation = animation;
+			animation.setParent(this);
+			animation.start();
+			return;
+		}
+		// if an animation has been set, check to see if it is the same type of
+		// animation that has already been set. If it is different, replace the current
+		// animation with the new one and start the loop.
+		if (currentAnimation.getType() != animation.getType()) {
+			currentAnimation.stop();
+
+			currentAnimation = animation;
+			currentAnimation.setParent(this);
+			currentAnimation.start();
+		}
+	}
+
+	// this is the desired display bounds of the component
 	public Rectangle getBounds() {
+		return new Rectangle(x - animationX, y - animationY, width - animationWidth, height - animationHeight);
+	}
+
+	// this is the actual display bounds of the component
+	public Rectangle getAnimationBounds() {
 		return new Rectangle(x, y, width, height);
 	}
 
@@ -77,35 +124,85 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public int getX() {
-		return x;
+		return x - animationX;
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		this.x = x + animationX;
+		this.loaded = true;
 	}
 
 	public int getY() {
-		return y;
+		return y - animationY;
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.y = y + animationY;
+		this.loaded = true;
 	}
 
 	public int getWidth() {
-		return width;
+		return width - animationWidth;
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		this.width = width + animationWidth;
 	}
 
 	public int getHeight() {
-		return height;
+		return height - animationHeight;
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		this.height = height + animationHeight;
+	}
+
+	public int getVisualX() {
+		return x;
+	}
+
+	public int getVisualY() {
+		return y;
+	}
+
+	public int getVisualWidth() {
+		return width;
+	}
+
+	public int getVisualHeight() {
+		return height;
+	}
+
+	public int getAnimationX() {
+		return animationX;
+	}
+
+	public void setAnimationX(int animationX) {
+		this.animationX = animationX;
+	}
+
+	public int getAnimationY() {
+		return animationY;
+	}
+
+	public void setAnimationY(int animationY) {
+		this.animationY = animationY;
+	}
+
+	public int getAnimationWidth() {
+		return animationWidth;
+	}
+
+	public void setAnimationWidth(int animationWidth) {
+		this.animationWidth = animationWidth;
+	}
+
+	public int getAnimationHeight() {
+		return animationHeight;
+	}
+
+	public void setAnimationHeight(int animationHeight) {
+		this.animationHeight = animationHeight;
 	}
 
 	public int getID() {
@@ -245,5 +342,9 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public void setTransparency(int transparency) {
 		this.transparency = transparency;
 	}
-		
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
 }

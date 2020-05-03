@@ -2,11 +2,15 @@ package constraints;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import comp.Component;
+import comp.Frame;
 import comp.GUIComponent;
 import comp.GUIComponent.alignment;
 import tools.Maths;
@@ -38,12 +42,15 @@ public class PercentLayout extends Layout {
 	/**
 	 * inherited method that identifies which type of container the layout manager
 	 * has been added to, {@link Container} or {@link Frame}
+	 * 
+	 * also executes the {@link Animation} of selected child if it isn't null and
+	 * the mouse location is within it's bounds
 	 */
 	@Override
 	public void updateLayout() {
 
 		if (topLevelContainer != null) {
-			layout(topLevelContainer.getBounds(), topLevelContainer.getChildren());
+			layout(topLevelContainer.getFrameBounds(), topLevelContainer.getChildren());
 		} else {
 			layout(container.getBounds(), container.getChildren());
 		}
@@ -73,7 +80,7 @@ public class PercentLayout extends Layout {
 
 		// find the highest x and y grid locations of all the children
 		for (GUIComponent child : children) {
-
+			
 			// ensure that the child's grid value is within the managers grid range
 			if (child.getGridx() >= columns) {
 				throw new IllegalArgumentException("GUIComponent: " + child.getName()

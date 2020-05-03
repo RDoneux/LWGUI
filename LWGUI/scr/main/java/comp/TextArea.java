@@ -2,11 +2,13 @@ package comp;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.image.BufferedImage;
 
 /**
  * A very light weight text editor used for displaying and making simple edits
@@ -43,6 +45,8 @@ public class TextArea extends Component {
 
 	private Graphics g;
 
+	private Image backgroundImage;
+
 	public TextArea() {
 		roundEdge = 5;
 		background = Color.WHITE;
@@ -53,6 +57,7 @@ public class TextArea extends Component {
 		editable = true;
 		cursorLocation = new Point(0, 0);
 		charCount = 0;
+		name = "Text Area";
 		setText("");
 	}
 
@@ -142,9 +147,9 @@ public class TextArea extends Component {
 
 		if (cursorLocation.x > -1) {
 			int cursorX = 0;
-			// if (lines[cursorLocation.y] != null) {
-			cursorX = g.getFontMetrics(font).stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
-			// }
+			if (lines[cursorLocation.y] != null) {
+				cursorX = g.getFontMetrics(font).stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
+			}
 			cursorY = cursorLocation.y * textHeight;
 
 			// System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " +
@@ -256,8 +261,12 @@ public class TextArea extends Component {
 		g.setColor(shadow);
 		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
-		g.setColor(background);
-		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+		if (backgroundImage == null) {
+			g.setColor(background);
+			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+		} else {
+			g.drawImage(backgroundImage, x, y, width, height, null);
+		}
 
 		g.setFont(font);
 		wrapString(g);
@@ -490,6 +499,10 @@ public class TextArea extends Component {
 
 	public void setScrollMagnitude(int magnitude) {
 		this.scrollMagnitude = magnitude;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.backgroundImage = image;
 	}
 
 }

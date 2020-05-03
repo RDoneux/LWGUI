@@ -3,8 +3,9 @@ package comp;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -35,6 +36,8 @@ public class Frame extends Canvas
 	private Thread thread;
 
 	private ArrayList<GUIComponent> children = new ArrayList<>();
+
+	public static Point mouseLocation;
 
 	public Frame() {
 
@@ -120,6 +123,9 @@ public class Frame extends Canvas
 
 	public void revise() {
 
+		mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
+		SwingUtilities.convertPointFromScreen(mouseLocation, this);
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (layout != null) {
@@ -157,6 +163,7 @@ public class Frame extends Canvas
 
 	public void setSize(Dimension size) {
 		frame.setSize(size);
+		frame.setLocationRelativeTo(null);
 	}
 
 	public JFrame getDisplayFrame() {
@@ -164,7 +171,8 @@ public class Frame extends Canvas
 	}
 
 	public Rectangle getFrameBounds() {
-		return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		return new Rectangle(frame.getContentPane().getX(), frame.getContentPane().getY(),
+				frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
 	}
 
 	public void debugLayout() {
@@ -244,9 +252,7 @@ public class Frame extends Canvas
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		for (GUIComponent child : children) {
-			if (child.getBounds().contains(arg0.getPoint())) {
-				child.mouseMoved(arg0);
-			}
+			child.mouseMoved(arg0);
 		}
 	}
 

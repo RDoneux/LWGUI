@@ -89,7 +89,7 @@ public class Button extends Component {
 
 		// clip the paint call to the size of the parent container
 		if (topLevelParent == null) {
-			g.setClip(parent.getBounds());
+			g.setClip(parent.getAnimationBounds());
 		} else {
 			g.setClip(topLevelParent.getBounds());
 		}
@@ -116,7 +116,7 @@ public class Button extends Component {
 
 		// draw the string in the centre of the button
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-		Maths.drawCentredString(g, text, getBounds());
+		Maths.drawCentredString(g, text, getAnimationBounds());
 
 		// reset the clip area
 		g.setClip(clipArea);

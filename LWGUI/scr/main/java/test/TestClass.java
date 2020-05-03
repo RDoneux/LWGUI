@@ -3,6 +3,7 @@ package test;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import animation.FlyIn;
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
@@ -26,9 +27,7 @@ public class TestClass {
 		basePanel.setGridx(0);
 		basePanel.setGridy(0);
 		basePanel.setGridHeight(4);
-		basePanel.setLayout(new PercentLayout(1,1));
-		
-		basePanel.add(new TestTextArea());
+		basePanel.setLayout(new PercentLayout(1, 1));
 
 		Panel centrePanel = new Panel();
 		centrePanel.setBackground(Color.BLUE);
@@ -38,7 +37,7 @@ public class TestClass {
 		centrePanel.setGridHeight(4);
 		centrePanel.setLayout(new PercentLayout(1, 1));
 
-		Panel intPanel = new Panel();
+		TestPanel intPanel = new TestPanel();
 		intPanel.setBackground(Color.MAGENTA);
 		intPanel.setGridx(0);
 		intPanel.setGridy(0);
@@ -77,10 +76,6 @@ public class TestClass {
 		rightPanel.setGridx(4);
 		rightPanel.setGridy(0);
 		rightPanel.setGridHeight(4);
-		rightPanel.setLayout(new PercentLayout(1, 1));
-
-		TestTextArea textArea = new TestTextArea();
-		rightPanel.add(textArea);
 
 		Panel bottomPanel = new Panel();
 		bottomPanel.setBackground(Color.YELLOW);
@@ -88,8 +83,8 @@ public class TestClass {
 		bottomPanel.setGridy(4);
 		bottomPanel.setGridWidth(5);
 		bottomPanel.setWeightX(0.5);
-		bottomPanel.setLayout(new PercentLayout(1,1));
-		
+		bottomPanel.setLayout(new PercentLayout(1, 1));
+
 		TestTextArea testArea = new TestTextArea();
 		bottomPanel.add(testArea);
 
@@ -126,20 +121,40 @@ public class TestClass {
 		Panel basePanel = new Panel();
 		basePanel.setLayout(new PercentLayout(1, 1));
 		basePanel.debugLayout();
-		
+
 		TestTextArea area = new TestTextArea();
-		//area.setWeightX(0.8);
-		//area.setWeightY(0.5);
+		// area.setWeightX(0.8);
+		// area.setWeightY(0.5);
 		area.setAlignmentX(alignment.CENTRE);
 		area.setAlignmentY(alignment.CENTRE);
 
 		basePanel.add(area);
-		
+
 		frame.add(basePanel);
 	}
 
+	public static void gameFrameSetup() {
+		Frame frame = new Frame();
+		frame.setSize(new Dimension(800, 600));
+		frame.setLayout(new PercentLayout(1, 5));
+		//frame.debugLayout();
+
+		Panel gameDisplayPanel = new Panel();
+		gameDisplayPanel.setGridHeight(4);
+
+		Panel writingPanel = new Panel();
+		writingPanel.setGridy(4);
+		writingPanel.setGridx(0);
+		writingPanel.setLayout(new PercentLayout(1, 1));
+
+		writingPanel.add(new TestTextArea());
+
+		frame.add(gameDisplayPanel);
+		frame.add(writingPanel);
+	}
+
 	public static void main(String args[]) {
-		writingSetup();
+		testSetup();
 	}
 
 }
