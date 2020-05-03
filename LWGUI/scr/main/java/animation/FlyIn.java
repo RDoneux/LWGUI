@@ -12,7 +12,7 @@ public class FlyIn extends Animation {
 	}
 
 	@Override
-	public void run() {
+	public  void run() {
 		// parent.setAnimationX(0);
 		// parent.setAnimationY(0);
 
@@ -22,13 +22,13 @@ public class FlyIn extends Animation {
 
 			if (parent.isLoaded()) {
 				if (!complete) {
-					System.out.println(parent.getAnimationX());
+					//System.out.println(parent.getAnimationX());
 					if (parent.getAnimationX() <= 0) {
 						if (constraint == animationConstraint.LEFT_TO_RIGHT) {
-							parent.setAnimationX(parent.getAnimationX() + 2);
+							parent.setAnimationX(parent.getAnimationX() + 1);
 						}
 						if (constraint == animationConstraint.RIGHT_TO_LEFT) {
-							parent.setAnimationX(parent.getAnimationX() - 2);
+							parent.setAnimationX(parent.getAnimationX() - 1);
 						}
 					} else {
 						complete = true;

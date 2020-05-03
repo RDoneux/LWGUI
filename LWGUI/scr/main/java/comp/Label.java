@@ -66,7 +66,7 @@ public class Label extends Component {
 
 		// clip the paint call to the size of the parent container
 		if (topLevelParent == null) {
-			g.setClip(parent.getBounds());
+			g.setClip(parent.getAnimationBounds());
 		} else {
 			g.setClip(topLevelParent.getBounds());
 		}

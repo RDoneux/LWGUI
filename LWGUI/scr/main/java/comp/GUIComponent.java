@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JFrame;
 
@@ -20,12 +21,13 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int y;
 	protected int width;
 	protected int height;
-	protected int id;
 
 	protected int animationX;
 	protected int animationY;
 	protected int animationWidth;
 	protected int animationHeight;
+
+	protected int id;
 
 	protected int gridx;
 	protected int gridy;
@@ -65,6 +67,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		gridWidth = 1;
 		gridHeight = 1;
 		transparency = 255;
+
 	}
 
 	public abstract void revise();
@@ -105,7 +108,8 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	// this is the desired display bounds of the component
 	public Rectangle getBounds() {
-		return new Rectangle(x - animationX, y - animationY, width - animationWidth, height - animationHeight);
+		return new Rectangle(x - animationX, y - animationY, width - animationWidth,
+				height - animationHeight);
 	}
 
 	// this is the actual display bounds of the component
@@ -133,7 +137,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public int getY() {
-		return y - animationY;
+		return y = - animationY;
 	}
 
 	public void setY(int y) {
@@ -186,11 +190,15 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public void setAnimationY(int animationY) {
-		this.animationY = animationY;
+		this.animationX = animationY;
 	}
 
 	public int getAnimationWidth() {
 		return animationWidth;
+	}
+
+	public synchronized void incrementAnimationX(int increment) {
+		animationX = animationX + increment;
 	}
 
 	public void setAnimationWidth(int animationWidth) {

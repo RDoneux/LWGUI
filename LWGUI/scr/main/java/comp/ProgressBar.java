@@ -47,7 +47,7 @@ public class ProgressBar extends Component {
 
 	@Override
 	public void revise() {
-		this.value = holdValue * width / max;
+		this.value = holdValue * width.get() / max;
 		if (displayProgress) {
 			text = String.valueOf(holdValue * 100 / max) + "%";
 			protectedText = String.valueOf(text);
@@ -59,15 +59,15 @@ public class ProgressBar extends Component {
 
 		// draw background
 		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+		g.fillRoundRect(x.get(), y.get(), width.get(), height.get(), roundEdge, roundEdge);
 
 		// draw foreground
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-		g.fillRoundRect(x, y, value, height, roundEdge, roundEdge);
+		g.fillRoundRect(x.get(), y.get(), value, height.get(), roundEdge, roundEdge);
 
 		// draw boarder
 		g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
-		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+		g.drawRoundRect(x.get(), y.get(), width.get(), height.get(), roundEdge, roundEdge);
 
 		if (displayText) {
 			if (scale) {

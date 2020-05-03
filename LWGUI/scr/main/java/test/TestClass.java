@@ -142,19 +142,20 @@ public class TestClass {
 		Panel gameDisplayPanel = new Panel();
 		gameDisplayPanel.setGridHeight(4);
 
-		Panel writingPanel = new Panel();
+		TestPanel writingPanel = new TestPanel();
 		writingPanel.setGridy(4);
 		writingPanel.setGridx(0);
 		writingPanel.setLayout(new PercentLayout(1, 1));
+		writingPanel.setBackground(Color.PINK);
 
-		writingPanel.add(new TestTextArea());
+		//writingPanel.add(new TestTextArea());
 
 		frame.add(gameDisplayPanel);
 		frame.add(writingPanel);
 	}
 
 	public static void main(String args[]) {
-		testSetup();
+		gameFrameSetup();
 	}
 
 }

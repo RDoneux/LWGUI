@@ -29,6 +29,9 @@ public class Panel extends Container {
 		if (layout != null) {
 			layout.updateLayout();
 		}
+		
+		System.out.println("visual X: " + x);
+
 	}
 
 	@Override

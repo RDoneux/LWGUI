@@ -80,8 +80,8 @@ public class Button extends Component {
 	public void paint(Graphics g) {
 
 		g.setFont(font);
-		width = g.getFontMetrics().stringWidth(text) + 50;
-		height = g.getFontMetrics().getHeight() + 10;
+		width.set(g.getFontMetrics().stringWidth(text) + 50);
+		height.set(g.getFontMetrics().getHeight() + 10);
 
 		// save the previous clip bounds so that it can be reset after this components
 		// clip bounds are set
@@ -100,18 +100,18 @@ public class Button extends Component {
 			// draw the shadow.
 			g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
 					transparency));
-			g.fillRoundRect(x + 3, y + 3, width, height, roundEdge + 3, roundEdge + 3);
+			g.fillRoundRect(x.get() + 3, y.get() + 3, width.get(), height.get(), roundEdge + 3, roundEdge + 3);
 
 			// draw the background
 			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+			g.fillRoundRect(x.get(), y.get(), width.get(), height.get(), roundEdge, roundEdge);
 
 			// draw the boarder
 			g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
-			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+			g.drawRoundRect(x.get(), y.get(), width.get(), height.get(), roundEdge, roundEdge);
 		} else {
 			// if an image has been set as the background, draw it under the text
-			g.drawImage(image, x, y, width, height, null);
+			g.drawImage(image, x.get(), y.get(), width.get(), height.get(), null);
 		}
 
 		// draw the string in the centre of the button
@@ -147,8 +147,8 @@ public class Button extends Component {
 		// the location. Also call user action method. This should be overridden in
 		// parent class
 		if (getBounds().contains(arg0.getPoint())) {
-			width -= 3;
-			height -= 3;
+			width.set(width.get()- 3);
+			height.set(height.get()- 3);
 			action();
 		}
 	}

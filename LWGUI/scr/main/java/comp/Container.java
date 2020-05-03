@@ -56,37 +56,37 @@ public abstract class Container extends GUIComponent {
 			throw new NullPointerException(name + " does not have a specified layout");
 		}
 	}
-	
+
 	@Override
 	public void setAnimationX(int x) {
-		this.animationX = x;
 		for (GUIComponent child : children) {
 			child.animationX = x;
 		}
+		this.animationX = x;
 	}
-	
+
 	@Override
 	public void setAnimationY(int y) {
-		this.animationY = y;
 		for (GUIComponent child : children) {
 			child.animationY = y;
 		}
+		this.animationY = y;
 	}
-	
+
 	@Override
 	public void setAnimationWidth(int width) {
-		this.animationWidth = width;
 		for (GUIComponent child : children) {
 			child.animationWidth = width;
 		}
+		this.animationWidth = width;
 	}
-	
+
 	@Override
 	public void setAnimationHeight(int height) {
-		this.animationHeight = height;
 		for (GUIComponent child : children) {
 			child.animationHeight = height;
 		}
+		this.animationHeight = height;
 	}
 
 }
