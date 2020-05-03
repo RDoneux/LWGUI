@@ -3,6 +3,7 @@ package comp;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -47,7 +48,7 @@ public class ProgressBar extends Component {
 
 	@Override
 	public void revise() {
-		this.value = holdValue * width.get() / max;
+		this.value = holdValue * width / max;
 		if (displayProgress) {
 			text = String.valueOf(holdValue * 100 / max) + "%";
 			protectedText = String.valueOf(text);
@@ -57,17 +58,20 @@ public class ProgressBar extends Component {
 	@Override
 	public void paint(Graphics g) {
 
+		Rectangle previousClip = g.getClipBounds();
+
+		g.setClip(parent.getAnimationBounds());
 		// draw background
 		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-		g.fillRoundRect(x.get(), y.get(), width.get(), height.get(), roundEdge, roundEdge);
+		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
 		// draw foreground
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-		g.fillRoundRect(x.get(), y.get(), value, height.get(), roundEdge, roundEdge);
+		g.fillRoundRect(x, y, value, height, roundEdge, roundEdge);
 
 		// draw boarder
 		g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
-		g.drawRoundRect(x.get(), y.get(), width.get(), height.get(), roundEdge, roundEdge);
+		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 
 		if (displayText) {
 			if (scale) {
@@ -82,6 +86,8 @@ public class ProgressBar extends Component {
 					255 - (background.getBlue() + foreground.getBlue()) / 2, transparency));
 			Maths.drawCentredString(g, text, getAnimationBounds());
 		}
+
+		g.setClip(previousClip);
 
 	}
 

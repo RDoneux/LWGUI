@@ -1,6 +1,6 @@
 package animation;
 
-import comp.GUIComponent;
+import animation.Animation.animationConstraint;
 
 public class FlyIn extends Animation {
 
@@ -12,38 +12,34 @@ public class FlyIn extends Animation {
 	}
 
 	@Override
-	public  void run() {
-		// parent.setAnimationX(0);
-		// parent.setAnimationY(0);
+	public void run() {
 
 		complete = false;
+		int refresh = 20;
 
 		while (running) {
-
 			if (parent.isLoaded()) {
-				if (!complete) {
-					//System.out.println(parent.getAnimationX());
-					if (parent.getAnimationX() <= 0) {
-						if (constraint == animationConstraint.LEFT_TO_RIGHT) {
-							parent.setAnimationX(parent.getAnimationX() + 1);
-						}
-						if (constraint == animationConstraint.RIGHT_TO_LEFT) {
-							parent.setAnimationX(parent.getAnimationX() - 1);
-						}
-					} else {
-						complete = true;
+				if (parent.getAnimationX() <= 0 && !complete) {
+					if (constraint == animationConstraint.LEFT_TO_RIGHT) {
+						parent.setAnimationX(parent.getAnimationX() + 80);
+					}
+					if (constraint == animationConstraint.RIGHT_TO_LEFT) {
+						parent.setAnimationX(parent.getAnimationX() - 80);
 					}
 				} else {
+					complete = true;
+					refresh = 20;
 					parent.setAnimationX(0);
 				}
 			}
-
+			
 			try {
-				Thread.sleep(1);
+				Thread.sleep(refresh);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	@Override

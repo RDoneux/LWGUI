@@ -37,7 +37,7 @@ public class TestClass {
 		centrePanel.setGridHeight(4);
 		centrePanel.setLayout(new PercentLayout(1, 1));
 
-		TestPanel intPanel = new TestPanel();
+		Panel intPanel = new Panel();
 		intPanel.setBackground(Color.MAGENTA);
 		intPanel.setGridx(0);
 		intPanel.setGridy(0);
@@ -71,7 +71,7 @@ public class TestClass {
 		intPanel.add(button);
 		centrePanel.add(intPanel);
 
-		Panel rightPanel = new Panel();
+		TestPanel rightPanel = new TestPanel();
 		rightPanel.setBackground(Color.RED);
 		rightPanel.setGridx(4);
 		rightPanel.setGridy(0);
@@ -85,7 +85,7 @@ public class TestClass {
 		bottomPanel.setWeightX(0.5);
 		bottomPanel.setLayout(new PercentLayout(1, 1));
 
-		TestTextArea testArea = new TestTextArea();
+		TextArea testArea = new TextArea();
 		bottomPanel.add(testArea);
 
 		Panel bottomRightPanel = new Panel();
@@ -136,9 +136,12 @@ public class TestClass {
 	public static void gameFrameSetup() {
 		Frame frame = new Frame();
 		frame.setSize(new Dimension(800, 600));
-		frame.setLayout(new PercentLayout(1, 5));
+		frame.setLayout(new PercentLayout(1, 1));
 		//frame.debugLayout();
 
+		Panel panel = new Panel();
+		panel.setLayout(new PercentLayout(1,5));
+		
 		Panel gameDisplayPanel = new Panel();
 		gameDisplayPanel.setGridHeight(4);
 
@@ -150,12 +153,14 @@ public class TestClass {
 
 		//writingPanel.add(new TestTextArea());
 
-		frame.add(gameDisplayPanel);
-		frame.add(writingPanel);
+		frame.add(panel);
+		
+		panel.add(gameDisplayPanel);
+		panel.add(writingPanel);
 	}
 
 	public static void main(String args[]) {
-		gameFrameSetup();
+		testSetup();
 	}
 
 }

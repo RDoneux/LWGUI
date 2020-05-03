@@ -29,8 +29,6 @@ public class Panel extends Container {
 		if (layout != null) {
 			layout.updateLayout();
 		}
-		
-		System.out.println("visual X: " + x);
 
 	}
 
@@ -91,9 +89,7 @@ public class Panel extends Container {
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		for (GUIComponent child : children) {
-			if (child.getBounds().contains(arg0.getPoint())) {
-				child.mouseExited(arg0);
-			}
+			child.mouseExited(arg0);
 		}
 	}
 

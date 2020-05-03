@@ -26,4 +26,9 @@ public class TestPanel extends Panel {
 		}
 	}
 	
+	@Override
+	public void mouseExited(MouseEvent e) {
+		mouseMoved(e);
+	}
+	
 }

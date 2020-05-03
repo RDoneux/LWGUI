@@ -17,7 +17,7 @@ import tools.Maths;
 
 public abstract class GUIComponent implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
-	protected int x;
+	protected volatile int x;
 	protected int y;
 	protected int width;
 	protected int height;
@@ -67,7 +67,6 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		gridWidth = 1;
 		gridHeight = 1;
 		transparency = 255;
-
 	}
 
 	public abstract void revise();
@@ -108,8 +107,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	// this is the desired display bounds of the component
 	public Rectangle getBounds() {
-		return new Rectangle(x - animationX, y - animationY, width - animationWidth,
-				height - animationHeight);
+		return new Rectangle(x - animationX, y - animationY, width - animationWidth, height - animationHeight);
 	}
 
 	// this is the actual display bounds of the component
@@ -137,7 +135,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public int getY() {
-		return y = - animationY;
+		return y = -animationY;
 	}
 
 	public void setY(int y) {
@@ -190,7 +188,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public void setAnimationY(int animationY) {
-		this.animationX = animationY;
+		this.animationY = animationY;
 	}
 
 	public int getAnimationWidth() {
@@ -198,7 +196,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public synchronized void incrementAnimationX(int increment) {
-		animationX = animationX + increment;
+		this.animationX = increment;
+	}
+
+	public synchronized void incrementAnimationY(int increment) {
+		this.animationY += increment;
 	}
 
 	public void setAnimationWidth(int animationWidth) {

@@ -13,42 +13,37 @@ public class FlyOut extends Animation {
 	public void run() {
 
 		complete = false;
-		int counter = 0;
+		int refresh = 20;
+
 		while (running) {
-			counter ++;
+			if (parent.isLoaded()) {
+				if (parent.getAnimationX() >= -(parent.getX() + parent.getWidth()) && !complete) {
+					if (constraint == animationConstraint.LEFT_TO_RIGHT) {
+						parent.setAnimationX(parent.getAnimationX() + 80);
+					}
+					if (constraint == animationConstraint.RIGHT_TO_LEFT) {
+						parent.setAnimationX(parent.getAnimationX() - 80);
+					}
+				} else {
+					complete = true;
+					refresh = 20;
+					parent.setAnimationX(-(parent.getX() + parent.getWidth()));
+				}
+				System.out.println(parent.getVisualX());
+
+			}
+
 			try {
-				Thread.sleep(1);
+				Thread.sleep(refresh);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-						
-			if (parent.isLoaded()) {
-				if (!complete) {
-					if ((-parent.getAnimationX() < (parent.getX() + parent.getWidth()))) {
-
-						if (constraint == animationConstraint.LEFT_TO_RIGHT) {
-							parent.incrementAnimationX(-1);
-						}
-						if (constraint == animationConstraint.RIGHT_TO_LEFT) {
-							parent.incrementAnimationX(-1);
-						}
-
-					} else {
-						complete = true;
-					}
-				} else {
-						parent.setAnimationX(-(parent.getX() + parent.getWidth()));
-					}
-				}
-			
-			
-
-
-
 		}
 
+
 	}
+
+	
 
 	@Override
 	public void excecute() {

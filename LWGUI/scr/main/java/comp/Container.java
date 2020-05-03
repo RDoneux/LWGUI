@@ -74,6 +74,22 @@ public abstract class Container extends GUIComponent {
 	}
 
 	@Override
+	public void incrementAnimationX(int x) {
+		for (GUIComponent child : children) {
+			child.incrementAnimationX(x);
+		}
+		this.animationX += x;
+	}
+
+	@Override
+	public void incrementAnimationY(int y) {
+		for (GUIComponent child : children) {
+			child.incrementAnimationY(y);
+		}
+		this.animationY += y;
+	}
+
+	@Override
 	public void setAnimationWidth(int width) {
 		for (GUIComponent child : children) {
 			child.animationWidth = width;
