@@ -89,7 +89,7 @@ public class Button extends Component {
 
 		// clip the paint call to the size of the parent container
 		if (topLevelParent == null) {
-			g.setClip(parent.getAnimationBounds());
+			g.setClip(parent.getBounds());
 		} else {
 			g.setClip(topLevelParent.getBounds());
 		}

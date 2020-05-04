@@ -1,6 +1,7 @@
 package comp;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
@@ -19,10 +20,10 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	protected volatile int x;
 	protected int y;
-	protected int width;
+	protected volatile int width;
 	protected int height;
 
-	protected int animationX;
+	protected volatile int animationX;
 	protected int animationY;
 	protected int animationWidth;
 	protected int animationHeight;
@@ -42,7 +43,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected String name;
 
 	protected GUIComponent parent;
-	protected JFrame topLevelParent;
+	protected Frame topLevelParent;
 
 	protected alignment alignmentX;
 	protected alignment alignmentY;
@@ -83,8 +84,10 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	 * 
 	 * @param animation
 	 */
-	public void queAnimation(Animation animation) {
+	public  void queAnimation(Animation animation) {
 
+		//System.out.println(parent);
+		
 		// if the animation hasn't been set yet, create a new animation and start the
 		// animation loop
 		if (currentAnimation == null) {
@@ -104,6 +107,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 			currentAnimation.start();
 		}
 	}
+	
+	public  void stopAnimation() {
+		if(currentAnimation != null) {
+			currentAnimation.stop();
+		}
+	}
 
 	// this is the desired display bounds of the component
 	public Rectangle getBounds() {
@@ -120,22 +129,22 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.height = size.height;
 	}
 
-	public void setLocation(int x, int y) {
+	public synchronized void setLocation(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public int getX() {
+	public synchronized int getX() {
 		return x - animationX;
 	}
 
-	public void setX(int x) {
+	public synchronized void setX(int x) {
 		this.x = x + animationX;
 		this.loaded = true;
 	}
 
 	public int getY() {
-		return y = -animationY;
+		return y - animationY;
 	}
 
 	public void setY(int y) {
@@ -143,11 +152,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.loaded = true;
 	}
 
-	public int getWidth() {
+	public synchronized int getWidth() {
 		return width - animationWidth;
 	}
 
-	public void setWidth(int width) {
+	public synchronized void setWidth(int width) {
 		this.width = width + animationWidth;
 	}
 
@@ -175,12 +184,13 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		return height;
 	}
 
-	public int getAnimationX() {
+	public synchronized int getAnimationX() {
 		return animationX;
 	}
 
-	public void setAnimationX(int animationX) {
+	public synchronized void setAnimationX(int animationX) {
 		this.animationX = animationX;
+		
 	}
 
 	public int getAnimationY() {
@@ -222,12 +232,16 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public GUIComponent getParent() {
 		return parent;
 	}
+	
+	public Frame getTopLevelParent() {
+		return topLevelParent;
+	}
 
 	public void setParent(GUIComponent parent) {
 		this.parent = parent;
 	}
 
-	public void setParent(JFrame topLevelParent) {
+	public void setParent(Frame topLevelParent) {
 		this.topLevelParent = topLevelParent;
 	}
 
@@ -355,6 +369,14 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public boolean isLoaded() {
 		return loaded;
+	}
+
+	public Animation getCurrentAnimation() {
+		return currentAnimation;
+	}
+
+	public void setCurrentAnimation(Animation currentAnimation) {
+		this.currentAnimation = currentAnimation;
 	}
 
 }

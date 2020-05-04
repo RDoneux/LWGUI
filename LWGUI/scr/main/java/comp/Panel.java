@@ -21,7 +21,7 @@ public class Panel extends Container {
 
 	@Override
 	public void revise() {
-
+		
 		for (GUIComponent child : children) {
 			child.revise();
 		}
@@ -35,12 +35,24 @@ public class Panel extends Container {
 	@Override
 	public void paint(Graphics g) {
 
+		Rectangle previousClip = g.getClipBounds();
+		
+
+		// clip the paint call to the size of the parent container
+		if (topLevelParent == null) {
+			g.setClip(parent.getBounds());
+		} else {
+			g.setClip(topLevelParent.getBounds());
+		}	
+		
 		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 		g.fillRect(x, y, width, height);
-
+		
 		for (GUIComponent child : children) {
 			child.paint(g);
 		}
+		
+		g.setClip(previousClip);
 
 		if (layout != null) {
 			if (layout.isDebugging()) {

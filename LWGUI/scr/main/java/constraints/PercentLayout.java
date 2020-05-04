@@ -50,7 +50,7 @@ public class PercentLayout extends Layout {
 	public void updateLayout() {
 
 		if (topLevelContainer != null) {
-			layout(topLevelContainer.getFrameBounds(), topLevelContainer.getChildren());
+			layout(topLevelContainer.getBounds(), topLevelContainer.getChildren());
 		} else {
 			layout(container.getBounds(), container.getChildren());
 		}

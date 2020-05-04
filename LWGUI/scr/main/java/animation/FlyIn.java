@@ -16,19 +16,24 @@ public class FlyIn extends Animation {
 
 		complete = false;
 		int refresh = 20;
+		
+		if(parent.getParent() != null && parent.getParent().getCurrentAnimation() != null) {
+			//parent.setCurrentAnimation(null);
+			//return;
+		}
 
 		while (running) {
 			if (parent.isLoaded()) {
-				if (parent.getAnimationX() <= 0 && !complete) {
+				if (parent.getAnimationX() < 0 && !complete) {
 					if (constraint == animationConstraint.LEFT_TO_RIGHT) {
-						parent.setAnimationX(parent.getAnimationX() + 80);
+						parent.setAnimationX(parent.getAnimationX() + 20);
 					}
 					if (constraint == animationConstraint.RIGHT_TO_LEFT) {
-						parent.setAnimationX(parent.getAnimationX() - 80);
+						parent.setAnimationX(parent.getAnimationX() - 20);
 					}
 				} else {
 					complete = true;
-					refresh = 20;
+					refresh = 50;
 					parent.setAnimationX(0);
 				}
 			}

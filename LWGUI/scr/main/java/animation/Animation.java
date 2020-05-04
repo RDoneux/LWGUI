@@ -12,6 +12,8 @@ public abstract class Animation implements Runnable {
 	protected animationType type;
 	
 	protected boolean complete;
+	
+	protected GUIComponent parent;
 
 	public enum animationConstraint {
 		LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP;
@@ -25,7 +27,6 @@ public abstract class Animation implements Runnable {
 		ID = IDGenerator.generateID();
 	}
 
-	protected GUIComponent parent;
 
 	public abstract void excecute();
 

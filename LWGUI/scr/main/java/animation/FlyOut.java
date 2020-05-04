@@ -15,24 +15,27 @@ public class FlyOut extends Animation {
 		complete = false;
 		int refresh = 20;
 
+		if(parent.getParent() != null && parent.getParent().getCurrentAnimation() != null) {
+			//parent.setCurrentAnimation(null);
+			//return;
+		}
+		
 		while (running) {
 			if (parent.isLoaded()) {
-				if (parent.getAnimationX() >= -(parent.getX() + parent.getWidth()) && !complete) {
+
+				if (parent.getAnimationX() > -(parent.getX() + parent.getWidth()) && !complete) {
 					if (constraint == animationConstraint.LEFT_TO_RIGHT) {
-						parent.setAnimationX(parent.getAnimationX() + 80);
+						parent.setAnimationX(parent.getAnimationX() + 20);
 					}
 					if (constraint == animationConstraint.RIGHT_TO_LEFT) {
-						parent.setAnimationX(parent.getAnimationX() - 80);
+						parent.setAnimationX(parent.getAnimationX() - 20);
 					}
 				} else {
 					complete = true;
-					refresh = 20;
+					refresh = 50;
 					parent.setAnimationX(-(parent.getX() + parent.getWidth()));
 				}
-				System.out.println(parent.getVisualX());
-
 			}
-
 			try {
 				Thread.sleep(refresh);
 			} catch (InterruptedException e) {
@@ -40,10 +43,7 @@ public class FlyOut extends Animation {
 			}
 		}
 
-
 	}
-
-	
 
 	@Override
 	public void excecute() {

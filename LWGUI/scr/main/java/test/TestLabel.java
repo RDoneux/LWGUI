@@ -4,12 +4,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 
+import animation.FlyIn;
+import animation.FlyOut;
+import animation.Animation.animationConstraint;
 import comp.Label;
 
 public class TestLabel extends Label{
 
 	public TestLabel(String text) {
 		super(text);
+		setFont(new Font("Lucia Console", Font.BOLD,25));
+		queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
 	}
 	
 	@Override
@@ -18,6 +23,11 @@ public class TestLabel extends Label{
 			foreground = Color.BLUE;
 		}else {
 			foreground = Color.BLACK;
+		}
+		if (getBounds().contains(e.getPoint())) {
+			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
+		} else {
+			queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
 		}
 	}
 	

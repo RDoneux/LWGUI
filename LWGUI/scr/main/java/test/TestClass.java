@@ -20,16 +20,22 @@ public class TestClass {
 
 		Frame frame = new Frame();
 		frame.setSize(new Dimension(600, 400));
-		frame.setLayout(layout);
+		frame.setLayout(new PercentLayout(1,1));
+		
+		Panel veryBottomPanel = new Panel();
+		veryBottomPanel.setLayout(layout);
+		veryBottomPanel.setBackground(Color.MAGENTA);
 
-		Panel basePanel = new Panel();
+		frame.add(veryBottomPanel);
+		
+		TestPanel basePanel = new TestPanel();
 		basePanel.setBackground(Color.GREEN);
 		basePanel.setGridx(0);
 		basePanel.setGridy(0);
 		basePanel.setGridHeight(4);
 		basePanel.setLayout(new PercentLayout(1, 1));
 
-		Panel centrePanel = new Panel();
+		TestPanel centrePanel = new TestPanel();
 		centrePanel.setBackground(Color.BLUE);
 		centrePanel.setGridx(1);
 		centrePanel.setGridy(0);
@@ -37,11 +43,11 @@ public class TestClass {
 		centrePanel.setGridHeight(4);
 		centrePanel.setLayout(new PercentLayout(1, 1));
 
-		Panel intPanel = new Panel();
-		intPanel.setBackground(Color.MAGENTA);
+		TestPanel intPanel = new TestPanel();
+		intPanel.setBackground(Color.darkGray);
 		intPanel.setGridx(0);
 		intPanel.setGridy(0);
-		intPanel.setWeightX(0.9);
+		intPanel.setWeightX(1);
 		intPanel.setWeightY(0.5);
 		intPanel.setAlignmentX(alignment.CENTRE);
 		intPanel.setAlignmentY(alignment.CENTRE);
@@ -77,7 +83,7 @@ public class TestClass {
 		rightPanel.setGridy(0);
 		rightPanel.setGridHeight(4);
 
-		Panel bottomPanel = new Panel();
+		TestPanel bottomPanel = new TestPanel();
 		bottomPanel.setBackground(Color.YELLOW);
 		bottomPanel.setGridx(0);
 		bottomPanel.setGridy(4);
@@ -97,11 +103,11 @@ public class TestClass {
 		bottomRightPanel.setWeightX(0.5);
 		bottomRightPanel.setLayout(new PercentLayout(1, 1));
 
-		frame.add(basePanel);
-		frame.add(centrePanel);
-		frame.add(rightPanel);
-		frame.add(bottomPanel);
-		frame.add(bottomRightPanel);
+		veryBottomPanel.add(basePanel);
+		veryBottomPanel.add(centrePanel);
+		veryBottomPanel.add(rightPanel);
+		veryBottomPanel.add(bottomPanel);
+		veryBottomPanel.add(bottomRightPanel);
 
 		for (int i = 0; i <= 53; i++) {
 			bar.updateValue(i, 53);
@@ -148,7 +154,7 @@ public class TestClass {
 		TestPanel writingPanel = new TestPanel();
 		writingPanel.setGridy(4);
 		writingPanel.setGridx(0);
-		writingPanel.setLayout(new PercentLayout(1, 1));
+		//writingPanel.setLayout(new PercentLayout(1, 1));
 		writingPanel.setBackground(Color.PINK);
 
 		//writingPanel.add(new TestTextArea());

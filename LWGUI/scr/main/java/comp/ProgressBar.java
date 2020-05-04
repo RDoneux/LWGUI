@@ -59,9 +59,8 @@ public class ProgressBar extends Component {
 	public void paint(Graphics g) {
 
 		Rectangle previousClip = g.getClipBounds();
-
-		g.setClip(parent.getAnimationBounds());
-		// draw background
+		//g.setClip(parent.getBounds());
+	// draw background
 		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 

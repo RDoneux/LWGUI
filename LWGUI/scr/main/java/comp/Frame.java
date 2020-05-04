@@ -95,7 +95,7 @@ public class Frame extends Canvas
 		}
 	}
 
-	public void paint() {
+	public synchronized void paint() {
 
 		BufferStrategy bs = this.getBufferStrategy();
 
@@ -103,10 +103,12 @@ public class Frame extends Canvas
 			this.createBufferStrategy(2);
 			return;
 		}
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
+		//SwingUtilities.invokeLater(new Runnable() {
+			//public void run() {
 				Graphics g = bs.getDrawGraphics();
 
+				g.fillRect(0, 0, getWidth(), getHeight());
+				
 				for (GUIComponent child : children) {
 					child.paint(g);
 				}
@@ -114,27 +116,26 @@ public class Frame extends Canvas
 				if (layout.isDebugging()) {
 					layout.debug(g);
 				}
-
 				bs.show();
 				g.dispose();
-			}
-		});
+			//}
+		//});
 	}
 
 	private boolean inside;
 
-	public void revise() {
+	public synchronized void revise() {
 
 		// identify if the mouse has left the Frame
 		mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
 		SwingUtilities.convertPointFromScreen(mouseLocation, this);
 		if (!getBounds().contains(mouseLocation) && inside) {
-			mouseExited(new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), 0, 0, mouseLocation.x,
-					mouseLocation.y, false));
+			//mouseExited(new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), 0, 0, mouseLocation.x,
+					//mouseLocation.y, false));
 			inside = false;
 		} else if (getBounds().contains(mouseLocation) && !inside) {
-			mouseEntered(new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), 0, 0,
-					mouseLocation.x, mouseLocation.y, false));
+			//mouseEntered(new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), 0, 0,
+					//mouseLocation.x, mouseLocation.y, false));
 			inside = true;
 		}
 
@@ -152,7 +153,7 @@ public class Frame extends Canvas
 	}
 
 	public void add(GUIComponent child) {
-		child.setParent(frame);
+		child.setParent(this);
 		children.add(child);
 	}
 
@@ -182,7 +183,7 @@ public class Frame extends Canvas
 		return frame;
 	}
 
-	public Rectangle getFrameBounds() {
+	public Rectangle getBounds() {
 		return new Rectangle(frame.getContentPane().getX(), frame.getContentPane().getY(),
 				frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
 	}
@@ -262,7 +263,7 @@ public class Frame extends Canvas
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public synchronized void mouseMoved(MouseEvent arg0) {
 		for (GUIComponent child : children) {
 			child.mouseMoved(arg0);
 		}
@@ -276,7 +277,7 @@ public class Frame extends Canvas
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public synchronized void mouseEntered(MouseEvent arg0) {
 		for (GUIComponent child : children) {
 			if (child.getBounds().contains(arg0.getPoint())) {
 				child.mouseEntered(arg0);

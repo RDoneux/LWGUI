@@ -13,22 +13,22 @@ public class TestPanel extends Panel {
 	public TestPanel() {
 		queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
 	}
-	
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		for(GUIComponent child: children) {
+		for (GUIComponent child : children) {
 			child.mouseMoved(e);
 		}
-		if(getBounds().contains(e.getPoint())) {
+		if (getBounds().contains(e.getPoint())) {
 			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
 		} else {
 			queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
 		}
 	}
-	
+
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseMoved(e);
 	}
-	
+
 }
