@@ -23,7 +23,7 @@ public class FlyOut extends Animation {
 		while (running) {
 			if (parent.isLoaded()) {
 
-				if (parent.getAnimationX() > -(parent.getX() + parent.getWidth()) && !complete) {
+				if (parent.getAnimationX() > -(parent.getParent().getX() + parent.getParent().getWidth()) && !complete) {
 					if (constraint == animationConstraint.LEFT_TO_RIGHT) {
 						parent.setAnimationX(parent.getAnimationX() + 20);
 					}
@@ -33,7 +33,7 @@ public class FlyOut extends Animation {
 				} else {
 					complete = true;
 					refresh = 50;
-					parent.setAnimationX(-(parent.getX() + parent.getWidth()));
+					parent.setAnimationX(-(parent.getParent().getX() + parent.getParent().getWidth()));
 				}
 			}
 			try {

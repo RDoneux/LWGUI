@@ -34,11 +34,12 @@ public class TestTextArea extends TextArea {
 		if (getBounds().contains(e.getPoint())) {
 			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
 		} else {
-			queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+			if (!isFocused()) {
+				queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+			}
 		}
-
 	}
-	
+
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseMoved(e);

@@ -144,7 +144,9 @@ public class PercentLayout extends Layout {
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < columns; i++) {
 			for (int h = 0; h < rows; h++) {
+				if(tiles[i][h]!= null) {
 				tiles[i][h].showGrid(g);
+				}
 			}
 		}
 	}

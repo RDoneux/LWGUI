@@ -36,7 +36,7 @@ public class Frame extends Canvas
 	private Thread thread;
 
 	private ArrayList<GUIComponent> children = new ArrayList<>();
-
+	
 	public static Point mouseLocation;
 
 	public Frame() {
@@ -188,18 +188,40 @@ public class Frame extends Canvas
 				frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
 	}
 
+
 	public void debugLayout() {
 		layout.setDebugging(true);
 	}
+	
+	public double getTargetUPS() {
+		return targetUPS;
+	}
 
+	public void setTargetUPS(double targetUPS) {
+		this.targetUPS = targetUPS;
+		us = 1000000000 / targetUPS;
+	}
+
+	public double getTargetFPS() {
+		return targetFPS;
+	}
+
+	public void setTargetFPS(double targetFPS) {
+		this.targetFPS = targetFPS;
+		fs = 1000000000 / targetFPS;
+	}
+
+	private double targetUPS = 30;
+	private double targetFPS = 30;
+	private double us;
+	private double fs;
+	
 	@Override
 	public void run() {
 
 		long lastTime = System.nanoTime();
-		double targetUPS = 30.0;
-		double us = 1000000000 / targetUPS;
-		double targetFPS = 30.0;
-		double fs = 1000000000 / targetFPS;
+		us = 1000000000 / targetUPS;
+		fs = 1000000000 / targetFPS;
 		double deltaUpdates = 0;
 		double deltaFrames = 0;
 		int frames = 0;

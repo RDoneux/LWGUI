@@ -256,7 +256,7 @@ public class TextArea extends Component {
 		this.g = g;
 
 		Rectangle clipBounds = g.getClipBounds();
-		g.setClip(getBounds());
+		g.setClip(parent.getBounds());
 
 		g.setColor(shadow);
 		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
@@ -268,8 +268,13 @@ public class TextArea extends Component {
 			g.drawImage(backgroundImage, x, y, width, height, null);
 		}
 
-		g.setFont(font);
-		wrapString(g);
+		// at start up the protectedText variable may not be set so ensure that it is
+		// larger than 0 before wrapping the string. Also check to ensure that the
+		// bounds for the component has been set and that it's higher than 0.
+		if (protectedText.length() > 0 && getBounds().width > 0) {
+			g.setFont(font);
+			wrapString(g);
+		}
 
 		g.setColor(boarder);
 		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
@@ -280,6 +285,10 @@ public class TextArea extends Component {
 		}
 
 		g.setClip(clipBounds);
+	}
+
+	public boolean isFocused() {
+		return focused;
 	}
 
 	@Override
