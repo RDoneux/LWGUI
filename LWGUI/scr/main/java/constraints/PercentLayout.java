@@ -80,17 +80,27 @@ public class PercentLayout extends Layout {
 
 		// find the highest x and y grid locations of all the children
 		for (GUIComponent child : children) {
-			
+
 			// ensure that the child's grid value is within the managers grid range
 			if (child.getGridx() >= columns) {
 				throw new IllegalArgumentException("GUIComponent: " + child.getName()
 						+ " has a gridX value outside of Layout Managers range. Current range = " + columns
 						+ " Current value = " + child.getGridx());
 			}
+			if (child.getGridWidth() > columns) {
+				throw new IllegalArgumentException("GUIComponent: " + child.getName()
+						+ " has a gridWidth value outside of Layout Managers range. Current range = " + columns
+						+ " Current value = " + child.getGridWidth());
+			}
 			if (child.getGridy() >= rows) {
 				throw new IllegalArgumentException("GUIComponent: " + child.getName()
 						+ " has a gridY value outside of Layout Managers range. Current range = " + rows
 						+ " Current value = " + child.getGridy());
+			}
+			if (child.getGridHeight() > rows) {
+				throw new IllegalArgumentException("GUIComponent: " + child.getName()
+						+ " has a gridHeight value outside of Layout Managers range. Current range = " + rows
+						+ " Current value = " + child.getGridHeight());
 			}
 
 			Tile targetTile = tiles[child.getGridx()][child.getGridy()];
@@ -144,8 +154,8 @@ public class PercentLayout extends Layout {
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < columns; i++) {
 			for (int h = 0; h < rows; h++) {
-				if(tiles[i][h]!= null) {
-				tiles[i][h].showGrid(g);
+				if (tiles[i][h] != null) {
+					tiles[i][h].showGrid(g);
 				}
 			}
 		}

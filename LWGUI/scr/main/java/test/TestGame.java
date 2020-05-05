@@ -11,11 +11,13 @@ import comp.GUIComponent;
 
 public class TestGame extends GUIComponent {
 
-	private int ballX = 0;
-	private int ballY = 0;
-	private int ballVelX = 5;
-	private int ballVelY = 5;
-	
+	private double ballX = 10;
+	private double ballY = 10;
+	private double ballVelX = 1.5;
+	private double ballVelY = 0.5;
+	private double ballSize = 20;
+	private double gravity = 0.5;
+
 	public TestGame(Frame frame) {
 		setSizeEditable(true);
 	}
@@ -23,33 +25,39 @@ public class TestGame extends GUIComponent {
 	@Override
 	public void revise() {
 
-		ballX += ballVelX;
-		ballY += ballVelY;
+		ballVelY -= gravity;
+
+		ballX -= ballVelX;
+		ballY -= ballVelY;
 		
-		if(ballX < 0) {
+		
+		//ballY -= gravity;
+
+		if (ballX < 0) {
 			ballVelX *= -1;
 		}
-		if(ballY < 0) {
+		if (ballY < 0) {
 			ballVelY *= -1;
 		}
-		if(ballX > width - 5) {
+		if (ballX > width - ballSize) {
 			ballVelX *= -1;
 		}
-		if(ballY > height - 5) {
+		if (ballY > height - ballSize) {
+			ballY -= gravity;
 			ballVelY *= -1;
 		}
-		
+
 	}
 
 	@Override
 	public void paint(Graphics g) {
 
-		g.setColor(Color.green);
+		g.setColor(Color.BLACK);
 		g.fillRect(x, y, width, height);
-		
+
 		g.setColor(Color.WHITE);
-		g.fillOval(ballX, ballY, 5, 5);
-			
+		g.fillOval((int) ballX, (int) ballY, (int) ballSize, (int) ballSize);
+
 	}
 
 	@Override

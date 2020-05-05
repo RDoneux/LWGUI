@@ -16,6 +16,7 @@ public class TestPanel extends Panel {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		System.out.println(x + " ~ " + y);
 		for (GUIComponent child : children) {
 			child.mouseMoved(e);
 		}

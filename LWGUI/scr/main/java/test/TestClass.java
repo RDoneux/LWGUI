@@ -3,13 +3,11 @@ package test;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import animation.FlyIn;
+import comp.Button;
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
-import comp.ScrollPanel;
-import comp.TextArea;
 import constraints.PercentLayout;
 
 public class TestClass {
@@ -149,7 +147,6 @@ public class TestClass {
 
 		Panel panel = new Panel();
 		panel.setLayout(new PercentLayout(4,5));
-		panel.debugLayout();
 		
 		Panel gameDisplayPanel = new Panel();
 		gameDisplayPanel.setGridHeight(5);
@@ -160,29 +157,56 @@ public class TestClass {
 
 		TestPanel writingPanel = new TestPanel();
 		writingPanel.setGridy(4);
-		writingPanel.setGridx(0);
-		writingPanel.setGridWidth(5);
-		writingPanel.setTransparency(125);
-		//writingPanel.setLayout(new PercentLayout(1, 1));
+		writingPanel.setGridWidth(4);
 		writingPanel.setBackground(Color.PINK);
 
 		TestPanel menu = new TestPanel();
 		menu.setGridHeight(5);
-		menu.setGridWidth(1);
-		menu.setBackground(Color.BLUE);
-		menu.setTransparency(125);
+		menu.setBackground(Color.pink);
+		menu.setLayout(new PercentLayout(1,5));
+		
+		Button button0 = new Button("Start Game");
+		button0.setAlignmentX(alignment.CENTRE);
+		button0.setAlignmentY(alignment.CENTRE);
+		Button button1 = new Button("Settings");
+		button1.setGridy(1);
+		button1.setAlignmentX(alignment.CENTRE);
+		button1.setAlignmentY(alignment.CENTRE);
+		Button button2 = new Button("Exit");
+		button2.setGridy(2);
+		button2.setAlignmentX(alignment.CENTRE);
+		button2.setAlignmentY(alignment.CENTRE);
+		Button button3 = new Button("Do Something Else");
+		button3.setGridy(3);
+		button3.setAlignmentX(alignment.CENTRE);
+		button3.setAlignmentY(alignment.CENTRE);
+		Button button4 = new Button("Quit");
+		button4.setGridy(4);
+		button4.setAlignmentX(alignment.CENTRE);
+		button4.setAlignmentY(alignment.CENTRE);
+		
+		menu.add(button0);
+		menu.add(button1);
+		menu.add(button2);
+		menu.add(button3);
+		menu.add(button4);
+
+
+		
+		
 		//writingPanel.add(new TestTextArea());
 		
 		panel.add(gameDisplayPanel);
 		panel.add(writingPanel);
 		panel.add(menu);
+
 		
 		frame.add(panel);
 
 	}
 
 	public static void main(String args[]) {
-		testSetup();
+		gameFrameSetup();
 	}
 
 }
