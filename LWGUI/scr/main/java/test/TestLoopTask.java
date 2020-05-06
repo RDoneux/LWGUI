@@ -6,7 +6,7 @@ public class TestLoopTask extends CustomLoopTask {
 
 	public TestLoopTask() {
 		setName("Packets");
-		setTargetCallsPerSecond(5.0);
+		setTargetCallsPerSecond(1.0);
 	}
 
 	@Override

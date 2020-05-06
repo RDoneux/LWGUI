@@ -15,14 +15,14 @@ import tools.Maths;
 public abstract class GUIComponent implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
 	protected volatile int x;
-	protected int y;
+	protected volatile int y;
 	protected volatile int width;
-	protected int height;
+	protected volatile int height;
 
 	protected volatile int animationX;
-	protected int animationY;
-	protected int animationWidth;
-	protected int animationHeight;
+	protected volatile int animationY;
+	protected volatile int animationWidth;
+	protected volatile int animationHeight;
 
 	protected int id;
 
@@ -139,11 +139,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.loaded = true;
 	}
 
-	public int getY() {
+	public synchronized int getY() {
 		return y - animationY;
 	}
 
-	public void setY(int y) {
+	public synchronized void setY(int y) {
 		this.y = y + animationY;
 		this.loaded = true;
 	}
@@ -156,11 +156,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.width = width + animationWidth;
 	}
 
-	public int getHeight() {
+	public synchronized int getHeight() {
 		return height - animationHeight;
 	}
 
-	public void setHeight(int height) {
+	public synchronized void setHeight(int height) {
 		this.height = height + animationHeight;
 	}
 
@@ -189,11 +189,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		
 	}
 
-	public int getAnimationY() {
+	public synchronized int getAnimationY() {
 		return animationY;
 	}
 
-	public void setAnimationY(int animationY) {
+	public synchronized void setAnimationY(int animationY) {
 		this.animationY = animationY;
 	}
 
@@ -202,7 +202,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	}
 
 	public synchronized void incrementAnimationX(int increment) {
-		this.animationX = increment;
+		this.animationX += increment;
 	}
 
 	public synchronized void incrementAnimationY(int increment) {

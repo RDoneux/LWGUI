@@ -20,7 +20,7 @@ public class TestPanel extends Panel {
 			child.mouseMoved(e);
 		}
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
+			queAnimation(new FlyIn());
 		} else {
 			queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
 		}

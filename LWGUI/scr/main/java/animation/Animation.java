@@ -27,9 +27,6 @@ public abstract class Animation implements Runnable {
 		ID = IDGenerator.generateID();
 	}
 
-
-	public abstract void excecute();
-
 	public synchronized void start() {
 		thread = new Thread(this);
 		running = true;

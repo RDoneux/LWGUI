@@ -30,7 +30,7 @@ public class TestTextArea extends TextArea {
 	public void mouseMoved(MouseEvent e) {
 
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
+			queAnimation(new FlyIn());
 		} else {
 			if (!isFocused()) {
 				queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));

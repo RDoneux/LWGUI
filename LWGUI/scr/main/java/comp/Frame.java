@@ -22,6 +22,16 @@ import javax.swing.SwingUtilities;
 import constraints.Layout;
 import tools.CustomLoopTask;
 
+/**
+ * 
+ * Top level container for all GUIComponents. Requires a {@link Layout} manager
+ * to position components.
+ * 
+ * @author Robert Doneux
+ * @version 0.1
+ *
+ */
+
 public class Frame extends Canvas
 		implements Runnable, MouseWheelListener, MouseListener, MouseMotionListener, KeyListener {
 
@@ -231,6 +241,9 @@ public class Frame extends Canvas
 	private double us;
 	private double fs;
 
+	/**
+	 * Animation loop
+	 */
 	@Override
 	public void run() {
 

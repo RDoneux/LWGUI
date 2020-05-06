@@ -21,13 +21,13 @@ public class TestClass {
 		frame.setSize(new Dimension(600, 400));
 		frame.setLayout(new PercentLayout(1,1));
 		
-		Panel veryBottomPanel = new Panel();
+		TestPanel veryBottomPanel = new TestPanel();
 		veryBottomPanel.setLayout(layout);
 		veryBottomPanel.setBackground(Color.MAGENTA);
 
 		frame.add(veryBottomPanel);
 		
-		Panel basePanel = new Panel();
+		TestPanel basePanel = new TestPanel();
 		basePanel.setBackground(Color.GREEN);
 		basePanel.setGridx(0);
 		basePanel.setGridy(0);
@@ -76,13 +76,13 @@ public class TestClass {
 		intPanel.add(button);
 		centrePanel.add(intPanel);
 
-		Panel rightPanel = new Panel();
+		TestPanel rightPanel = new TestPanel();
 		rightPanel.setBackground(Color.RED);
 		rightPanel.setGridx(4);
 		rightPanel.setGridy(0);
 		rightPanel.setGridHeight(4);
 
-		Panel bottomPanel = new Panel();
+		TestPanel bottomPanel = new TestPanel();
 		bottomPanel.setBackground(Color.YELLOW);
 		bottomPanel.setGridx(0);
 		bottomPanel.setGridy(4);
@@ -93,7 +93,7 @@ public class TestClass {
 		TextArea testArea = new TextArea();
 		bottomPanel.add(testArea);
 
-		Panel bottomRightPanel = new Panel();
+		TestPanel bottomRightPanel = new TestPanel();
 		bottomRightPanel.setBackground(Color.PINK);
 		bottomRightPanel.setGridx(0);
 		bottomRightPanel.setGridy(4);
@@ -160,7 +160,9 @@ public class TestClass {
 		TestPanel writingPanel = new TestPanel();
 		writingPanel.setGridy(4);
 		writingPanel.setGridWidth(4);
+		writingPanel.setGridHeight(1);
 		writingPanel.setBackground(Color.PINK);
+		writingPanel.setTransparency(100);
 
 		TestPanel menu = new TestPanel();
 		menu.setGridHeight(5);
@@ -208,7 +210,7 @@ public class TestClass {
 	}
 
 	public static void main(String args[]) {
-		gameFrameSetup();
+	gameFrameSetup();
 	}
 
 }

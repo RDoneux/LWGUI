@@ -19,16 +19,29 @@ public abstract class CustomLoopTask {
 	protected double deltaTasks = 0;
 	protected int calls = 0;
 	protected String name = "Custom Loop Task";
-	
+
+	/**
+	 * the code which will be run when this class is called
+	 */
 	public abstract void excecute();
 
 	public double getTargetCallsPerSecond() {
 		return targetCallsPerSecond;
 	}
 
+	/**
+	 * identifies the number of calls that the user wishes to be made per second.
+	 * 
+	 * @param targetCallsPerSecond
+	 */
 	public void setTargetCallsPerSecond(double targetCallsPerSecond) {
-		this.targetCallsPerSecond = targetCallsPerSecond;
-		tc = 1000000000 / targetCallsPerSecond;
+		if (targetCallsPerSecond > 0) {
+			this.targetCallsPerSecond = targetCallsPerSecond;
+			tc = 1000000000 / targetCallsPerSecond;
+		} else {
+			throw new IllegalArgumentException(
+					"Target calls must be a positive number. Current Number: " + targetCallsPerSecond);
+		}
 	}
 
 	public double getDeltaTasks() {
@@ -54,15 +67,15 @@ public abstract class CustomLoopTask {
 	public void resetCalls() {
 		calls = 0;
 	}
-	
+
 	public int getCalls() {
 		return calls;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

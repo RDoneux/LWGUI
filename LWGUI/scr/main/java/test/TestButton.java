@@ -15,7 +15,7 @@ public class TestButton extends Button {
 		super(text);
 		setFont(new Font("Lucida Console", Font.PLAIN, 20));
 		setForeground(new Color(10,20,235));
-		queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+		queAnimation(new FlyOut(animationConstraint.TOP_TO_BOTTOM));
 
 //		try {
 //			setImage(ImageIO.read(new File("C:\\Users\\Rober\\Desktop\\Untitled.png")));
@@ -27,9 +27,9 @@ public class TestButton extends Button {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
+			queAnimation(new FlyIn());
 		} else {
-			queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+			queAnimation(new FlyOut(animationConstraint.TOP_TO_BOTTOM));
 		}
 	}
 

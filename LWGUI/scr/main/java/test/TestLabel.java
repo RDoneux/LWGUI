@@ -14,7 +14,7 @@ public class TestLabel extends Label{
 	public TestLabel(String text) {
 		super(text);
 		setFont(new Font("Lucia Console", Font.BOLD,25));
-		queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+		queAnimation(new FlyOut(animationConstraint.LEFT_TO_RIGHT));
 	}
 	
 	@Override
@@ -25,9 +25,9 @@ public class TestLabel extends Label{
 			foreground = Color.BLACK;
 		}
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new FlyIn(animationConstraint.LEFT_TO_RIGHT));
+			queAnimation(new FlyIn());
 		} else {
-			queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+			queAnimation(new FlyOut(animationConstraint.LEFT_TO_RIGHT));
 		}
 	}
 	
