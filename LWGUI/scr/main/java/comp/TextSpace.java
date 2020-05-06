@@ -10,6 +10,8 @@ import java.awt.event.MouseWheelEvent;
 
 /**
  * 
+ * This class is depreciated and has been replaced by {@link TestArea}
+ * 
  * VERY Light weight text editor. Component is size editable and will fill to
  * fit a given space as dictated by a layout manager. Currently has
  * functionality to wrap text when it exceeds the bounds width. Text that
@@ -20,6 +22,7 @@ import java.awt.event.MouseWheelEvent;
  * 
  * @author Robert Doneux
  * @version 0.1
+ * @deprecated
  *
  */
 

@@ -7,6 +7,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+/**
+ * 
+ * Basic GUIContainer used to position {@link Component}s within a frame.
+ * Compatible with a {@link Layout} manager and {@link Animation}
+ * 
+ * @author Robert Doneux
+ * @version 0.1
+ */
+
 public class Panel extends Container {
 
 	private Color background;
@@ -19,7 +28,7 @@ public class Panel extends Container {
 
 	@Override
 	public void revise() {
-		
+
 		for (GUIComponent child : children) {
 			child.revise();
 		}
@@ -34,22 +43,21 @@ public class Panel extends Container {
 	public void paint(Graphics g) {
 
 		Rectangle previousClip = g.getClipBounds();
-		
 
 		// clip the paint call to the size of the parent container
 		if (topLevelParent == null) {
 			g.setClip(parent.getAnimationBounds());
 		} else {
 			g.setClip(topLevelParent.getBounds());
-		}	
-		
+		}
+
 		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 		g.fillRect(x, y, width, height);
-		
+
 		for (GUIComponent child : children) {
 			child.paint(g);
 		}
-		
+
 		g.setClip(previousClip);
 
 		if (layout != null) {

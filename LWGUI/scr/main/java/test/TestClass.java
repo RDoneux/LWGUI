@@ -144,6 +144,7 @@ public class TestClass {
 		frame.setLayout(new PercentLayout(1, 1));
 		frame.setTargetFPS(120);
 		frame.setTargetUPS(60);
+		frame.addCustomLoopTask(new TestLoopTask());
 		//frame.debugLayout();
 
 		Panel panel = new Panel();
@@ -207,7 +208,7 @@ public class TestClass {
 	}
 
 	public static void main(String args[]) {
-		testSetup();
+		gameFrameSetup();
 	}
 
 }

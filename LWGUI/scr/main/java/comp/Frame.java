@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import constraints.Layout;
+import tools.CustomLoopTask;
 
 public class Frame extends Canvas
 		implements Runnable, MouseWheelListener, MouseListener, MouseMotionListener, KeyListener {
@@ -36,7 +37,7 @@ public class Frame extends Canvas
 	private Thread thread;
 
 	private ArrayList<GUIComponent> children = new ArrayList<>();
-	
+
 	public static Point mouseLocation;
 
 	public Frame() {
@@ -103,23 +104,23 @@ public class Frame extends Canvas
 			this.createBufferStrategy(2);
 			return;
 		}
-		//SwingUtilities.invokeLater(new Runnable() {
-			//public void run() {
-				Graphics g = bs.getDrawGraphics();
+		// SwingUtilities.invokeLater(new Runnable() {
+		// public void run() {
+		Graphics g = bs.getDrawGraphics();
 
-				g.fillRect(0, 0, getWidth(), getHeight());
-				
-				for (GUIComponent child : children) {
-					child.paint(g);
-				}
+		g.fillRect(0, 0, getWidth(), getHeight());
 
-				if (layout.isDebugging()) {
-					layout.debug(g);
-				}
-				bs.show();
-				g.dispose();
-			//}
-		//});
+		for (GUIComponent child : children) {
+			child.paint(g);
+		}
+
+		if (layout.isDebugging()) {
+			layout.debug(g);
+		}
+		bs.show();
+		g.dispose();
+		// }
+		// });
 	}
 
 	private boolean inside;
@@ -130,12 +131,14 @@ public class Frame extends Canvas
 		mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
 		SwingUtilities.convertPointFromScreen(mouseLocation, this);
 		if (!getBounds().contains(mouseLocation) && inside) {
-			//mouseExited(new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), 0, 0, mouseLocation.x,
-					//mouseLocation.y, false));
+			// mouseExited(new MouseEvent(this, MouseEvent.MOUSE_EXITED,
+			// System.currentTimeMillis(), 0, 0, mouseLocation.x,
+			// mouseLocation.y, false));
 			inside = false;
 		} else if (getBounds().contains(mouseLocation) && !inside) {
-			//mouseEntered(new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), 0, 0,
-					//mouseLocation.x, mouseLocation.y, false));
+			// mouseEntered(new MouseEvent(this, MouseEvent.MOUSE_ENTERED,
+			// System.currentTimeMillis(), 0, 0,
+			// mouseLocation.x, mouseLocation.y, false));
 			inside = true;
 		}
 
@@ -188,11 +191,10 @@ public class Frame extends Canvas
 				frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
 	}
 
-
 	public void debugLayout() {
 		layout.setDebugging(true);
 	}
-	
+
 	public double getTargetUPS() {
 		return targetUPS;
 	}
@@ -211,11 +213,24 @@ public class Frame extends Canvas
 		fs = 1000000000 / targetFPS;
 	}
 
-	private double targetUPS = 30;
-	private double targetFPS = 30;
+	public void addCustomLoopTask(CustomLoopTask task) {
+		customTasks.add(task);
+	}
+
+	public CustomLoopTask getCustomLoopTask(int i) {
+		return customTasks.get(i);
+	}
+
+	public ArrayList<CustomLoopTask> getCustomLoopTasks() {
+		return customTasks;
+	}
+
+	private ArrayList<CustomLoopTask> customTasks = new ArrayList<>();
+	private double targetUPS = 30.0;
+	private double targetFPS = 30.0;
 	private double us;
 	private double fs;
-	
+
 	@Override
 	public void run() {
 
@@ -250,6 +265,15 @@ public class Frame extends Canvas
 				deltaFrames--;
 			}
 
+			for (CustomLoopTask task : customTasks) {
+				task.setDeltaTasks((now - lastTime) / task.getTc());
+				if (task.getDeltaTasks() >= 1) {
+					task.excecute();
+					task.completed();
+					task.resetDeltaTasks();
+				}
+			}
+
 			// set waiting to free up CPU
 			long wait = (long) ((now + fs) - System.nanoTime()) / 1000000;
 			if (wait < 0)
@@ -262,13 +286,19 @@ public class Frame extends Canvas
 				e.printStackTrace();
 			}
 
+			// update title information
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				String title = "FPS: " + frames + " UPS: " + updates;
 
-				frame.setTitle(title);
 				frames = 0;
 				updates = 0;
+				for (CustomLoopTask task : customTasks) {
+					title = title + " " + task.getName() + ": " + task.getCalls();
+					task.resetCalls();
+				}
+				frame.setTitle(title);
+
 			}
 
 		}

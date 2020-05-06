@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * A very light weight text editor used for displaying and making simple edits
- * to text. Currently does not support text scrolling or highlighting.
+ * to text. Currently does not support highlighting.
  * 
  * @author Robert Doneux
  * @version 0.2
@@ -349,6 +349,9 @@ public class TextArea extends Component {
 
 	}
 
+	/**
+	 * Interprets the user key presses and updates the text location accordingly.
+	 */
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
@@ -480,6 +483,9 @@ public class TextArea extends Component {
 
 	}
 
+	/**
+	 * updates the text position depending on the user scroll
+	 */
 	private int scrollMagnitude;
 
 	@Override
