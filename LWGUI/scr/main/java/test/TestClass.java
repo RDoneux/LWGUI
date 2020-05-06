@@ -19,14 +19,14 @@ public class TestClass {
 
 		Frame frame = new Frame();
 		frame.setSize(new Dimension(600, 400));
-		frame.setLayout(new PercentLayout(1,1));
-		
+		frame.setLayout(new PercentLayout(1, 1));
+
 		TestPanel veryBottomPanel = new TestPanel();
 		veryBottomPanel.setLayout(layout);
 		veryBottomPanel.setBackground(Color.MAGENTA);
 
 		frame.add(veryBottomPanel);
-		
+
 		TestPanel basePanel = new TestPanel();
 		basePanel.setBackground(Color.GREEN);
 		basePanel.setGridx(0);
@@ -145,16 +145,16 @@ public class TestClass {
 		frame.setTargetFPS(120);
 		frame.setTargetUPS(60);
 		frame.addCustomLoopTask(new TestLoopTask());
-		//frame.debugLayout();
+		// frame.debugLayout();
 
 		Panel panel = new Panel();
-		panel.setLayout(new PercentLayout(4,5));
-		
+		panel.setLayout(new PercentLayout(4, 5));
+
 		Panel gameDisplayPanel = new Panel();
 		gameDisplayPanel.setGridHeight(5);
 		gameDisplayPanel.setGridWidth(4);
-		gameDisplayPanel.setLayout(new PercentLayout(1,1));
-		
+		gameDisplayPanel.setLayout(new PercentLayout(1, 1));
+
 		gameDisplayPanel.add(new TestGame(frame));
 
 		TestPanel writingPanel = new TestPanel();
@@ -167,50 +167,51 @@ public class TestClass {
 		TestPanel menu = new TestPanel();
 		menu.setGridHeight(5);
 		menu.setBackground(Color.pink);
-		menu.setLayout(new PercentLayout(1,5));
-		
+		menu.setLayout(new PercentLayout(1, 5));
+
 		Button button0 = new Button("Start Game");
 		button0.setAlignmentX(alignment.CENTRE);
 		button0.setAlignmentY(alignment.CENTRE);
+		button0.setSize(new Dimension(180, 40));
 		Button button1 = new Button("Settings");
 		button1.setGridy(1);
 		button1.setAlignmentX(alignment.CENTRE);
 		button1.setAlignmentY(alignment.CENTRE);
+		button1.setSize(new Dimension(180, 40));
 		Button button2 = new Button("Exit");
 		button2.setGridy(2);
 		button2.setAlignmentX(alignment.CENTRE);
 		button2.setAlignmentY(alignment.CENTRE);
+		button2.setSize(new Dimension(180, 40));
 		Button button3 = new Button("Do Something Else");
 		button3.setGridy(3);
 		button3.setAlignmentX(alignment.CENTRE);
 		button3.setAlignmentY(alignment.CENTRE);
+		button3.setSize(new Dimension(180, 40));
 		Button button4 = new Button("Quit");
 		button4.setGridy(4);
 		button4.setAlignmentX(alignment.CENTRE);
 		button4.setAlignmentY(alignment.CENTRE);
-		
+		button4.setSize(new Dimension(180, 40));
+
 		menu.add(button0);
 		menu.add(button1);
 		menu.add(button2);
 		menu.add(button3);
 		menu.add(button4);
 
+		// writingPanel.add(new TestTextArea());
 
-		
-		
-		//writingPanel.add(new TestTextArea());
-		
 		panel.add(gameDisplayPanel);
 		panel.add(writingPanel);
 		panel.add(menu);
 
-		
 		frame.add(panel);
 
 	}
 
 	public static void main(String args[]) {
-	gameFrameSetup();
+		gameFrameSetup();
 	}
 
 }

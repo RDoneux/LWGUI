@@ -77,9 +77,10 @@ public class Button extends Component {
 	public void paint(Graphics g) {
 
 		g.setFont(font);
-		width = g.getFontMetrics().stringWidth(text) + 50;
-		height = g.getFontMetrics().getHeight() + 10;
-
+		if (width == 0 && height == 0) {
+			width = g.getFontMetrics().stringWidth(text) + 50;
+			height = g.getFontMetrics().getHeight() + 10;
+		}
 		// save the previous clip bounds so that it can be reset after this components
 		// clip bounds are set
 		Rectangle clipArea = g.getClipBounds();
@@ -144,15 +145,16 @@ public class Button extends Component {
 		// the location. Also call user action method. This should be overridden in
 		// parent class
 		if (getBounds().contains(arg0.getPoint())) {
-			width = width - 3;
-			height = height - 3;
+			// width = width - 3;
+			// height = height - 3;
+			x += 3;
+			y += 3;
 			action();
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-
 	}
 
 	@Override

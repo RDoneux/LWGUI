@@ -30,7 +30,7 @@ public class FlyIn extends Animation {
 
 		while (running) {
 			if (parent.isLoaded()) {
-				if(parent.getParent() == null) {
+				if (parent.getParent() == null) {
 					return;
 				}
 				if (parent.getAnimationX() < -(parent.getParent().getVisualWidth() / 20)) {

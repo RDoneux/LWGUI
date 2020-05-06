@@ -1,5 +1,17 @@
 package animation;
 
+/**
+ * 
+ * This animation increases or decreases a components offset until it is
+ * positioned outside of the parent component's clip space. Requires an
+ * animationConstraint to identify which direction the user wants the component
+ * to leave the space. Once left, the component will remain just outside of the
+ * clip space
+ * 
+ * @author Robert Doneux
+ * @version 0.1
+ */
+
 public class FlyOut extends Animation {
 
 	private animationConstraint constraint;
@@ -9,6 +21,11 @@ public class FlyOut extends Animation {
 		this.type = animationType.FLY_OUT;
 	}
 
+	/**
+	 * creates a separate thread to complete the animation. Once the animation has
+	 * been completed the refresh rate drops to once every 50 milliseconds to ensure
+	 * that the component remains outside of the clip space if the frame is resized.
+	 */
 	@Override
 	public void run() {
 
