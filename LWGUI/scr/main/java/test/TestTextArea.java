@@ -1,7 +1,6 @@
 package test;
 
 import java.awt.Font;
-import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import javax.imageio.ImageIO;
 import animation.Animation.animationConstraint;
 import animation.FlyIn;
 import animation.FlyOut;
-import comp.Frame;
 import comp.TextArea;
 
 public class TestTextArea extends TextArea {

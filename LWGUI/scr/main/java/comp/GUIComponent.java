@@ -1,16 +1,12 @@
 package comp;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.swing.JFrame;
 
 import animation.Animation;
 import tools.IDGenerator;

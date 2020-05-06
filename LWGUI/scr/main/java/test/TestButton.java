@@ -3,16 +3,11 @@ package test;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import animation.FlyIn;
 import animation.FlyOut;
 import animation.Animation.animationConstraint;
 import comp.Button;
-import comp.GUIComponent;
 
 public class TestButton extends Button {
 

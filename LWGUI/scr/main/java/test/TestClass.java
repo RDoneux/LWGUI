@@ -8,6 +8,7 @@ import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
+import comp.TextArea;
 import constraints.PercentLayout;
 
 public class TestClass {
@@ -26,7 +27,7 @@ public class TestClass {
 
 		frame.add(veryBottomPanel);
 		
-		TestPanel basePanel = new TestPanel();
+		Panel basePanel = new Panel();
 		basePanel.setBackground(Color.GREEN);
 		basePanel.setGridx(0);
 		basePanel.setGridy(0);
@@ -75,7 +76,7 @@ public class TestClass {
 		intPanel.add(button);
 		centrePanel.add(intPanel);
 
-		TestPanel rightPanel = new TestPanel();
+		Panel rightPanel = new Panel();
 		rightPanel.setBackground(Color.RED);
 		rightPanel.setGridx(4);
 		rightPanel.setGridy(0);
@@ -89,7 +90,7 @@ public class TestClass {
 		bottomPanel.setWeightX(0.5);
 		bottomPanel.setLayout(new PercentLayout(1, 1));
 
-		TestTextArea testArea = new TestTextArea();
+		TextArea testArea = new TextArea();
 		bottomPanel.add(testArea);
 
 		Panel bottomRightPanel = new Panel();
@@ -206,7 +207,7 @@ public class TestClass {
 	}
 
 	public static void main(String args[]) {
-		gameFrameSetup();
+		testSetup();
 	}
 
 }

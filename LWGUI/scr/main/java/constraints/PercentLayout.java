@@ -2,12 +2,9 @@ package constraints;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-
-import javax.swing.SwingUtilities;
 
 import comp.Component;
 import comp.Frame;
