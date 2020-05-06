@@ -51,13 +51,14 @@ public class Panel extends Container {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-		g.fillRect(x, y, width, height);
+		if (show) {
+			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+			g.fillRect(x, y, width, height);
 
-		for (GUIComponent child : children) {
-			child.paint(g);
+			for (GUIComponent child : children) {
+				child.paint(g);
+			}
 		}
-
 		g.setClip(previousClip);
 
 		if (layout != null) {

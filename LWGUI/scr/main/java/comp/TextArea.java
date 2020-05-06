@@ -80,7 +80,7 @@ public class TextArea extends Component {
 	 * the cursor position.
 	 */
 	private long timer = System.currentTimeMillis();
-	private boolean show;
+	private boolean showCursor;
 
 	private void wrapString(Graphics g) {
 
@@ -155,10 +155,10 @@ public class TextArea extends Component {
 			// System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " +
 			// (-textY + (height + 2)));
 			if (timer + 500 < System.currentTimeMillis()) {
-				show = !show;
+				showCursor = !showCursor;
 				timer = System.currentTimeMillis();
 			}
-			if (show && focused) {
+			if (showCursor && focused) {
 				g.setColor(Color.BLACK);
 				g.fillRect(textX + cursorX, textY + cursorY, 2, g.getFontMetrics(font).getHeight());
 			}
@@ -258,32 +258,34 @@ public class TextArea extends Component {
 		Rectangle clipBounds = g.getClipBounds();
 		g.setClip(parent.getBounds());
 
-		g.setColor(shadow);
-		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
-
-		if (backgroundImage == null) {
-			g.setColor(background);
+		if (show) {
+			g.setColor(shadow);
 			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
-		} else {
-			g.drawImage(backgroundImage, x, y, width, height, null);
+
+			if (backgroundImage == null) {
+				g.setColor(background);
+				g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+			} else {
+				g.drawImage(backgroundImage, x, y, width, height, null);
+			}
+
+			// at start up the protectedText variable may not be set so ensure that it is
+			// larger than 0 before wrapping the string. Also check to ensure that the
+			// bounds for the component has been set and that it's higher than 0.
+			if (protectedText.length() > 0 && getBounds().width > 0) {
+				g.setFont(font);
+				wrapString(g);
+			}
+
+			g.setColor(boarder);
+			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+			if (focused) {
+				g.setColor(new Color(50, 150, 200));
+				g.drawRect(x + 1, y + 1, width - 2, height - 2);
+			}
+
 		}
-
-		// at start up the protectedText variable may not be set so ensure that it is
-		// larger than 0 before wrapping the string. Also check to ensure that the
-		// bounds for the component has been set and that it's higher than 0.
-		if (protectedText.length() > 0 && getBounds().width > 0) {
-			g.setFont(font);
-			wrapString(g);
-		}
-
-		g.setColor(boarder);
-		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
-
-		if (focused) {
-			g.setColor(new Color(50, 150, 200));
-			g.drawRect(x + 1, y + 1, width - 2, height - 2);
-		}
-
 		g.setClip(clipBounds);
 	}
 
@@ -326,8 +328,11 @@ public class TextArea extends Component {
 
 		// find the user click location and set the x and y cusor values to that
 		// location.
-		if (focused) {
+		if (focused && protectedText.length() > 0) {
 			findXandYfromMouseLocation(arg0);
+		} else {
+			flatCursorPosition = 0;
+			backwardsCheckCursor = true;
 		}
 	}
 

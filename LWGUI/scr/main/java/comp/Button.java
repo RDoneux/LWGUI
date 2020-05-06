@@ -69,7 +69,6 @@ public class Button extends Component {
 
 	@Override
 	public void revise() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -92,30 +91,32 @@ public class Button extends Component {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		// if an image has been set, use that as the button. If not, use the defualt
-		// layout.
-		if (image == null) {
-			// draw the shadow.
-			g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
-					transparency));
-			g.fillRoundRect(x + 3, y + 3, width, height, roundEdge + 3, roundEdge + 3);
+		if (show) {
+			// if an image has been set, use that as the button. If not, use the defualt
+			// layout.
+			if (image == null) {
+				// draw the shadow.
+				g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
+						transparency));
+				g.fillRoundRect(x + 3, y + 3, width, height, roundEdge + 3, roundEdge + 3);
 
-			// draw the background
-			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+				// draw the background
+				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+				g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
-			// draw the boarder
-			g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
-			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
-		} else {
-			// if an image has been set as the background, draw it under the text
-			g.drawImage(image, x, y, width, height, null);
+				// draw the boarder
+				g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
+				g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+			} else {
+				// if an image has been set as the background, draw it under the text
+				g.drawImage(image, x, y, width, height, null);
+			}
+
+			// draw the string in the centre of the button
+			g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
+			Maths.drawCentredString(g, text, getAnimationBounds());
+
 		}
-
-		// draw the string in the centre of the button
-		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-		Maths.drawCentredString(g, text, getAnimationBounds());
-
 		// reset the clip area
 		g.setClip(clipArea);
 

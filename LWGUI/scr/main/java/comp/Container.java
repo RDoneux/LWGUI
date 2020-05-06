@@ -60,9 +60,9 @@ public abstract class Container extends GUIComponent {
 	@Override
 	public void setAnimationX(int x) {
 		for (GUIComponent child : children) {
-			if(child.currentAnimation == null) {
+			// if(child.currentAnimation == null || !child.currentAnimation.isRunning()) {
 			child.setAnimationX(x);
-			}
+			// }
 		}
 		this.animationX = x;
 	}

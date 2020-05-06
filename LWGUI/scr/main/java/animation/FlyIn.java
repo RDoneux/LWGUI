@@ -33,16 +33,16 @@ public class FlyIn extends Animation {
 				if (parent.getParent() == null) {
 					return;
 				}
+				parent.setShow(true);
 				if (parent.getAnimationX() < -(parent.getParent().getVisualWidth() / 20)) {
-					parent.setAnimationX(parent.getAnimationX() + parent.getParent().getVisualWidth() / 20);
+					parent.incrementAnimationX(parent.getParent().getVisualWidth() / 20);
 				} else if (parent.getAnimationX() > parent.getParent().getVisualWidth() / 20) {
-					parent.setAnimationX(parent.getAnimationX() - parent.getParent().getVisualWidth() / 20);
+					parent.incrementAnimationX(-parent.getParent().getVisualWidth() / 20);
 				}
 				if (parent.getAnimationY() < -(parent.getParent().getVisualHeight() / 20)) {
-					parent.setAnimationY(parent.getAnimationY() + parent.getParent().getVisualHeight() / 20);
-
+					parent.incrementAnimationY(parent.getParent().getVisualHeight() / 20);
 				} else if (parent.getAnimationY() > parent.getParent().getVisualHeight() / 20) {
-					parent.setAnimationY(parent.getAnimationY() - parent.getParent().getVisualHeight() / 20);
+					parent.incrementAnimationY(-parent.getParent().getVisualHeight() / 20);
 				}
 				if (parent.getAnimationX() <= (parent.getParent().getVisualWidth() / 20)
 						&& parent.getAnimationX() >= -(parent.getParent().getVisualWidth() / 20)

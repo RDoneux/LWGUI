@@ -5,13 +5,14 @@ import java.awt.event.MouseEvent;
 import animation.Animation.animationConstraint;
 import animation.FlyIn;
 import animation.FlyOut;
+import animation.Offset;
 import comp.GUIComponent;
 import comp.Panel;
 
 public class TestPanel extends Panel {
 
 	public TestPanel() {
-		queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+		queAnimation(new Offset(animationConstraint.WEST));
 	}
 
 	@Override

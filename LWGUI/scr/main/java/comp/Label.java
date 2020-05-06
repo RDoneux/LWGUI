@@ -69,8 +69,9 @@ public class Label extends Component {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		g.drawString(text, x, y + assent);
-
+		if (show) {
+			g.drawString(text, x, y + assent);
+		}
 		// reset the clip area
 		g.setClip(clipArea);
 

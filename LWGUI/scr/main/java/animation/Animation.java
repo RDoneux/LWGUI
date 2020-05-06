@@ -7,22 +7,22 @@ public abstract class Animation implements Runnable {
 
 	protected boolean running;
 	protected Thread thread;
-	
+
 	protected int ID;
 	protected animationType type;
-	
+
 	protected boolean complete;
-	
+
 	protected GUIComponent parent;
 
 	public enum animationConstraint {
-		LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP;
+		LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP, NORTH, EAST, SOUTH, WEST;
 	}
-	
+
 	public enum animationType {
-		FLY_IN, FLY_OUT;
+		FLY_IN, FLY_OUT, OFFSET, GROW, SHRINK;
 	}
-	
+
 	public Animation() {
 		ID = IDGenerator.generateID();
 	}
@@ -45,7 +45,7 @@ public abstract class Animation implements Runnable {
 	public void setParent(GUIComponent parent) {
 		this.parent = parent;
 	}
-	
+
 	public int getID() {
 		return ID;
 	}

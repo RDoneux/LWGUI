@@ -48,6 +48,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected boolean sizeEditable;
 	protected boolean minimised;
 	protected boolean loaded;
+	protected boolean show;
 
 	protected Animation currentAnimation;
 
@@ -64,6 +65,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		gridWidth = 1;
 		gridHeight = 1;
 		transparency = 255;
+		show = true;
 	}
 
 	public abstract void revise();
@@ -80,10 +82,10 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	 * 
 	 * @param animation
 	 */
-	public  void queAnimation(Animation animation) {
+	public void queAnimation(Animation animation) {
 
-		//System.out.println(parent);
-		
+		// System.out.println(parent);
+
 		// if the animation hasn't been set yet, create a new animation and start the
 		// animation loop
 		if (currentAnimation == null) {
@@ -103,9 +105,9 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 			currentAnimation.start();
 		}
 	}
-	
-	public  void stopAnimation() {
-		if(currentAnimation != null) {
+
+	public void stopAnimation() {
+		if (currentAnimation != null) {
 			currentAnimation.stop();
 		}
 	}
@@ -186,7 +188,6 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public synchronized void setAnimationX(int animationX) {
 		this.animationX = animationX;
-		
 	}
 
 	public synchronized int getAnimationY() {
@@ -209,6 +210,14 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.animationY += increment;
 	}
 
+	public synchronized void incrementAnimationWidth(int increment) {
+		this.animationWidth += increment;
+	}
+
+	public synchronized void incrementAnimationHeight(int increment) {
+		this.animationHeight += increment;
+	}
+
 	public void setAnimationWidth(int animationWidth) {
 		this.animationWidth = animationWidth;
 	}
@@ -228,7 +237,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public GUIComponent getParent() {
 		return parent;
 	}
-	
+
 	public Frame getTopLevelParent() {
 		return topLevelParent;
 	}
@@ -375,4 +384,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.currentAnimation = currentAnimation;
 	}
 
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
+	}
+	
 }

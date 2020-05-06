@@ -59,33 +59,35 @@ public class ProgressBar extends Component {
 	public void paint(Graphics g) {
 
 		Rectangle previousClip = g.getClipBounds();
-		//g.setClip(parent.getBounds());
-	// draw background
-		g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-		g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+		// g.setClip(parent.getBounds());
+		// draw background
 
-		// draw foreground
-		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-		g.fillRoundRect(x, y, value, height, roundEdge, roundEdge);
+		if (show) {
+			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
-		// draw boarder
-		g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
-		g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+			// draw foreground
+			g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
+			g.fillRoundRect(x, y, value, height, roundEdge, roundEdge);
 
-		if (displayText) {
-			if (scale) {
-				Font newfont = new Font(font.getFontName(), font.getStyle(),
-						Maths.scaleFont(g, protectedText, getBounds()));
-				g.setFont(newfont);
-			} else {
-				minimise(getBounds());
+			// draw boarder
+			g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
+			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+			if (displayText) {
+				if (scale) {
+					Font newfont = new Font(font.getFontName(), font.getStyle(),
+							Maths.scaleFont(g, protectedText, getBounds()));
+					g.setFont(newfont);
+				} else {
+					minimise(getBounds());
+				}
+				g.setColor(new Color(255 - (background.getRed() + foreground.getRed()) / 2,
+						255 - (background.getGreen() + foreground.getGreen()) / 2,
+						255 - (background.getBlue() + foreground.getBlue()) / 2, transparency));
+				Maths.drawCentredString(g, text, getAnimationBounds());
 			}
-			g.setColor(new Color(255 - (background.getRed() + foreground.getRed()) / 2,
-					255 - (background.getGreen() + foreground.getGreen()) / 2,
-					255 - (background.getBlue() + foreground.getBlue()) / 2, transparency));
-			Maths.drawCentredString(g, text, getAnimationBounds());
 		}
-
 		g.setClip(previousClip);
 
 	}

@@ -17,6 +17,12 @@ public class FlyOut extends Animation {
 	private animationConstraint constraint;
 
 	public FlyOut(animationConstraint constraint) {
+		if (constraint != animationConstraint.LEFT_TO_RIGHT && constraint != animationConstraint.RIGHT_TO_LEFT
+				&& constraint != animationConstraint.BOTTOM_TO_TOP && constraint != animationConstraint.TOP_TO_BOTTOM) {
+			throw new IllegalArgumentException(
+					"animationConstraint must be LEFT_TO_RIGHT, RIGHT_TO_LEFT, BOTTOM_TO_TOP, TOP_TO_BOTTOM. Current constraint: "
+							+ constraint);
+		}
 		this.constraint = constraint;
 		this.type = animationType.FLY_OUT;
 	}
@@ -38,10 +44,11 @@ public class FlyOut extends Animation {
 				case RIGHT_TO_LEFT:
 					if (parent.getVisualX() > -(parent.getParent().getX() + parent.getParent().getWidth())
 							&& !complete) {
-						parent.setAnimationX(parent.getAnimationX() - parent.getParent().getVisualWidth() / 20);
+						parent.incrementAnimationX(-parent.getParent().getVisualWidth() / 20);
 					} else {
 						complete = true;
 						refresh = 50;
+						parent.setShow(false);
 						parent.setAnimationX(
 								-parent.getX() - (parent.getParent().getX() + parent.getParent().getWidth()));
 					}
@@ -49,30 +56,33 @@ public class FlyOut extends Animation {
 				case LEFT_TO_RIGHT:
 					if (parent.getVisualX() < (parent.getParent().getX() + parent.getParent().getWidth())
 							&& !complete) {
-						parent.setAnimationX(parent.getAnimationX() + parent.getParent().getVisualWidth() / 20);
+						parent.incrementAnimationX(parent.getParent().getVisualWidth() / 20);
 					} else {
 						complete = true;
 						refresh = 50;
+						parent.setShow(false);
 						parent.setAnimationX(parent.getParent().getX() + parent.getParent().getWidth());
 					}
 					break;
 				case TOP_TO_BOTTOM:
 					if (parent.getVisualY() < (parent.getParent().getY() + parent.getParent().getHeight())
 							&& !complete) {
-						parent.setAnimationY(parent.getAnimationY() + parent.getParent().getVisualHeight() / 20);
+						parent.incrementAnimationY(parent.getParent().getVisualHeight() / 20);
 					} else {
 						complete = true;
 						refresh = 50;
+						parent.setShow(false);
 						parent.setAnimationY(parent.getParent().getY() + parent.getParent().getHeight());
 					}
 					break;
 				case BOTTOM_TO_TOP:
 					if (parent.getVisualY() > -(parent.getParent().getY() + parent.getParent().getHeight())
 							&& !complete) {
-						parent.setAnimationY(parent.getAnimationY() - parent.getParent().getVisualHeight() / 20);
+						parent.incrementAnimationY(-parent.getParent().getVisualHeight() / 20);
 					} else {
 						complete = true;
 						refresh = 50;
+						parent.setShow(false);
 						parent.setAnimationY(
 								-parent.getY() - (parent.getParent().getY() + parent.getParent().getHeight()));
 					}

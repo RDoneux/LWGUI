@@ -56,7 +56,7 @@ public class TestClass {
 		label.setAlignmentX(alignment.CENTRE);
 		label.setAlignmentY(alignment.CENTRE);
 
-		TestButton button = new TestButton("This is a test button");
+		Button button = new Button("This is a test button");
 		button.setGridy(1);
 		button.setAlignmentX(alignment.CENTRE);
 		button.setAlignmentY(alignment.CENTRE);
@@ -82,7 +82,7 @@ public class TestClass {
 		rightPanel.setGridy(0);
 		rightPanel.setGridHeight(4);
 
-		TestPanel bottomPanel = new TestPanel();
+		Panel bottomPanel = new Panel();
 		bottomPanel.setBackground(Color.YELLOW);
 		bottomPanel.setGridx(0);
 		bottomPanel.setGridy(4);
@@ -90,7 +90,7 @@ public class TestClass {
 		bottomPanel.setWeightX(0.5);
 		bottomPanel.setLayout(new PercentLayout(1, 1));
 
-		TextArea testArea = new TextArea();
+		TestTextArea testArea = new TestTextArea();
 		bottomPanel.add(testArea);
 
 		TestPanel bottomRightPanel = new TestPanel();
@@ -169,7 +169,7 @@ public class TestClass {
 		menu.setBackground(Color.pink);
 		menu.setLayout(new PercentLayout(1, 5));
 
-		Button button0 = new Button("Start Game");
+		TestButton button0 = new TestButton("Start Game");
 		button0.setAlignmentX(alignment.CENTRE);
 		button0.setAlignmentY(alignment.CENTRE);
 		button0.setSize(new Dimension(180, 40));
