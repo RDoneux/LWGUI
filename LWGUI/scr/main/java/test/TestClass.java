@@ -164,7 +164,7 @@ public class TestClass {
 		writingPanel.setBackground(Color.PINK);
 		writingPanel.setTransparency(100);
 
-		TestPanel menu = new TestPanel();
+		SecondTestPanel menu = new SecondTestPanel();
 		menu.setGridHeight(5);
 		menu.setBackground(Color.pink);
 		menu.setLayout(new PercentLayout(1, 5));
@@ -173,22 +173,22 @@ public class TestClass {
 		button0.setAlignmentX(alignment.CENTRE);
 		button0.setAlignmentY(alignment.CENTRE);
 		button0.setSize(new Dimension(180, 40));
-		Button button1 = new Button("Settings");
+		TestButton button1 = new TestButton("Settings");
 		button1.setGridy(1);
 		button1.setAlignmentX(alignment.CENTRE);
 		button1.setAlignmentY(alignment.CENTRE);
 		button1.setSize(new Dimension(180, 40));
-		Button button2 = new Button("Exit");
+		TestButton button2 = new TestButton("Exit");
 		button2.setGridy(2);
 		button2.setAlignmentX(alignment.CENTRE);
 		button2.setAlignmentY(alignment.CENTRE);
 		button2.setSize(new Dimension(180, 40));
-		Button button3 = new Button("Do Something Else");
+		TestButton button3 = new TestButton("Do Something Else");
 		button3.setGridy(3);
 		button3.setAlignmentX(alignment.CENTRE);
 		button3.setAlignmentY(alignment.CENTRE);
 		button3.setSize(new Dimension(180, 40));
-		Button button4 = new Button("Quit");
+		TestButton button4 = new TestButton("Quit");
 		button4.setGridy(4);
 		button4.setAlignmentX(alignment.CENTRE);
 		button4.setAlignmentY(alignment.CENTRE);

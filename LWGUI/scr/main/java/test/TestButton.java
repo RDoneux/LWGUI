@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 
-import animation.Animation.animationConstraint;
-import animation.FlyOut;
-import animation.Grow;
-import animation.Offset;
+import animation.Bounce;
+import animation.FlyIn;
 import comp.Button;
 
 public class TestButton extends Button {
@@ -27,9 +25,10 @@ public class TestButton extends Button {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new Grow(10));
+			queAnimation(new Bounce());
+
 		} else {
-			//queAnimation(new FlyOut(animationConstraint.TOP_TO_BOTTOM));
+			queAnimation(new FlyIn(2));
 		}
 	}
 

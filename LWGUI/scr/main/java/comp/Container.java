@@ -90,6 +90,22 @@ public abstract class Container extends GUIComponent {
 		}
 		this.animationY += y;
 	}
+	
+	@Override
+	public void incrementAnimationWidth(int increment) {
+		for (GUIComponent child : children) {
+			child.incrementAnimationY(increment);
+		}
+		this.animationY += increment;
+	}
+	
+	@Override
+	public void incrementAnimationHeight(int increment) {
+		for (GUIComponent child : children) {
+			child.incrementAnimationY(increment);
+		}
+		this.animationY += increment;
+	}
 
 	@Override
 	public void setAnimationWidth(int width) {

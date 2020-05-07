@@ -14,6 +14,13 @@ package animation;
 
 public class FlyIn extends Animation {
 
+	private int speed;
+
+	public FlyIn(int speed) {
+		this.speed = speed;
+		this.type = animationType.FLY_IN;
+	}
+
 	public FlyIn() {
 		this.type = animationType.FLY_IN;
 	}
@@ -27,6 +34,9 @@ public class FlyIn extends Animation {
 
 		complete = false;
 		int refresh = 20;
+		if(speed <= 0) {
+			speed = parent.getParent().getVisualWidth() / 20;
+		}
 
 		while (running) {
 			if (parent.isLoaded()) {
@@ -34,20 +44,20 @@ public class FlyIn extends Animation {
 					return;
 				}
 				parent.setShow(true);
-				if (parent.getAnimationX() < -(parent.getParent().getVisualWidth() / 20)) {
-					parent.incrementAnimationX(parent.getParent().getVisualWidth() / 20);
-				} else if (parent.getAnimationX() > parent.getParent().getVisualWidth() / 20) {
-					parent.incrementAnimationX(-parent.getParent().getVisualWidth() / 20);
+				if (parent.getAnimationX() < -speed) {
+					parent.incrementAnimationX(speed);
+				} else if (parent.getAnimationX() > speed) {
+					parent.incrementAnimationX(-speed);
 				}
-				if (parent.getAnimationY() < -(parent.getParent().getVisualHeight() / 20)) {
-					parent.incrementAnimationY(parent.getParent().getVisualHeight() / 20);
-				} else if (parent.getAnimationY() > parent.getParent().getVisualHeight() / 20) {
-					parent.incrementAnimationY(-parent.getParent().getVisualHeight() / 20);
+				if (parent.getAnimationY() < -speed) {
+					parent.incrementAnimationY(speed);
+				} else if (parent.getAnimationY() > speed) {
+					parent.incrementAnimationY(-speed);
 				}
-				if (parent.getAnimationX() <= (parent.getParent().getVisualWidth() / 20)
-						&& parent.getAnimationX() >= -(parent.getParent().getVisualWidth() / 20)
-						&& parent.getAnimationY() <= (parent.getParent().getVisualHeight() / 20)
-						&& parent.getAnimationY() >= -(parent.getParent().getVisualHeight()) / 20) {
+				if (parent.getAnimationX() <= speed
+						&& parent.getAnimationX() >= -speed
+						&& parent.getAnimationY() <= speed
+						&& parent.getAnimationY() >= -speed) {
 					parent.setAnimationX(0);
 					parent.setAnimationY(0);
 					break;

@@ -2,15 +2,17 @@ package test;
 
 import java.awt.event.MouseEvent;
 
-import animation.Bounce;
+import animation.Animation.animationConstraint;
 import animation.FlyIn;
+import animation.FlyOut;
+import animation.Offset;
 import comp.GUIComponent;
 import comp.Panel;
 
-public class TestPanel extends Panel {
+public class SecondTestPanel extends Panel {
 
-	public TestPanel() {
-		//queAnimation(new Offset(animationConstraint.WEST));
+	public SecondTestPanel() {
+		queAnimation(new Offset(animationConstraint.WEST));
 	}
 
 	@Override
@@ -19,9 +21,11 @@ public class TestPanel extends Panel {
 			child.mouseMoved(e);
 		}
 		if (getBounds().contains(e.getPoint())) {
-			this.queAnimation(new Bounce());
+			this.queAnimation(new FlyIn());
+
 		} else {
-			this.queAnimation(new FlyIn(4));
+			this.queAnimation(new FlyOut(animationConstraint.RIGHT_TO_LEFT));
+
 		}
 	}
 
