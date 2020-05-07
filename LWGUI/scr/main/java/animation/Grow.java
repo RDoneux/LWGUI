@@ -30,7 +30,7 @@ public class Grow extends Animation {
 		int refresh = 20;
 		int totalWidth = (int) ((magnitude / 100) * parent.getWidth());
 		int totalHeight = (int) ((magnitude / 100) * parent.getHeight());
-
+		
 		while (running) {
 
 			// System.out.println(totalWidth + " ~ " + totalHeight);
@@ -38,10 +38,12 @@ public class Grow extends Animation {
 			if (parent.getAnimationWidth() < totalWidth) {
 				parent.incrementAnimationWidth(2);
 				parent.incrementAnimationX(-1);
+				//parent.setWidth(parent.getWidth() + 2);
 			}
 			if (parent.getAnimationHeight() < totalHeight) {
 				parent.incrementAnimationHeight(2);
 				parent.incrementAnimationY(-1);
+				parent.setHeight(parent.getHeight());
 			}
 
 			if (parent.getAnimationHeight() >= totalHeight && parent.getAnimationWidth() >= totalWidth) {

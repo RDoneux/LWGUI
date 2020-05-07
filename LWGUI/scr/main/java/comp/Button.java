@@ -74,7 +74,7 @@ public class Button extends Component {
 
 	@Override
 	public void paint(Graphics g) {
-
+		
 		g.setFont(font);
 		if (width == 0 && height == 0) {
 			width = g.getFontMetrics().stringWidth(text) + 50;

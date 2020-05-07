@@ -27,7 +27,7 @@ public class TestButton extends Button {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new Grow(200));
+			queAnimation(new Grow(10));
 		} else {
 			//queAnimation(new FlyOut(animationConstraint.TOP_TO_BOTTOM));
 		}

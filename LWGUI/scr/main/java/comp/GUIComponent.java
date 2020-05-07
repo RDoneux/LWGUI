@@ -212,10 +212,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public synchronized void incrementAnimationWidth(int increment) {
 		this.animationWidth += increment;
+		this.width += animationWidth;
 	}
 
 	public synchronized void incrementAnimationHeight(int increment) {
 		this.animationHeight += increment;
+		this.height += animationHeight;
 	}
 
 	public void setAnimationWidth(int animationWidth) {
