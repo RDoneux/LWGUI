@@ -56,6 +56,7 @@ public class Panel extends Container {
 			g.fillRect(x, y, width, height);
 
 			for (GUIComponent child : children) {
+				child.drawEffect(g);
 				child.paint(g);
 			}
 		}

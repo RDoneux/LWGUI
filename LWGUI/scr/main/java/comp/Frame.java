@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import constraints.Layout;
+import effects.Highlight;
 import tools.CustomLoopTask;
 
 /**
@@ -121,9 +122,10 @@ public class Frame extends Canvas
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		for (GUIComponent child : children) {
+			child.drawEffect(g);
 			child.paint(g);
 		}
-
+		
 		if (layout.isDebugging()) {
 			layout.debug(g);
 		}

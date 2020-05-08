@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import animation.Bounce;
 import animation.FlyIn;
 import comp.Button;
+import effects.Highlight;
 
 public class TestButton extends Button {
 
@@ -25,10 +26,13 @@ public class TestButton extends Button {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (getBounds().contains(e.getPoint())) {
-			queAnimation(new Bounce());
+			queAnimation(new Bounce());		
+			setEffect(new Highlight(Color.DARK_GRAY));
+
 
 		} else {
 			queAnimation(new FlyIn(2));
+			setEffect(null);
 		}
 	}
 

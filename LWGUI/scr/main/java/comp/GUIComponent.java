@@ -9,6 +9,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 
 import animation.Animation;
+import animation.FlyIn;
+import animation.FlyOut;
+import effects.Effect;
 import tools.IDGenerator;
 import tools.Maths;
 
@@ -51,6 +54,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected boolean show;
 
 	protected Animation currentAnimation;
+	protected Effect currentEffect;
 
 	public enum alignment {
 		NORTH, EAST, SOUTH, WEST, CENTRE;
@@ -71,6 +75,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public abstract void revise();
 
 	public abstract void paint(Graphics g);
+
+	public void drawEffect(Graphics g) {
+		if (currentEffect != null) {
+			currentEffect.paint(g);
+		}
+	}
 
 	/**
 	 * This method is called when the user adds an animation to a particular
@@ -109,6 +119,17 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public void stopAnimation() {
 		if (currentAnimation != null) {
 			currentAnimation.stop();
+		}
+	}
+
+	public void setEffect(Effect effect) {
+		if (effect == null) {
+			currentEffect = null;
+			return;
+		}
+		if (currentEffect == null || currentEffect.getType() != effect.getType()) {
+			currentEffect = effect;
+			currentEffect.setParent(this);
 		}
 	}
 
@@ -212,12 +233,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public synchronized void incrementAnimationWidth(int increment) {
 		this.animationWidth += increment;
-		//setWidth(width);
+		// setWidth(width);
 	}
 
 	public synchronized void incrementAnimationHeight(int increment) {
 		this.animationHeight += increment;
-		//setHeight(height);
+		// setHeight(height);
 	}
 
 	public void setAnimationWidth(int animationWidth) {
