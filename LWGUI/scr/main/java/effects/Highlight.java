@@ -34,7 +34,7 @@ public class Highlight extends Effect {
 			height = parent.getVisualHeight() + 20;
 		}
 
-		blurBorder(g, 20);
+		blurBorder(g, 15);
 	}
 
 	private void blurBorder(Graphics input, double border) {

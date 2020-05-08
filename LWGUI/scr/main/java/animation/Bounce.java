@@ -6,8 +6,6 @@ public class Bounce extends Animation {
 	public void run() {
 
 		int refresh = 20;
-		int x = parent.getX();
-		int y = parent.getY();
 		double xVel = 0;
 		double yVel = -6;
 		double gravity = 0.6;
@@ -18,8 +16,6 @@ public class Bounce extends Animation {
 
 			parent.incrementAnimationY((int) yVel);
 			parent.incrementAnimationX((int) xVel);
-
-
 
 			if (parent.getAnimationY() >= 0) {
 

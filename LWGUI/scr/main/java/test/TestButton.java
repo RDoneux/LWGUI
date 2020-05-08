@@ -27,7 +27,7 @@ public class TestButton extends Button {
 	public void mouseMoved(MouseEvent e) {
 		if (getBounds().contains(e.getPoint())) {
 			queAnimation(new Bounce());		
-			setEffect(new Highlight(Color.DARK_GRAY));
+			setEffect(new Highlight(new Color(50,50,200)));
 
 
 		} else {
