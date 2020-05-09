@@ -52,10 +52,10 @@ public class TestGame extends GUIComponent {
 	@Override
 	public void paint(Graphics g) {
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillRect(x, y, width, height);
 
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLUE);
 		g.fillOval((int) ballX, (int) ballY, (int) ballSize, (int) ballSize);
 
 	}

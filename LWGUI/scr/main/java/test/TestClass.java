@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import comp.Button;
+import comp.ComboBox;
 import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
@@ -149,6 +150,7 @@ public class TestClass {
 
 		Panel panel = new Panel();
 		panel.setLayout(new PercentLayout(4, 5));
+		panel.debugLayout();
 
 		Panel gameDisplayPanel = new Panel();
 		gameDisplayPanel.setGridHeight(5);
@@ -157,12 +159,13 @@ public class TestClass {
 
 		gameDisplayPanel.add(new TestGame(frame));
 
-		TestPanel writingPanel = new TestPanel();
+		Panel writingPanel = new Panel();
 		writingPanel.setGridy(4);
 		writingPanel.setGridWidth(4);
 		writingPanel.setGridHeight(1);
 		writingPanel.setBackground(Color.PINK);
 		writingPanel.setTransparency(100);
+		writingPanel.setLayout(new PercentLayout(1, 1));
 
 		SecondTestPanel menu = new SecondTestPanel();
 		menu.setGridHeight(5);
@@ -200,11 +203,17 @@ public class TestClass {
 		menu.add(button3);
 		menu.add(button4);
 
-		// writingPanel.add(new TestTextArea());
+		writingPanel.add(new TestTextArea());
 
+		ComboBox combo = new ComboBox();
+		combo.setGridx(3);
+		combo.setAlignmentX(alignment.CENTRE);
+		combo.setAlignmentY(alignment.CENTRE);
+		
 		panel.add(gameDisplayPanel);
 		panel.add(writingPanel);
 		panel.add(menu);
+		panel.add(combo);
 
 		frame.add(panel);
 
