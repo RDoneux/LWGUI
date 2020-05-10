@@ -40,6 +40,10 @@ public class Frame extends Canvas
 	 * 
 	 */
 	private static final long serialVersionUID = 2122532236586028185L;
+
+	public static int WIDTH;
+	public static int HEIGHT;
+
 	private JFrame frame;
 
 	private Layout layout;
@@ -74,13 +78,13 @@ public class Frame extends Canvas
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		setListeners();
-		
+
 		frame.add(this);
 
 		start();
 
 	}
-	
+
 	private void setListeners() {
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -120,13 +124,14 @@ public class Frame extends Canvas
 		// public void run() {
 		Graphics g = bs.getDrawGraphics();
 
+		g.setClip(frame.getBounds());
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		for (GUIComponent child : children) {
 			child.drawEffect(g);
 			child.paint(g);
 		}
-		
+
 		if (layout.isDebugging()) {
 			layout.debug(g);
 		}
@@ -139,6 +144,11 @@ public class Frame extends Canvas
 	private boolean inside;
 
 	public synchronized void revise() {
+
+		// ensure that the static variables are up to date in the event of a window size
+		// change.
+		WIDTH = frame.getWidth();
+		HEIGHT = frame.getHeight();
 
 		// identify if the mouse has left the Frame
 		mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
