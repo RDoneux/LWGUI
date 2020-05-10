@@ -74,7 +74,7 @@ public class Frame extends Canvas
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		setListeners();
-
+		
 		frame.add(this);
 
 		start();
