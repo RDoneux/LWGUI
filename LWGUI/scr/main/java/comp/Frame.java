@@ -54,6 +54,7 @@ public class Frame extends Canvas
 	public Frame() {
 
 		frame = new JFrame();
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -79,7 +80,7 @@ public class Frame extends Canvas
 		start();
 
 	}
-
+	
 	private void setListeners() {
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
