@@ -41,8 +41,8 @@ public class Frame extends Canvas
 	 */
 	private static final long serialVersionUID = 2122532236586028185L;
 
-	public static int WIDTH;
-	public static int HEIGHT;
+	public static int FRAME_WIDTH;
+	public static int FRAME_HEIGHT;
 
 	private JFrame frame;
 
@@ -147,8 +147,8 @@ public class Frame extends Canvas
 
 		// ensure that the static variables are up to date in the event of a window size
 		// change.
-		WIDTH = frame.getWidth();
-		HEIGHT = frame.getHeight();
+		FRAME_WIDTH = frame.getContentPane().getWidth();
+		FRAME_HEIGHT = frame.getContentPane().getHeight();
 
 		// identify if the mouse has left the Frame
 		mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
