@@ -20,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import constraints.Layout;
-import effects.Highlight;
 import tools.CustomLoopTask;
 
 /**
@@ -43,6 +42,7 @@ public class Frame extends Canvas
 
 	public static int FRAME_WIDTH;
 	public static int FRAME_HEIGHT;
+	public static Point MOUSE_LOCATION;
 
 	private JFrame frame;
 
@@ -147,6 +147,8 @@ public class Frame extends Canvas
 
 		// ensure that the static variables are up to date in the event of a window size
 		// change.
+		MOUSE_LOCATION = new Point(MouseInfo.getPointerInfo().getLocation());
+		SwingUtilities.convertPointFromScreen(MOUSE_LOCATION, frame.getContentPane());
 		FRAME_WIDTH = frame.getContentPane().getWidth();
 		FRAME_HEIGHT = frame.getContentPane().getHeight();
 
