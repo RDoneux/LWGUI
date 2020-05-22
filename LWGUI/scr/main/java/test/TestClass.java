@@ -9,7 +9,6 @@ import comp.Frame;
 import comp.GUIComponent.alignment;
 import comp.Panel;
 import comp.ProgressBar;
-import comp.TextArea;
 import constraints.PercentLayout;
 
 public class TestClass {
