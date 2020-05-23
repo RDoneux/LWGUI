@@ -33,7 +33,6 @@ public class Offset extends Animation {
 		int refresh = 50;
 
 		while (running) {
-
 			if (parent.getParent() != null) {
 				parent.setShow(false);
 				switch (constraint) {
@@ -42,7 +41,7 @@ public class Offset extends Animation {
 							-parent.getY() - (parent.getParent().getVisualY() + parent.getParent().getVisualHeight()));
 					break;
 				case EAST:
-					parent.setAnimationX(parent.getParent().getVisualX() + parent.getParent().getVisualWidth());
+					parent.setAnimationX(parent.getParent().getWidth() - parent.getX());
 					break;
 				case SOUTH:
 					parent.setAnimationY(parent.getParent().getVisualY() + parent.getParent().getVisualHeight());

@@ -58,6 +58,7 @@ public class Frame extends Canvas
 	public Frame() {
 
 		frame = new JFrame();
+		frame.setSize(new Dimension(600,400));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);

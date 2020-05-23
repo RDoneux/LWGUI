@@ -15,6 +15,7 @@ package animation;
 public class FlyOut extends Animation {
 
 	private animationConstraint constraint;
+	private int speed;
 
 	public FlyOut(animationConstraint constraint) {
 		if (constraint != animationConstraint.LEFT_TO_RIGHT && constraint != animationConstraint.RIGHT_TO_LEFT
@@ -38,13 +39,17 @@ public class FlyOut extends Animation {
 		complete = false;
 		int refresh = 20;
 
+		if (speed <= 0) {
+			speed = 5;
+		}
+
 		while (running) {
 			if (parent.isLoaded() && parent.getParent() != null) {
 				switch (constraint) {
 				case RIGHT_TO_LEFT:
 					if (parent.getVisualX() > -(parent.getParent().getX() + parent.getParent().getWidth())
 							&& !complete) {
-						parent.incrementAnimationX(-parent.getParent().getVisualWidth() / 20);
+						parent.incrementAnimationX(-speed);
 					} else {
 						complete = true;
 						refresh = 50;
@@ -56,18 +61,18 @@ public class FlyOut extends Animation {
 				case LEFT_TO_RIGHT:
 					if (parent.getVisualX() < (parent.getParent().getX() + parent.getParent().getWidth())
 							&& !complete) {
-						parent.incrementAnimationX(parent.getParent().getVisualWidth() / 20);
+						parent.incrementAnimationX(speed);
 					} else {
 						complete = true;
 						refresh = 50;
 						parent.setShow(false);
-						parent.setAnimationX(parent.getParent().getX() + parent.getParent().getWidth());
+						parent.setAnimationX(parent.getParent().getWidth() - parent.getX());
 					}
 					break;
 				case TOP_TO_BOTTOM:
 					if (parent.getVisualY() < (parent.getParent().getY() + parent.getParent().getHeight())
 							&& !complete) {
-						parent.incrementAnimationY(parent.getParent().getVisualHeight() / 20);
+						parent.incrementAnimationY(speed);
 					} else {
 						complete = true;
 						refresh = 50;
@@ -78,7 +83,7 @@ public class FlyOut extends Animation {
 				case BOTTOM_TO_TOP:
 					if (parent.getVisualY() > -(parent.getParent().getY() + parent.getParent().getHeight())
 							&& !complete) {
-						parent.incrementAnimationY(-parent.getParent().getVisualHeight() / 20);
+						parent.incrementAnimationY(-speed);
 					} else {
 						complete = true;
 						refresh = 50;
@@ -97,5 +102,13 @@ public class FlyOut extends Animation {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public int getSpeed() {
+		return speed;
 	}
 }

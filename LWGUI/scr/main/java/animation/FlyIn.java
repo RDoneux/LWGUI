@@ -35,10 +35,11 @@ public class FlyIn extends Animation {
 		complete = false;
 		int refresh = 20;
 		if(speed <= 0) {
-			speed = parent.getParent().getVisualWidth() / 20;
+			speed = 5;
 		}
 
 		while (running) {
+			
 			if (parent.isLoaded()) {
 				if (parent.getParent() == null) {
 					return;
@@ -70,4 +71,13 @@ public class FlyIn extends Animation {
 			}
 		}
 	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	
 }
