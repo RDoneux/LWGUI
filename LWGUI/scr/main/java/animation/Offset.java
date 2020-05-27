@@ -44,7 +44,7 @@ public class Offset extends Animation {
 					parent.setAnimationX(parent.getParent().getWidth() - parent.getX());
 					break;
 				case SOUTH:
-					parent.setAnimationY(parent.getParent().getVisualY() + parent.getParent().getVisualHeight());
+					parent.setAnimationY(parent.getParent().getHeight() - parent.getY());
 					break;
 				case WEST:
 					parent.setAnimationX(

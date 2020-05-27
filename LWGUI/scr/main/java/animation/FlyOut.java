@@ -77,7 +77,7 @@ public class FlyOut extends Animation {
 						complete = true;
 						refresh = 50;
 						parent.setShow(false);
-						parent.setAnimationY(parent.getParent().getY() + parent.getParent().getHeight());
+						parent.setAnimationY(parent.getParent().getHeight() - parent.getY());
 					}
 					break;
 				case BOTTOM_TO_TOP:
