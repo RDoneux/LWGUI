@@ -15,6 +15,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -128,7 +129,13 @@ public class Frame extends Canvas
 		g.setClip(frame.getBounds());
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		for (GUIComponent child : children) {
+//		for (GUIComponent child : children) {
+//			child.drawEffect(g);
+//			child.paint(g);
+//		}
+		
+		for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
 			child.drawEffect(g);
 			child.paint(g);
 		}

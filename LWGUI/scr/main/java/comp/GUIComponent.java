@@ -35,6 +35,8 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int gridHeight;
 
 	protected int transparency;
+	
+	protected int edge;
 
 	protected double weightX;
 	protected double weightY;
@@ -417,4 +419,12 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.show = show;
 	}
 
+	public int getRoundedEdge() {
+		return edge;
+	}
+
+	public void setRoundedEdge(int edge) {
+		this.edge = edge;
+	}
+	
 }

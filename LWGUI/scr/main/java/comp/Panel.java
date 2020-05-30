@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.Iterator;
 
 /**
  * 
@@ -19,7 +20,7 @@ import java.awt.event.MouseWheelEvent;
 public class Panel extends Container {
 
 	private Color background;
-
+	
 	public Panel() {
 		setName("Panel");
 		background = Color.LIGHT_GRAY;
@@ -53,12 +54,18 @@ public class Panel extends Container {
 
 		if (show) {
 			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-			g.fillRect(x, y, width, height);
+			g.fillRoundRect(x, y, width, height, edge, edge);
 
-			for (GUIComponent child : children) {
+			for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+				GUIComponent child = iterator.next();
 				child.drawEffect(g);
 				child.paint(g);
 			}
+			
+//			for (GUIComponent child : children) {
+//				child.drawEffect(g);
+//				child.paint(g);
+//			}
 		}
 		g.setClip(previousClip);
 

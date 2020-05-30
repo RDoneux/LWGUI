@@ -1,6 +1,7 @@
 package comp;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import constraints.Layout;
 
@@ -85,7 +86,11 @@ public abstract class Container extends GUIComponent {
 
 	@Override
 	public void incrementAnimationY(int y) {
-		for (GUIComponent child : children) {
+//		for (GUIComponent child : children) {
+//			child.incrementAnimationY(y);
+//		}
+		for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
 			child.incrementAnimationY(y);
 		}
 		this.animationY += y;
@@ -93,8 +98,12 @@ public abstract class Container extends GUIComponent {
 	
 	@Override
 	public void incrementAnimationWidth(int increment) {
-		for (GUIComponent child : children) {
-			child.incrementAnimationY(increment);
+//		for (GUIComponent child : children) {
+//			child.incrementAnimationWidth(increment);
+//		}
+		for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
+			child.incrementAnimationWidth(increment);
 		}
 		this.animationY += increment;
 	}
@@ -102,7 +111,7 @@ public abstract class Container extends GUIComponent {
 	@Override
 	public void incrementAnimationHeight(int increment) {
 		for (GUIComponent child : children) {
-			child.incrementAnimationY(increment);
+			child.incrementAnimationHeight(increment);
 		}
 		this.animationY += increment;
 	}
