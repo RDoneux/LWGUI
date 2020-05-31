@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 import animation.Animation;
 import constraints.Layout;
@@ -35,11 +35,7 @@ public class Panel extends Container {
 	@Override
 	public void revise() {
 
-//		for (GUIComponent child : children) {
-//			child.revise();
-//		}
-		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-			GUIComponent child = iterator.next();
+		for (GUIComponent child : children) {
 			child.revise();
 		}
 
@@ -69,15 +65,11 @@ public class Panel extends Container {
 				g.drawImage(image, x, y, width, height, null);
 			}
 
-//			for(GUIComponent child : children) {
-//				child.drawEffect(g);
-//				child.paint(g);
-//			}
-			for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-				GUIComponent child = iterator.next();
+			for (GUIComponent child : children) {
 				child.drawEffect(g);
 				child.paint(g);
 			}
+
 		}
 		g.setClip(previousClip);
 
@@ -185,5 +177,5 @@ public class Panel extends Container {
 	public void setImage(BufferedImage image) {
 		this.image = image;
 	}
-	
+
 }

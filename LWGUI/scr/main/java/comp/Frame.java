@@ -182,10 +182,10 @@ public class Frame extends Canvas
 			layout.updateLayout();
 		}
 
-		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-			GUIComponent child = iterator.next();
+		for (GUIComponent child : children) {
 			child.revise();
 		}
+
 		// }
 		// });
 	}

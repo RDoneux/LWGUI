@@ -67,7 +67,7 @@ public class FlyIn extends Animation {
 			try {
 				Thread.sleep(refresh);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
