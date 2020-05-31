@@ -6,7 +6,11 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
+
+import animation.Animation;
+import constraints.Layout;
 
 /**
  * 
@@ -20,7 +24,8 @@ import java.util.Iterator;
 public class Panel extends Container {
 
 	private Color background;
-	
+	private BufferedImage image;
+
 	public Panel() {
 		setName("Panel");
 		background = Color.LIGHT_GRAY;
@@ -30,7 +35,11 @@ public class Panel extends Container {
 	@Override
 	public void revise() {
 
-		for (GUIComponent child : children) {
+//		for (GUIComponent child : children) {
+//			child.revise();
+//		}
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
 			child.revise();
 		}
 
@@ -53,16 +62,19 @@ public class Panel extends Container {
 		}
 
 		if (show) {
-			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-			g.fillRoundRect(x, y, width, height, edge, edge);
+			if (image == null) {
+				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+				g.fillRoundRect(x, y, width - edge, height - edge, edge, edge);
+			} else {
+				g.drawImage(image, x, y, width, height, null);
+			}
 
-			for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-				GUIComponent child = iterator.next();
+			for(GUIComponent child : children) {
 				child.drawEffect(g);
 				child.paint(g);
 			}
-			
-//			for (GUIComponent child : children) {
+//			for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+//				GUIComponent child = iterator.next();
 //				child.drawEffect(g);
 //				child.paint(g);
 //			}
@@ -165,4 +177,13 @@ public class Panel extends Container {
 			}
 		}
 	}
+
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+	
 }

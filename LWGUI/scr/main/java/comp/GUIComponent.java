@@ -35,7 +35,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int gridHeight;
 
 	protected int transparency;
-	
+
 	protected int edge;
 
 	protected double weightX;
@@ -96,29 +96,33 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	 */
 	public void queAnimation(Animation animation) {
 
+//		System.out.println(name + ": animation qued ~ " + animation.getType());
+//		System.out.println("");
+
 		// System.out.println(parent);
 
 		// if the animation hasn't been set yet, create a new animation and start the
 		// animation loop
 		if (currentAnimation == null) {
 			currentAnimation = animation;
-			animation.setParent(this);
-			animation.start();
+			currentAnimation.setParent(this);
+			currentAnimation.start();
 			return;
 		}
 		// if an animation has been set, check to see if it is the same type of
 		// animation that has already been set. If it is different, replace the current
 		// animation with the new one and start the loop.
 		if (currentAnimation.getType() != animation.getType()) {
-			currentAnimation.stop();
+			stopAnimation();
 
 			currentAnimation = animation;
 			currentAnimation.setParent(this);
 			currentAnimation.start();
 		}
+		
 	}
 
-	public void stopAnimation() {
+	public synchronized void stopAnimation() {
 		if (currentAnimation != null) {
 			currentAnimation.stop();
 		}
@@ -235,12 +239,10 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public synchronized void incrementAnimationWidth(int increment) {
 		this.animationWidth += increment;
-		// setWidth(width);
 	}
 
 	public synchronized void incrementAnimationHeight(int increment) {
 		this.animationHeight += increment;
-		// setHeight(height);
 	}
 
 	public void setAnimationWidth(int animationWidth) {
@@ -426,5 +428,5 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public void setRoundedEdge(int edge) {
 		this.edge = edge;
 	}
-	
+
 }

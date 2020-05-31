@@ -5,7 +5,7 @@ import tools.IDGenerator;
 
 public abstract class Animation implements Runnable {
 
-	protected boolean running;
+	protected volatile boolean running;
 	protected Thread thread;
 
 	protected int ID;
@@ -33,9 +33,10 @@ public abstract class Animation implements Runnable {
 		thread.start();
 	}
 
-	public synchronized void stop() {
+	public void stop() {
 		running = false;
 		try {
+			thread.interrupt();
 			thread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -52,5 +53,9 @@ public abstract class Animation implements Runnable {
 
 	public animationType getType() {
 		return type;
+	}
+
+	public boolean isRunning() {
+		return running;
 	}
 }

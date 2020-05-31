@@ -30,7 +30,7 @@ public class FlyIn extends Animation {
 	 * values to return the component to it's intended location on the screen
 	 */
 	@Override
-	public void run() {
+	public synchronized void run() {
 
 		complete = false;
 		int refresh = 20;
@@ -39,7 +39,6 @@ public class FlyIn extends Animation {
 		}
 
 		while (running) {
-			
 			if (parent.isLoaded()) {
 				if (parent.getParent() == null) {
 					return;
@@ -64,6 +63,7 @@ public class FlyIn extends Animation {
 					break;
 				}
 			}
+				
 			try {
 				Thread.sleep(refresh);
 			} catch (InterruptedException e) {

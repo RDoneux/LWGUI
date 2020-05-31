@@ -18,9 +18,9 @@ public abstract class Container extends GUIComponent {
 	 */
 
 	protected Layout layout;
-	protected ArrayList<GUIComponent> children = new ArrayList<>();
+	protected volatile ArrayList<GUIComponent> children = new ArrayList<>();
 
-	public void add(GUIComponent child) {
+	public synchronized void add(GUIComponent child) {
 		if (layout == null) {
 			System.err.print("Container component: " + name + " does not have a valid layout.");
 		}
@@ -58,6 +58,20 @@ public abstract class Container extends GUIComponent {
 		}
 	}
 
+	/**
+	 * removes all children from the container. This method should be used to avoid
+	 * ConcurrentModificationException
+	 */
+	public synchronized void removeAllChildren() {
+		ArrayList<GUIComponent> toRemove = new ArrayList<GUIComponent>();
+		for (GUIComponent child : children) {
+			toRemove.add(child);
+		}
+		for(GUIComponent remove : toRemove) {
+			children.remove(remove);
+		}
+	}
+
 	@Override
 	public void setAnimationX(int x) {
 		for (GUIComponent child : children) {
@@ -77,7 +91,7 @@ public abstract class Container extends GUIComponent {
 	}
 
 	@Override
-	public void incrementAnimationX(int x) {
+	public synchronized void incrementAnimationX(int x) {
 		for (GUIComponent child : children) {
 			child.incrementAnimationX(x);
 		}
@@ -85,31 +99,27 @@ public abstract class Container extends GUIComponent {
 	}
 
 	@Override
-	public void incrementAnimationY(int y) {
-//		for (GUIComponent child : children) {
-//			child.incrementAnimationY(y);
-//		}
-		for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+	public synchronized void incrementAnimationY(int y) {
+
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
 			GUIComponent child = iterator.next();
 			child.incrementAnimationY(y);
 		}
 		this.animationY += y;
 	}
-	
+
 	@Override
-	public void incrementAnimationWidth(int increment) {
-//		for (GUIComponent child : children) {
-//			child.incrementAnimationWidth(increment);
-//		}
-		for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+	public synchronized void incrementAnimationWidth(int increment) {
+
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
 			GUIComponent child = iterator.next();
 			child.incrementAnimationWidth(increment);
 		}
 		this.animationY += increment;
 	}
-	
+
 	@Override
-	public void incrementAnimationHeight(int increment) {
+	public synchronized void incrementAnimationHeight(int increment) {
 		for (GUIComponent child : children) {
 			child.incrementAnimationHeight(increment);
 		}

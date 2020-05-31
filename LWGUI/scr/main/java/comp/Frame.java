@@ -59,7 +59,7 @@ public class Frame extends Canvas
 	public Frame() {
 
 		frame = new JFrame();
-		frame.setSize(new Dimension(600,400));
+		frame.setSize(new Dimension(600, 400));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -129,16 +129,16 @@ public class Frame extends Canvas
 		g.setClip(frame.getBounds());
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-//		for (GUIComponent child : children) {
-//			child.drawEffect(g);
-//			child.paint(g);
-//		}
-		
-		for(Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-			GUIComponent child = iterator.next();
+		for (GUIComponent child : children) {
 			child.drawEffect(g);
 			child.paint(g);
 		}
+
+//		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+//			GUIComponent child = iterator.next();
+//			child.drawEffect(g);
+//			child.paint(g);
+//		}
 
 		if (layout.isDebugging()) {
 			layout.debug(g);
@@ -175,17 +175,17 @@ public class Frame extends Canvas
 			inside = true;
 		}
 
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				if (layout != null) {
-					layout.updateLayout();
-				}
+		// SwingUtilities.invokeLater(new Runnable() {
+		// public void run() {
+		if (layout != null) {
+			layout.updateLayout();
+		}
 
-				for (GUIComponent child : children) {
-					child.revise();
-				}
-			}
-		});
+		for (GUIComponent child : children) {
+			child.revise();
+		}
+		// }
+		// });
 	}
 
 	public void add(GUIComponent child) {
@@ -282,7 +282,7 @@ public class Frame extends Canvas
 		requestFocus();
 
 		while (running) {
-
+			
 			long now = System.nanoTime();
 
 			// update
