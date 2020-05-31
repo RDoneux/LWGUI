@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import comp.Component;
 import comp.Frame;
@@ -62,7 +63,7 @@ public class PercentLayout extends Layout {
 	 * @param bounds
 	 * @param children
 	 */
-	private void layout(Rectangle bounds, ArrayList<GUIComponent> children) {
+	private void layout(Rectangle bounds, CopyOnWriteArrayList<GUIComponent> children) {
 
 		// set up-to-date tile locations and sizes
 		int setWidth = (int) bounds.getWidth() / columns;

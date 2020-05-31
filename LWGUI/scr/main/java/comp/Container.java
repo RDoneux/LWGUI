@@ -1,7 +1,7 @@
 package comp;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import constraints.Layout;
 
@@ -18,7 +18,7 @@ public abstract class Container extends GUIComponent {
 	 */
 
 	protected Layout layout;
-	protected volatile ArrayList<GUIComponent> children = new ArrayList<>();
+	protected volatile CopyOnWriteArrayList<GUIComponent> children = new CopyOnWriteArrayList<>();
 
 	public synchronized void add(GUIComponent child) {
 		if (layout == null) {
@@ -41,7 +41,7 @@ public abstract class Container extends GUIComponent {
 		return null;
 	}
 
-	public ArrayList<GUIComponent> getChildren() {
+	public CopyOnWriteArrayList<GUIComponent> getChildren() {
 		return children;
 	}
 
@@ -63,40 +63,48 @@ public abstract class Container extends GUIComponent {
 	 * ConcurrentModificationException
 	 */
 	public synchronized void removeAllChildren() {
-		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-			iterator.next();
-			iterator.remove();
+		
+		CopyOnWriteArrayList<GUIComponent> toRemove = new CopyOnWriteArrayList<>();
+		for(GUIComponent child : children) {
+			toRemove.add(child);
 		}
+		children.removeAll(toRemove);
+		
+//		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+//			iterator.next();
+//			iterator.remove();
+//		}
 	}
 
 	@Override
 	public void setAnimationX(int x) {
-		for (GUIComponent child : children) {
-			// if(child.currentAnimation == null || !child.currentAnimation.isRunning()) {
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
 			child.setAnimationX(x);
-			// }
 		}
 		this.animationX = x;
 	}
 
 	@Override
 	public void setAnimationY(int y) {
-		for (GUIComponent child : children) {
-			child.animationY = y;
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
+			child.setAnimationY(y);
 		}
 		this.animationY = y;
 	}
 
 	@Override
-	public synchronized void incrementAnimationX(int x) {
-		for (GUIComponent child : children) {
+	public void incrementAnimationX(int x) {
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
 			child.incrementAnimationX(x);
 		}
 		this.animationX += x;
 	}
 
 	@Override
-	public synchronized void incrementAnimationY(int y) {
+	public void incrementAnimationY(int y) {
 
 		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
 			GUIComponent child = iterator.next();
@@ -106,7 +114,7 @@ public abstract class Container extends GUIComponent {
 	}
 
 	@Override
-	public synchronized void incrementAnimationWidth(int increment) {
+	public void incrementAnimationWidth(int increment) {
 
 		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
 			GUIComponent child = iterator.next();
@@ -116,7 +124,7 @@ public abstract class Container extends GUIComponent {
 	}
 
 	@Override
-	public synchronized void incrementAnimationHeight(int increment) {
+	public void incrementAnimationHeight(int increment) {
 		for (GUIComponent child : children) {
 			child.incrementAnimationHeight(increment);
 		}

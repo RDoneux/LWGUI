@@ -16,6 +16,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -52,7 +53,7 @@ public class Frame extends Canvas
 	private boolean running;
 	private Thread thread;
 
-	private ArrayList<GUIComponent> children = new ArrayList<>();
+	private CopyOnWriteArrayList<GUIComponent> children = new CopyOnWriteArrayList<>();
 
 	public static Point mouseLocation;
 
@@ -114,7 +115,7 @@ public class Frame extends Canvas
 		}
 	}
 
-	public synchronized void paint() {
+	public void paint() {
 
 		BufferStrategy bs = this.getBufferStrategy();
 
@@ -151,7 +152,7 @@ public class Frame extends Canvas
 
 	private boolean inside;
 
-	public synchronized void revise() {
+	public void revise() {
 
 		// ensure that the static variables are up to date in the event of a window size
 		// change.
@@ -181,7 +182,8 @@ public class Frame extends Canvas
 			layout.updateLayout();
 		}
 
-		for (GUIComponent child : children) {
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			GUIComponent child = iterator.next();
 			child.revise();
 		}
 		// }
@@ -206,7 +208,7 @@ public class Frame extends Canvas
 		return null;
 	}
 
-	public ArrayList<GUIComponent> getChildren() {
+	public CopyOnWriteArrayList<GUIComponent> getChildren() {
 		return children;
 	}
 
