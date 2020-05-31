@@ -69,15 +69,15 @@ public class Panel extends Container {
 				g.drawImage(image, x, y, width, height, null);
 			}
 
-			for(GUIComponent child : children) {
-				child.drawEffect(g);
-				child.paint(g);
-			}
-//			for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-//				GUIComponent child = iterator.next();
+//			for(GUIComponent child : children) {
 //				child.drawEffect(g);
 //				child.paint(g);
 //			}
+			for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+				GUIComponent child = iterator.next();
+				child.drawEffect(g);
+				child.paint(g);
+			}
 		}
 		g.setClip(previousClip);
 

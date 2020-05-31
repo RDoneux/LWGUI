@@ -117,9 +117,11 @@ public class PercentLayout extends Layout {
 				// ask the child to check it's size in comparison to the given Tile size. If it
 				// is larger, the component will minimise
 				if (child instanceof Component) {
-					((Component) child).minimise(targetTile.getBounds());
+					((Component) child).minimise(new Rectangle(targetTile.x, targetTile.y,
+							targetTile.width * child.getGridWidth(), targetTile.height * child.getGridHeight()));
 				}
 			}
+
 
 			// set the alignment of the child component within the window frame. This will
 			// only have an effect if the child component is smaller than the window frame

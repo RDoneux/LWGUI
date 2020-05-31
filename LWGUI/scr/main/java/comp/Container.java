@@ -63,12 +63,9 @@ public abstract class Container extends GUIComponent {
 	 * ConcurrentModificationException
 	 */
 	public synchronized void removeAllChildren() {
-		ArrayList<GUIComponent> toRemove = new ArrayList<GUIComponent>();
-		for (GUIComponent child : children) {
-			toRemove.add(child);
-		}
-		for(GUIComponent remove : toRemove) {
-			children.remove(remove);
+		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
+			iterator.next();
+			iterator.remove();
 		}
 	}
 
