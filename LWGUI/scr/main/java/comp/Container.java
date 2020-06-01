@@ -25,6 +25,10 @@ public abstract class Container extends GUIComponent {
 			System.err.print("Container component: " + name + " does not have a valid layout.");
 		}
 		child.setParent(this);
+		// the animation constraints are only really relevant if the container has been
+		// offset at the point of adding children
+		child.setAnimationX(animationX);
+		child.setAnimationY(animationY);
 		children.add(child);
 	}
 
@@ -63,17 +67,13 @@ public abstract class Container extends GUIComponent {
 	 * ConcurrentModificationException
 	 */
 	public synchronized void removeAllChildren() {
-		
+
 		CopyOnWriteArrayList<GUIComponent> toRemove = new CopyOnWriteArrayList<>();
-		for(GUIComponent child : children) {
+		for (GUIComponent child : children) {
 			toRemove.add(child);
 		}
 		children.removeAll(toRemove);
-		
-//		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-//			iterator.next();
-//			iterator.remove();
-//		}
+
 	}
 
 	@Override
