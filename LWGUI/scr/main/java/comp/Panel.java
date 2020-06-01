@@ -60,8 +60,9 @@ public class Panel extends Container {
 		if (show) {
 			if (image == null) {
 				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-				g.fillRoundRect(x, y, width - edge, height - edge, edge, edge);
+				g.fillRoundRect(x, y, width, height, edge, edge);
 			} else {
+				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 				g.drawImage(image, x, y, width, height, null);
 			}
 

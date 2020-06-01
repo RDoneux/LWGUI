@@ -143,7 +143,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public Rectangle getBounds() {
 		return new Rectangle(x - animationX, y - animationY, width - animationWidth, height - animationHeight);
 	}
-
+	
 	// this is the actual display bounds of the component
 	public Rectangle getAnimationBounds() {
 		return new Rectangle(x, y, width, height);
