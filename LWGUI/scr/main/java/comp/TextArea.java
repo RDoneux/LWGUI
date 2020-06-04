@@ -159,7 +159,7 @@ public class TextArea extends Component {
 				timer = System.currentTimeMillis();
 			}
 			if (showCursor && focused) {
-				g.setColor(Color.BLACK);
+				g.setColor(foreground);
 				g.fillRect(textX + cursorX, textY + cursorY, 2, g.getFontMetrics(font).getHeight());
 			}
 		}
@@ -259,11 +259,11 @@ public class TextArea extends Component {
 		g.setClip(parent.getBounds());
 
 		if (show) {
-			g.setColor(shadow);
+			g.setColor(new Color(shadow.getRed(), shadow.getGreen(), shadow.getBlue(), transparency));
 			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
 			if (backgroundImage == null) {
-				g.setColor(background);
+				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 				g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 			} else {
 				g.drawImage(backgroundImage, x, y, width, height, null);
@@ -277,10 +277,10 @@ public class TextArea extends Component {
 				wrapString(g);
 			}
 
-			g.setColor(boarder);
+			g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
 			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 
-			if (focused) {
+			if (focused && transparency > 0) {
 				g.setColor(new Color(50, 150, 200));
 				g.drawRect(x + 1, y + 1, width - 2, height - 2);
 			}
