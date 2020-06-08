@@ -123,23 +123,25 @@ public class PercentLayout extends Layout {
 				}
 			}
 
-
 			// set the alignment of the child component within the window frame. This will
 			// only have an effect if the child component is smaller than the window frame
 			if (child.getAlignmentX() == alignment.WEST) {
-				child.setX(targetTile.x);
+				child.setX(targetTile.x + child.getxOffset());
 			} else if (child.getAlignmentX() == alignment.CENTRE) {
-				child.setX(targetTile.x + (targetTile.width * child.getGridWidth() / 2) - (child.getWidth() / 2));
+				child.setX(targetTile.x + (targetTile.width * child.getGridWidth() / 2) - (child.getWidth() / 2)
+						+ child.getxOffset());
 			} else if (child.getAlignmentX() == alignment.EAST) {
-				child.setX(targetTile.x + targetTile.width * child.getGridWidth() - child.getWidth());
+				child.setX(
+						targetTile.x + targetTile.width * child.getGridWidth() - child.getWidth() + child.getxOffset());
 			}
 
 			if (child.getAlignmentY() == alignment.NORTH) {
-				child.setY(targetTile.y);
+				child.setY(targetTile.y + child.getyOffset());
 			} else if (child.getAlignmentY() == alignment.CENTRE) {
-				child.setY(targetTile.y + (targetTile.height * child.getGridHeight() / 2) - (child.getHeight() / 2));
+				child.setY(targetTile.y + (targetTile.height * child.getGridHeight() / 2) - (child.getHeight() / 2)
+						+ child.getyOffset());
 			} else if (child.getAlignmentY() == alignment.SOUTH) {
-				child.setY(targetTile.y - child.getHeight() * child.getGridHeight());
+				child.setY(targetTile.y - child.getHeight() * child.getGridHeight() + child.getyOffset());
 			}
 		}
 	}

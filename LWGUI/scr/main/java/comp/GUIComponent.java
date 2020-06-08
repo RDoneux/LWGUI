@@ -34,6 +34,9 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int gridWidth;
 	protected int gridHeight;
 
+	protected int xOffset;
+	protected int yOffset;
+
 	protected int transparency;
 
 	protected int edge;
@@ -119,7 +122,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 			currentAnimation.setParent(this);
 			currentAnimation.start();
 		}
-		
+
 	}
 
 	public synchronized void stopAnimation() {
@@ -143,7 +146,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public Rectangle getBounds() {
 		return new Rectangle(x - animationX, y - animationY, width - animationWidth, height - animationHeight);
 	}
-	
+
 	// this is the actual display bounds of the component
 	public Rectangle getAnimationBounds() {
 		return new Rectangle(x, y, width, height);
@@ -429,4 +432,20 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		this.edge = edge;
 	}
 
+	public int getxOffset() {
+		return xOffset;
+	}
+
+	public void setxOffset(int xOffset) {
+		this.xOffset = xOffset;
+	}
+
+	public int getyOffset() {
+		return yOffset;
+	}
+
+	public void setyOffset(int yOffset) {
+		this.yOffset = yOffset;
+	}
+	
 }
