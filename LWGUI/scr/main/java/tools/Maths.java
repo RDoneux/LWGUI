@@ -78,25 +78,43 @@ public class Maths {
 		return new Dimension(new_width, new_height);
 	}
 
-	
-	public static int scaleFont (Graphics g, String title, Rectangle bounds) {
-	    Rectangle2D rect = null;
+	/**
+	 * maps valueCoord1 between a minimum and maximum value and an end minimum and
+	 * maximum value;
+	 */
+	final static double EPSILON = 1e-12;
 
-	    int fontSize = 30; //initial value
-	    do {
-	        fontSize--;
-	        Font font = new Font("Arial", Font.PLAIN, fontSize);
-	        rect = getStringBoundsRectangle2D(g, title, font);
-	    } while (rect.getWidth() >= bounds.width || rect.getHeight() >= bounds.height);
+	public static double map(double valueCoord1, double startCoord1, double endCoord1, double startCoord2,
+			double endCoord2) {
 
-	    System.out.println(fontSize);
-	    return fontSize;
+		if (Math.abs(endCoord1 - startCoord1) < EPSILON) {
+			throw new ArithmeticException("/ 0");
+		}
+
+		double offset = startCoord2;
+		double ratio = (endCoord2 - startCoord2) / (endCoord1 - startCoord1);
+		return ratio * (valueCoord1 - startCoord1) + offset;
 	}
-	private static Rectangle2D getStringBoundsRectangle2D (Graphics g, String title, Font font) {
-	    g.setFont(font);
-	    FontMetrics fm = g.getFontMetrics();
-	    Rectangle2D rect = fm.getStringBounds(title, g);
-	    return rect;
+
+	public static int scaleFont(Graphics g, String title, Rectangle bounds) {
+		Rectangle2D rect = null;
+
+		int fontSize = 30; // initial value
+		do {
+			fontSize--;
+			Font font = new Font("Arial", Font.PLAIN, fontSize);
+			rect = getStringBoundsRectangle2D(g, title, font);
+		} while (rect.getWidth() >= bounds.width || rect.getHeight() >= bounds.height);
+
+		System.out.println(fontSize);
+		return fontSize;
+	}
+
+	private static Rectangle2D getStringBoundsRectangle2D(Graphics g, String title, Font font) {
+		g.setFont(font);
+		FontMetrics fm = g.getFontMetrics();
+		Rectangle2D rect = fm.getStringBounds(title, g);
+		return rect;
 	}
 
 }

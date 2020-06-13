@@ -1,16 +1,18 @@
 package comp;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import animation.Animation;
 import constraints.Layout;
+import tools.Maths;
 
 /**
  * 
@@ -25,10 +27,12 @@ public class Panel extends Container {
 
 	private Color background;
 	private BufferedImage image;
+	private AlphaComposite comp;
 
 	public Panel() {
 		setName("Panel");
 		background = Color.LIGHT_GRAY;
+		comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f);
 		sizeEditable = true;
 	}
 
@@ -62,8 +66,12 @@ public class Panel extends Container {
 				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
 				g.fillRoundRect(x, y, width, height, edge, edge);
 			} else {
-				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-				g.drawImage(image, x, y, width, height, null);
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+				AlphaComposite pre = (AlphaComposite) g2d.getComposite();
+				g2d.setComposite(comp);
+				g2d.drawImage(image, x, y, width, height, null);
+				g2d.setComposite(pre);
 			}
 
 			for (GUIComponent child : children) {
@@ -84,6 +92,12 @@ public class Panel extends Container {
 
 	public void setBackground(Color colour) {
 		this.background = colour;
+	}
+
+	@Override
+	public void setTransparency(int transparency) {
+		super.setTransparency(transparency);
+		comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) Maths.map(transparency, 0, 255, 0, 1));
 	}
 
 	@Override
