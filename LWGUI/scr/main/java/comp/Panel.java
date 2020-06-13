@@ -28,12 +28,14 @@ public class Panel extends Container {
 	private Color background;
 	private BufferedImage image;
 	private AlphaComposite comp;
+	private int contrast; // add some contrast to a image
 
 	public Panel() {
 		setName("Panel");
 		background = Color.LIGHT_GRAY;
 		comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f);
 		sizeEditable = true;
+		contrast = 0;
 	}
 
 	@Override
@@ -67,8 +69,11 @@ public class Panel extends Container {
 				g.fillRoundRect(x, y, width, height, edge, edge);
 			} else {
 				Graphics2D g2d = (Graphics2D) g;
-				g2d.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+				g2d.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), contrast));
 				AlphaComposite pre = (AlphaComposite) g2d.getComposite();
+				if (contrast > 0) {
+					g.fillRoundRect(x, y, width, height, edge, edge);
+				}
 				g2d.setComposite(comp);
 				g2d.drawImage(image, x, y, width, height, null);
 				g2d.setComposite(pre);
@@ -189,7 +194,18 @@ public class Panel extends Container {
 		return image;
 	}
 
-	public void setImage(BufferedImage image) {
+	/**
+	 * identify the image that should be drawn as a background. The contrast
+	 * identifies if an image of the colour of the background should be drawn to
+	 * provide some contrast. This works particularly well when black text is being
+	 * rendered onto a dark image.
+	 * 
+	 * @param image    - the image to render
+	 * @param contrast - the transparency of the background contrast. 0 = no
+	 *                 contrast
+	 */
+	public void setImage(BufferedImage image, int contrast) {
+		this.contrast = contrast;
 		this.image = image;
 	}
 
