@@ -54,6 +54,10 @@ public abstract class Container extends GUIComponent {
 		this.layout = layout;
 	}
 
+	public Layout getLayout() {
+		return layout;
+	}
+
 	public void debugLayout() {
 		if (layout != null) {
 			layout.setDebugging(true);

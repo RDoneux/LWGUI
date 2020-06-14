@@ -57,6 +57,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected boolean minimised;
 	protected boolean loaded;
 	protected boolean show;
+	protected boolean autoLayout; // indicate if the layout manager should control the x, y, width & variables for this component. Set to true for default
 
 	protected Animation currentAnimation;
 	protected Effect currentEffect;
@@ -75,6 +76,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 		gridHeight = 1;
 		transparency = 255;
 		show = true;
+		autoLayout = true;
 	}
 
 	public abstract void revise();
@@ -446,6 +448,14 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public void setyOffset(int yOffset) {
 		this.yOffset = yOffset;
+	}
+
+	public boolean isAutoLayout() {
+		return autoLayout;
+	}
+
+	public void setAutoLayout(boolean layout) {
+		this.autoLayout = layout;
 	}
 	
 }

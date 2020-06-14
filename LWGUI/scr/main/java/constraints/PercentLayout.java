@@ -79,69 +79,74 @@ public class PercentLayout extends Layout {
 		// find the highest x and y grid locations of all the children
 		for (GUIComponent child : children) {
 
-			// ensure that the child's grid value is within the managers grid range
-			if (child.getGridx() >= columns) {
-				throw new IllegalArgumentException("GUIComponent: " + child.getName()
-						+ " has a gridX value outside of Layout Managers range. Current range = " + columns
-						+ " Current value = " + child.getGridx());
-			}
-			if (child.getGridWidth() > columns) {
-				throw new IllegalArgumentException("GUIComponent: " + child.getName()
-						+ " has a gridWidth value outside of Layout Managers range. Current range = " + columns
-						+ " Current value = " + child.getGridWidth());
-			}
-			if (child.getGridy() >= rows) {
-				throw new IllegalArgumentException("GUIComponent: " + child.getName()
-						+ " has a gridY value outside of Layout Managers range. Current range = " + rows
-						+ " Current value = " + child.getGridy());
-			}
-			if (child.getGridHeight() > rows) {
-				throw new IllegalArgumentException("GUIComponent: " + child.getName()
-						+ " has a gridHeight value outside of Layout Managers range. Current range = " + rows
-						+ " Current value = " + child.getGridHeight());
-			}
+			// if the child is set to have it's x,y,width & height variables manually set,
+			// don't lay out out as the x and y locations as the user will set those manually
+			if (child.isAutoLayout()) {
 
-			Tile targetTile = tiles[child.getGridx()][child.getGridy()];
-
-			// If the child component is size editable, calculate the size of the component
-			// based upon its weight and grid width /
-			// height.
-			if (child.isSizeEditable()) {
-				int percentWidth = (int) Maths.round(child.getWeightX() * 100, 2)
-						* (targetTile.width * child.getGridWidth()) / 100;
-				int percentHeight = (int) Maths.round(child.getWeightY() * 100, 2)
-						* (targetTile.height * child.getGridHeight()) / 100;
-
-				child.setWidth(percentWidth);
-				child.setHeight(percentHeight);
-			} else {
-				// ask the child to check it's size in comparison to the given Tile size. If it
-				// is larger, the component will minimise
-				if (child instanceof Component) {
-					((Component) child).minimise(new Rectangle(targetTile.x, targetTile.y,
-							targetTile.width * child.getGridWidth(), targetTile.height * child.getGridHeight()));
+				// ensure that the child's grid value is within the managers grid range
+				if (child.getGridx() >= columns) {
+					throw new IllegalArgumentException("GUIComponent: " + child.getName()
+							+ " has a gridX value outside of Layout Managers range. Current range = " + columns
+							+ " Current value = " + child.getGridx());
 				}
-			}
+				if (child.getGridWidth() > columns) {
+					throw new IllegalArgumentException("GUIComponent: " + child.getName()
+							+ " has a gridWidth value outside of Layout Managers range. Current range = " + columns
+							+ " Current value = " + child.getGridWidth());
+				}
+				if (child.getGridy() >= rows) {
+					throw new IllegalArgumentException("GUIComponent: " + child.getName()
+							+ " has a gridY value outside of Layout Managers range. Current range = " + rows
+							+ " Current value = " + child.getGridy());
+				}
+				if (child.getGridHeight() > rows) {
+					throw new IllegalArgumentException("GUIComponent: " + child.getName()
+							+ " has a gridHeight value outside of Layout Managers range. Current range = " + rows
+							+ " Current value = " + child.getGridHeight());
+				}
 
-			// set the alignment of the child component within the window frame. This will
-			// only have an effect if the child component is smaller than the window frame
-			if (child.getAlignmentX() == alignment.WEST) {
-				child.setX(targetTile.x + child.getxOffset());
-			} else if (child.getAlignmentX() == alignment.CENTRE) {
-				child.setX(targetTile.x + (targetTile.width * child.getGridWidth() / 2) - (child.getWidth() / 2)
-						+ child.getxOffset());
-			} else if (child.getAlignmentX() == alignment.EAST) {
-				child.setX(
-						targetTile.x + targetTile.width * child.getGridWidth() - child.getWidth() + child.getxOffset());
-			}
+				Tile targetTile = tiles[child.getGridx()][child.getGridy()];
 
-			if (child.getAlignmentY() == alignment.NORTH) {
-				child.setY(targetTile.y + child.getyOffset());
-			} else if (child.getAlignmentY() == alignment.CENTRE) {
-				child.setY(targetTile.y + (targetTile.height * child.getGridHeight() / 2) - (child.getHeight() / 2)
-						+ child.getyOffset());
-			} else if (child.getAlignmentY() == alignment.SOUTH) {
-				child.setY(targetTile.y - child.getHeight() * child.getGridHeight() + child.getyOffset());
+				// If the child component is size editable, calculate the size of the component
+				// based upon its weight and grid width /
+				// height.
+				if (child.isSizeEditable()) {
+					int percentWidth = (int) Maths.round(child.getWeightX() * 100, 2)
+							* (targetTile.width * child.getGridWidth()) / 100;
+					int percentHeight = (int) Maths.round(child.getWeightY() * 100, 2)
+							* (targetTile.height * child.getGridHeight()) / 100;
+
+					child.setWidth(percentWidth);
+					child.setHeight(percentHeight);
+				} else {
+					// ask the child to check it's size in comparison to the given Tile size. If it
+					// is larger, the component will minimise
+					if (child instanceof Component) {
+						((Component) child).minimise(new Rectangle(targetTile.x, targetTile.y,
+								targetTile.width * child.getGridWidth(), targetTile.height * child.getGridHeight()));
+					}
+				}
+
+				// set the alignment of the child component within the window frame. This will
+				// only have an effect if the child component is smaller than the window frame
+				if (child.getAlignmentX() == alignment.WEST) {
+					child.setX(targetTile.x + child.getxOffset());
+				} else if (child.getAlignmentX() == alignment.CENTRE) {
+					child.setX(targetTile.x + (targetTile.width * child.getGridWidth() / 2) - (child.getWidth() / 2)
+							+ child.getxOffset());
+				} else if (child.getAlignmentX() == alignment.EAST) {
+					child.setX(targetTile.x + targetTile.width * child.getGridWidth() - child.getWidth()
+							+ child.getxOffset());
+				}
+
+				if (child.getAlignmentY() == alignment.NORTH) {
+					child.setY(targetTile.y + child.getyOffset());
+				} else if (child.getAlignmentY() == alignment.CENTRE) {
+					child.setY(targetTile.y + (targetTile.height * child.getGridHeight() / 2) - (child.getHeight() / 2)
+							+ child.getyOffset());
+				} else if (child.getAlignmentY() == alignment.SOUTH) {
+					child.setY(targetTile.y - child.getHeight() * child.getGridHeight() + child.getyOffset());
+				}
 			}
 		}
 	}
