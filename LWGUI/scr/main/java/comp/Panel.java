@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -27,7 +28,8 @@ import tools.Utils;
 public class Panel extends Container {
 
 	private Color background;
-	private BufferedImage image;
+	private Image image;
+	private Image masterImage;
 	private AlphaComposite comp;
 	private int contrast; // add some contrast to a image
 
@@ -41,6 +43,13 @@ public class Panel extends Container {
 
 	@Override
 	public void revise() {
+
+		if (image != null && width > 0 && height > 0) {
+			if (image.getWidth(null) != width || image.getHeight(null) != height) {
+				image = masterImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				image = Utils.makeRoundedCorner(image, edge);
+			}
+		}
 
 		for (GUIComponent child : children) {
 			child.revise();
@@ -191,7 +200,7 @@ public class Panel extends Container {
 		}
 	}
 
-	public BufferedImage getImage() {
+	public Image getImage() {
 		return image;
 	}
 
@@ -207,6 +216,7 @@ public class Panel extends Container {
 	 */
 	public void setImage(BufferedImage image, int contrast) {
 		this.contrast = contrast;
+		this.masterImage = image;
 		this.image = image;
 	}
 
