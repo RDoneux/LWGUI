@@ -29,9 +29,10 @@ public class Panel extends Container {
 
 	private Color background;
 	private Image image;
-	private Image masterImage;
+	private BufferedImage masterImage;
 	private AlphaComposite comp;
 	private int contrast; // add some contrast to a image
+	private boolean scale;
 
 	public Panel() {
 		setName("Panel");
@@ -44,9 +45,13 @@ public class Panel extends Container {
 	@Override
 	public void revise() {
 
-		if (image != null && width > 0 && height > 0) {
+		if (image != null && width > 0 && height > 0 && scale) {
 			if (image.getWidth(null) != width || image.getHeight(null) != height) {
-				image = masterImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				if (masterImage.getWidth() < width || masterImage.getHeight() < height) {
+					image = masterImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				} else {
+					image = masterImage.getSubimage(0, 0, width, height);
+				}
 				image = Utils.makeRoundedCorner(image, edge);
 			}
 		}
@@ -209,6 +214,24 @@ public class Panel extends Container {
 	 * identifies if an image of the colour of the background should be drawn to
 	 * provide some contrast. This works particularly well when black text is being
 	 * rendered onto a dark image.
+	 * 
+	 * @param image    - the image to render
+	 * @param contrast - the transparency of the background contrast. 0 = no
+	 *                 contrast
+	 */
+	public void setImage(BufferedImage image, int contrast, boolean scale) {
+		this.scale = scale;
+		this.contrast = contrast;
+		this.masterImage = image;
+		this.image = image;
+	}
+
+	/**
+	 * identify the image that should be drawn as a background. The contrast
+	 * identifies if an image of the colour of the background should be drawn to
+	 * provide some contrast. This works particularly well when black text is being
+	 * rendered onto a dark image. This method automatically sets the scale value to
+	 * false
 	 * 
 	 * @param image    - the image to render
 	 * @param contrast - the transparency of the background contrast. 0 = no
