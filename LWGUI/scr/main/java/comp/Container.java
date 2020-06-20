@@ -1,5 +1,7 @@
 package comp;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -30,6 +32,20 @@ public abstract class Container extends GUIComponent {
 		child.setAnimationX(animationX);
 		child.setAnimationY(animationY);
 		children.add(child);
+
+		// sort the array based upon level. This will ensure that the components with
+		// the lowest level are rendered first and the components with higher levels are
+		// rendered on top
+		Collections.sort(children, new Comparator<GUIComponent>() {
+			@Override
+			public int compare(GUIComponent arg0, GUIComponent arg1) {
+				if (arg0.getLevel() > arg1.getLevel()) {
+					return +1;
+				} else {
+					return -1;
+				}
+			}
+		});
 	}
 
 	public GUIComponent getChild(int i) {

@@ -40,6 +40,8 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int transparency;
 
 	protected int edge;
+	
+	protected int level; // specify in which order the item should be rendered at
 
 	protected double weightX;
 	protected double weightY;
@@ -456,6 +458,14 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	public void setAutoLayout(boolean layout) {
 		this.autoLayout = layout;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	
 }
