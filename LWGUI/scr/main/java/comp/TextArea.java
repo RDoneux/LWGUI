@@ -75,6 +75,12 @@ public class TextArea extends Component {
 		}
 	}
 
+	@Override
+	public void setText(String text) {
+		this.text = text.replace(" ", "\f");
+		this.protectedText = this.text;
+	}
+
 	/**
 	 * wrap the protectedText string within the bounds of this component and draw
 	 * the cursor position.

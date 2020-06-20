@@ -18,7 +18,6 @@ public abstract class Component extends GUIComponent {
 	protected Color foreground;
 	protected FontRenderContext frc = new FontRenderContext(null, false, false);
 
-
 	/**
 	 * Receives a boundary from the Parent {@link Container}'s {@link Layout}. The
 	 * Class will minimise the string size to the first three chars followed by
@@ -44,7 +43,7 @@ public abstract class Component extends GUIComponent {
 			text = protectedText;
 			minimised = false;
 		}
-		
+
 	}
 
 	public Component() {
@@ -56,8 +55,8 @@ public abstract class Component extends GUIComponent {
 	}
 
 	public void setText(String text) {
-		this.text = text.replace(" ", "\f");
-		this.protectedText = this.text;
+		this.text = text;
+		this.protectedText = text;
 	}
 
 	public Font getFont() {
