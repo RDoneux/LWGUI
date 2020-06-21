@@ -67,7 +67,10 @@ public class PercentLayout extends Layout {
 
 		// set up-to-date tile locations and sizes
 		int setWidth = (int) bounds.getWidth() / columns;
-		int setHeight = (int) bounds.getHeight() / rows;
+		int setHeight = (int) bounds.getHeight();
+		if (rows > 1) {
+			setHeight = (int) bounds.getHeight() / rows;
+		}
 		for (int i = 0; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
 				tiles[i][j] = new Tile(setWidth, setHeight);
@@ -80,7 +83,8 @@ public class PercentLayout extends Layout {
 		for (GUIComponent child : children) {
 
 			// if the child is set to have it's x,y,width & height variables manually set,
-			// don't lay out out as the x and y locations as the user will set those manually
+			// don't lay out out as the x and y locations as the user will set those
+			// manually
 			if (child.isAutoLayout()) {
 
 				// ensure that the child's grid value is within the managers grid range
