@@ -13,9 +13,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
@@ -67,6 +68,14 @@ public class Frame extends Canvas
 		frame.setVisible(true);
 		setListeners();
 
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				stop(); // if multiple windows are running concurrently, stop the thread on the closed
+						// window
+			}
+		});
+
 		frame.add(this);
 
 		start();
@@ -81,6 +90,14 @@ public class Frame extends Canvas
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		setListeners();
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				stop(); // if multiple windows are running concurrently, stop the thread on the closed
+						// window
+			}
+		});
 
 		frame.add(this);
 
@@ -123,17 +140,17 @@ public class Frame extends Canvas
 			this.createBufferStrategy(2);
 			return;
 		}
-		// SwingUtilities.invokeLater(new Runnable() {
-		// public void run() {
-		Graphics g = bs.getDrawGraphics();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				Graphics g = bs.getDrawGraphics();
 
-		g.setClip(frame.getBounds());
-		g.fillRect(0, 0, getWidth(), getHeight());
+				g.setClip(frame.getBounds());
+				g.fillRect(0, 0, getWidth(), getHeight());
 
-		for (GUIComponent child : children) {
-			child.drawEffect(g);
-			child.paint(g);
-		}
+				for (GUIComponent child : children) {
+					child.drawEffect(g);
+					child.paint(g);
+				}
 
 //		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
 //			GUIComponent child = iterator.next();
@@ -141,13 +158,13 @@ public class Frame extends Canvas
 //			child.paint(g);
 //		}
 
-		if (layout.isDebugging()) {
-			layout.debug(g);
-		}
-		bs.show();
-		g.dispose();
-		// }
-		// });
+				if (layout != null && layout.isDebugging()) {
+					layout.debug(g);
+				}
+				bs.show();
+				g.dispose();
+			}
+		});
 	}
 
 	private boolean inside;
@@ -176,18 +193,18 @@ public class Frame extends Canvas
 			inside = true;
 		}
 
-		// SwingUtilities.invokeLater(new Runnable() {
-		// public void run() {
-		if (layout != null) {
-			layout.updateLayout();
-		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (layout != null) {
+					layout.updateLayout();
+				}
 
-		for (GUIComponent child : children) {
-			child.revise();
-		}
+				for (GUIComponent child : children) {
+					child.revise();
+				}
 
-		// }
-		// });
+			}
+		});
 	}
 
 	public void add(GUIComponent child) {
@@ -284,7 +301,7 @@ public class Frame extends Canvas
 		requestFocus();
 
 		while (running) {
-			
+
 			long now = System.nanoTime();
 
 			// update
