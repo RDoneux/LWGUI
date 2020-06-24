@@ -24,8 +24,12 @@ public abstract class Container extends GUIComponent {
 
 	public synchronized void add(GUIComponent child) {
 		if (layout == null) {
-			System.err.print("Container component: " + name + " does not have a valid layout.");
+			System.err.println("Container component: " + name + " does not have a valid layout.");
 		}
+		if (displayWindow == null) {
+			System.err.println("Container component: " + name + " does not have a valid parent display. Container -> add");
+		}
+		child.setDisplayWindow(getDisplayWindow());
 		child.setParent(this);
 		// the animation constraints are only really relevant if the container has been
 		// offset at the point of adding children
@@ -46,6 +50,14 @@ public abstract class Container extends GUIComponent {
 				}
 			}
 		});
+	}
+
+	public void remove(GUIComponent comp) {
+		if (children.contains(comp)) {
+			children.remove(comp);
+		} else {
+			System.err.println("component: " + comp + " Cannot be found in container: " + name);
+		}
 	}
 
 	public GUIComponent getChild(int i) {

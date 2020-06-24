@@ -50,6 +50,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	protected GUIComponent parent;
 	protected Frame topLevelParent;
+	protected Frame displayWindow;
 
 	protected alignment alignmentX;
 	protected alignment alignmentY;
@@ -63,6 +64,7 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 
 	protected Animation currentAnimation;
 	protected Effect currentEffect;
+	
 
 	public enum alignment {
 		NORTH, EAST, SOUTH, WEST, CENTRE;
@@ -467,5 +469,13 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
+	public Frame getDisplayWindow() {
+		return displayWindow;
+	}
+
+	public void setDisplayWindow(Frame displayWindow) {
+		this.displayWindow = displayWindow;
+	}
+		
 }

@@ -45,7 +45,7 @@ public class Frame extends Canvas
 
 	public static int FRAME_WIDTH;
 	public static int FRAME_HEIGHT;
-	public static Point MOUSE_LOCATION;
+	// public static Point MOUSE_LOCATION;
 
 	private JFrame frame;
 
@@ -56,7 +56,8 @@ public class Frame extends Canvas
 
 	private CopyOnWriteArrayList<GUIComponent> children = new CopyOnWriteArrayList<>();
 
-	public static Point mouseLocation;
+	public Point mouseLocation; // the current mouse location on the screen mapped to the frame's content pane
+								// size
 
 	public Frame() {
 
@@ -126,6 +127,7 @@ public class Frame extends Canvas
 	public synchronized void stop() {
 		running = false;
 		try {
+			thread.interrupt();
 			thread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -140,31 +142,23 @@ public class Frame extends Canvas
 			this.createBufferStrategy(2);
 			return;
 		}
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				Graphics g = bs.getDrawGraphics();
 
-				g.setClip(frame.getBounds());
-				g.fillRect(0, 0, getWidth(), getHeight());
+		Graphics g = bs.getDrawGraphics();
 
-				for (GUIComponent child : children) {
-					child.drawEffect(g);
-					child.paint(g);
-				}
+		g.setClip(frame.getBounds());
+		g.fillRect(0, 0, getWidth(), getHeight());
 
-//		for (Iterator<GUIComponent> iterator = children.iterator(); iterator.hasNext();) {
-//			GUIComponent child = iterator.next();
-//			child.drawEffect(g);
-//			child.paint(g);
-//		}
+		for (GUIComponent child : children) {
+			child.drawEffect(g);
+			child.paint(g);
+		}
 
-				if (layout != null && layout.isDebugging()) {
-					layout.debug(g);
-				}
-				bs.show();
-				g.dispose();
-			}
-		});
+		if (layout != null && layout.isDebugging()) {
+			layout.debug(g);
+		}
+		bs.show();
+		g.dispose();
+
 	}
 
 	private boolean inside;
@@ -173,8 +167,8 @@ public class Frame extends Canvas
 
 		// ensure that the static variables are up to date in the event of a window size
 		// change.
-		MOUSE_LOCATION = new Point(MouseInfo.getPointerInfo().getLocation());
-		SwingUtilities.convertPointFromScreen(MOUSE_LOCATION, frame.getContentPane());
+		// MOUSE_LOCATION = new Point(MouseInfo.getPointerInfo().getLocation());
+
 		FRAME_WIDTH = frame.getContentPane().getWidth();
 		FRAME_HEIGHT = frame.getContentPane().getHeight();
 
@@ -193,22 +187,21 @@ public class Frame extends Canvas
 			inside = true;
 		}
 
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				if (layout != null) {
-					layout.updateLayout();
-				}
+		if (layout != null) {
+			layout.updateLayout();
+		}
 
-				for (GUIComponent child : children) {
-					child.revise();
-				}
+		for (GUIComponent child : children) {
+			child.revise();
+		}
 
-			}
-		});
 	}
 
 	public void add(GUIComponent child) {
+
+		child.setDisplayWindow(this);
 		child.setParent(this);
+				
 		children.add(child);
 	}
 
@@ -338,7 +331,6 @@ public class Frame extends Canvas
 			try {
 				Thread.sleep(wait);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 
 			// update title information
