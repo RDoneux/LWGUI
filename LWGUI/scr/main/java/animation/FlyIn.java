@@ -39,6 +39,7 @@ public class FlyIn extends Animation {
 		}
 
 		while (running) {
+			
 			if (parent.isLoaded()) {
 				if (parent.getParent() == null) {
 					return;

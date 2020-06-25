@@ -27,7 +27,7 @@ public abstract class Animation implements Runnable {
 		ID = IDGenerator.generateID();
 	}
 
-	public synchronized void start() {
+	public void start() {
 		thread = new Thread(this);
 		running = true;
 		thread.start();
@@ -36,10 +36,10 @@ public abstract class Animation implements Runnable {
 	public void stop() {
 		running = false;
 		try {
-			thread.interrupt();
-			thread.join();
+			Thread.currentThread().interrupt();
+			Thread.currentThread().join();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
