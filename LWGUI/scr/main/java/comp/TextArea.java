@@ -389,6 +389,10 @@ public class TextArea extends Component {
 				cursorLocation.x = 1;
 			}
 
+			if (protectedText.length() >= charCount) {
+				return;
+			}
+
 			StringBuilder sb = new StringBuilder(protectedText);
 			switch (arg0.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -546,6 +550,18 @@ public class TextArea extends Component {
 
 	public void setImage(BufferedImage image) {
 		this.backgroundImage = image;
+	}
+
+	public void setMaxChars(int maxChars) {
+		this.charCount = maxChars;
+	}
+
+	public int getMaxChars() {
+		return charCount;
+	}
+
+	public String getText() {
+		return protectedText.replace("\f", " ");
 	}
 
 }
