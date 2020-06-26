@@ -54,8 +54,14 @@ public class Label extends Component {
 
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
 		g.setFont(font);
-		width = g.getFontMetrics().stringWidth(text);
-		height = g.getFontMetrics().getHeight();
+		if (text != null && text.length() > 0) {
+			width = g.getFontMetrics().stringWidth(text);
+			height = g.getFontMetrics().getHeight();
+
+		} else {
+			width = 1;
+			height = 1;
+		}
 		int assent = g.getFontMetrics().getAscent();
 
 		// save the previous clip bounds so that it can be reset after this components
@@ -69,7 +75,7 @@ public class Label extends Component {
 			g.setClip(topLevelParent.getBounds());
 		}
 
-		if (show) {
+		if (show && text != null) {
 			g.drawString(text, x, y + assent);
 		}
 		// reset the clip area

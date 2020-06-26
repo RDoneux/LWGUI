@@ -342,6 +342,18 @@ public class TextArea extends Component {
 		}
 	}
 
+	public void setFocused(boolean focus) {
+		this.focused = focus;
+	}
+
+	public void clearText() {
+		setText("");
+		flatCursorPosition = 0;
+		cursorLocation.y = 0;
+		cursorLocation.x = 0;
+		backwardsCheckCursor = true;
+	}
+
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -368,6 +380,11 @@ public class TextArea extends Component {
 
 		// if the TextArea is focused, update the text values from the user input
 		if (focused) {
+			if (protectedText.length() == 0) {
+				lines = new String[1]; // if the text area doesn't have text, initialise the first line as we're
+										// about to use it
+				lines[0] = " ";
+			}
 			if (lines[cursorLocation.y].equals("\n ")) {
 				cursorLocation.x = 1;
 			}
@@ -475,7 +492,7 @@ public class TextArea extends Component {
 
 			// if the cursor is off the display screen, Jump the current scroll rate to the
 			// cursor location
-			if (cursorY >= y + (-textY + height) || cursorY <= y + -textY) {
+			if (cursorY >= y + (-textY + height) || cursorY <= y) {
 				yScroll = -cursorY;
 			}
 			setText(sb.toString());
