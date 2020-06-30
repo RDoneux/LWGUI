@@ -27,6 +27,7 @@ public class Button extends Component {
 	private Color boarder;
 
 	private int roundEdge;
+	private int foregroundTransparency; // the transparency of the text
 
 	private Image image;
 
@@ -39,6 +40,7 @@ public class Button extends Component {
 
 		this.setSizeEditable(false);
 
+		foregroundTransparency = 255;
 		background = Color.LIGHT_GRAY;
 		boarder = Color.BLACK;
 		roundEdge = 5;
@@ -48,9 +50,11 @@ public class Button extends Component {
 	public Button() {
 		this.foreground = Color.BLACK;
 		this.setName("Button");
-
 		this.setSizeEditable(false);
 
+		text = " ";
+		protectedText = text;
+		foregroundTransparency = 255;
 		background = Color.LIGHT_GRAY;
 		boarder = Color.BLACK;
 		roundEdge = 5;
@@ -74,7 +78,7 @@ public class Button extends Component {
 
 	@Override
 	public void paint(Graphics g) {
-		
+
 		g.setFont(font);
 		if (width == 0 && height == 0) {
 			width = g.getFontMetrics().stringWidth(text) + 50;
@@ -98,7 +102,7 @@ public class Button extends Component {
 				// draw the shadow.
 				g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
 						transparency));
-				g.fillRoundRect(x + 3, y + 3, width, height, roundEdge + 3, roundEdge + 3);
+				g.fillRoundRect(x + 2, y + 2, width, height, roundEdge + 2, roundEdge + 2);
 
 				// draw the background
 				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
@@ -113,7 +117,8 @@ public class Button extends Component {
 			}
 
 			// draw the string in the centre of the button
-			g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
+			g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(),
+					foregroundTransparency));
 			Maths.drawCentredString(g, text, getAnimationBounds());
 
 		}
@@ -148,14 +153,16 @@ public class Button extends Component {
 		if (getBounds().contains(arg0.getPoint())) {
 			// width = width - 3;
 			// height = height - 3;
-			x += 3;
-			y += 3;
+			animationX = 2;
+			animationY = 2;
 			action();
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+		animationX = 0;
+		animationY = 0;
 	}
 
 	@Override
@@ -191,4 +198,20 @@ public class Button extends Component {
 
 	}
 
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
+	}
+
+	public int getForegroundTransparency() {
+		return foregroundTransparency;
+	}
+
+	public void setForegroundTransparency(int foregroundTransparency) {
+		this.foregroundTransparency = foregroundTransparency;
+	}
+	
 }
