@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+import tools.Utils;
+
 /**
  * A class that displays a given string within a parent {@link Container}. The
  * Class respects the parent {@link Container}'s {@link Tile} boundary size and
@@ -21,6 +23,9 @@ import java.awt.event.MouseWheelEvent;
  * @version 0.1
  */
 public class Label extends Component {
+
+	private boolean scaleFont; // sets if the component should automatically try to scale the font to fit
+	// inside the bounds
 
 	public Label(String text) {
 		this.text = text;
@@ -53,15 +58,20 @@ public class Label extends Component {
 	public void paint(Graphics g) {
 
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-		g.setFont(font);
+
 		if (text != null && text.length() > 0) {
 			width = g.getFontMetrics().stringWidth(text);
 			height = g.getFontMetrics().getHeight();
+
+			if (scaleFont && parent != null && protectedText != null && width != parent.getWidth()) {
+				font = Utils.scaleFont(protectedText, parent.getBounds(), g);
+			}
 
 		} else {
 			width = 1;
 			height = 1;
 		}
+
 		int assent = g.getFontMetrics().getAscent();
 
 		// save the previous clip bounds so that it can be reset after this components
@@ -76,11 +86,16 @@ public class Label extends Component {
 		}
 
 		if (show && text != null) {
+			g.setFont(font);
 			g.drawString(text, x, y + assent);
 		}
 		// reset the clip area
 		g.setClip(clipArea);
 
+	}
+
+	public void scaleFontDown(boolean scale) {
+		this.scaleFont = scale;
 	}
 
 	@Override

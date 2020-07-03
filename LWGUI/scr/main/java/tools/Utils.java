@@ -2,8 +2,11 @@ package tools;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,6 +22,23 @@ public class Utils {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * scales a font to fit vertically within a rectangle. Requires some work so
+	 * horizontal works as welL!
+	 * 
+	 * @param text - the input text
+	 * @param rect - the bounds to scale to
+	 * @param g    - the graphics object that will draw the string
+	 * @return - the correct font size
+	 */
+	public static Font scaleFont(String text, Rectangle rect, Graphics g) {
+
+		int fontSize = 0;
+
+		fontSize = rect.height;
+		return new Font(g.getFont().getFamily(), g.getFont().getStyle(), fontSize);
 	}
 
 	/**
