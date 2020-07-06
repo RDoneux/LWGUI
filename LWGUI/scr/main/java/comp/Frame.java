@@ -21,6 +21,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import constraints.Layout;
 import tools.CustomLoopTask;
@@ -67,6 +69,33 @@ public class Frame extends Canvas
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+
+		setListeners();
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				stop(); // if multiple windows are running concurrently, stop the thread on the closed
+						// window
+			}
+		});
+
+		frame.add(this);
+
+		start();
+
+	}
+
+	public Frame(Boolean decorate) {
+
+		frame = new JFrame();
+		frame.setSize(new Dimension(600, 400));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setUndecorated(decorate);
+		frame.setVisible(true);
+		// the extended state of the frame must be set after it has loaded if hardware
+		// Acceleration is enabled
 		setListeners();
 
 		frame.addWindowListener(new WindowAdapter() {
@@ -104,6 +133,10 @@ public class Frame extends Canvas
 
 		start();
 
+	}
+
+	public void setFullScreen() {
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	private void setListeners() {
@@ -201,8 +234,9 @@ public class Frame extends Canvas
 
 		child.setDisplayWindow(this);
 		child.setParent(this);
-				
+
 		children.add(child);
+
 	}
 
 	public GUIComponent getChild(int i) {
