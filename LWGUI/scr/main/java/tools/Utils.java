@@ -25,6 +25,8 @@ public class Utils {
 	}
 
 	/**
+	 * DOESN'T WORK!
+	 * 
 	 * scales a font to fit vertically within a rectangle. Requires some work so
 	 * horizontal works as welL!
 	 * 

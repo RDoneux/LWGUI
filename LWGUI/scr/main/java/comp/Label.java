@@ -24,9 +24,6 @@ import tools.Utils;
  */
 public class Label extends Component {
 
-	private boolean scaleFont; // sets if the component should automatically try to scale the font to fit
-	// inside the bounds
-
 	public Label(String text) {
 		this.text = text;
 		this.protectedText = text;
@@ -60,19 +57,15 @@ public class Label extends Component {
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
 
 		if (text != null && text.length() > 0) {
-			width = g.getFontMetrics().stringWidth(text);
-			height = g.getFontMetrics().getHeight();
-
-			if (scaleFont && parent != null && protectedText != null && width != parent.getWidth()) {
-				font = Utils.scaleFont(protectedText, parent.getBounds(), g);
-			}
+			width = g.getFontMetrics(font).stringWidth(text);
+			height = g.getFontMetrics(font).getHeight();
 
 		} else {
 			width = 1;
 			height = 1;
 		}
 
-		int assent = g.getFontMetrics().getAscent();
+		int assent = g.getFontMetrics(font).getAscent();
 
 		// save the previous clip bounds so that it can be reset after this components
 		// clip bounds are set
@@ -92,10 +85,6 @@ public class Label extends Component {
 		// reset the clip area
 		g.setClip(clipArea);
 
-	}
-
-	public void scaleFontDown(boolean scale) {
-		this.scaleFont = scale;
 	}
 
 	@Override
