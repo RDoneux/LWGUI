@@ -27,7 +27,7 @@ public abstract class Container extends GUIComponent {
 			System.err.println("Container component: " + name + " does not have a valid layout.");
 		}
 		if (displayWindow == null) {
-			System.err.println("Container component: " + name + " does not have a valid parent display. Container -> add");
+			//System.err.println("Container component: " + name + " does not have a valid parent display. Container -> add");
 		}
 		child.setDisplayWindow(getDisplayWindow());
 		child.setParent(this);
