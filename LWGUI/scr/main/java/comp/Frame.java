@@ -137,6 +137,7 @@ public class Frame extends Canvas
 
 	public void setFullScreen() {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		requestFocus();
 	}
 
 	private void setListeners() {

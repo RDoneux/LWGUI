@@ -149,7 +149,8 @@ public class PercentLayout extends Layout {
 					child.setY(targetTile.y + (targetTile.height * child.getGridHeight() / 2) - (child.getHeight() / 2)
 							+ child.getyOffset());
 				} else if (child.getAlignmentY() == alignment.SOUTH) {
-					child.setY(targetTile.y - child.getHeight() * child.getGridHeight() + child.getyOffset());
+					child.setY(targetTile.y + (targetTile.height - child.getHeight()) * child.getGridHeight()
+							+ child.getyOffset());
 				}
 			}
 		}
