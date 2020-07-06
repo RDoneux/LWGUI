@@ -37,9 +37,26 @@ public class Utils {
 	 */
 	public static Font scaleFont(String text, Rectangle rect, Graphics g) {
 
-		int fontSize = 0;
+		// if the text already fits the rectangle in width or height, the font has been
+		// scaled correctly before so return it.
+		if (g.getFontMetrics(g.getFont()).stringWidth(text) == rect.width
+				|| g.getFontMetrics(g.getFont()).getAscent() == rect.height) {
+			return g.getFont();
+		}
 
-		fontSize = rect.height;
+		int fontSize = 0;
+		// if the text fits the width of the rectangle, increase the height to the size
+		// of the container
+		if (g.getFontMetrics(g.getFont()).stringWidth(text) < rect.width) {
+			fontSize = rect.height;
+		}
+		// if the width is larger than the rect width, reduce the font size
+		// until it fits
+		Font font = new Font(g.getFont().getFamily(), g.getFont().getStyle(), fontSize);
+		while (g.getFontMetrics(font).stringWidth(text) >= rect.width) {
+			fontSize--;
+			font = new Font(g.getFont().getFamily(), g.getFont().getStyle(), fontSize);
+		}
 		return new Font(g.getFont().getFamily(), g.getFont().getStyle(), fontSize);
 	}
 
