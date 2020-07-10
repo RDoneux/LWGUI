@@ -24,8 +24,6 @@ import tools.Utils;
  */
 public class Label extends Component {
 
-	private boolean scaleFont; // scale the font to the size of this lable's parent container
-
 	public Label(String text) {
 		this.text = text;
 		this.protectedText = text;
@@ -93,13 +91,7 @@ public class Label extends Component {
 
 	}
 
-	public boolean isScaledFont() {
-		return scaleFont;
-	}
 
-	public void scaleFont(boolean scaleFont) {
-		this.scaleFont = scaleFont;
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {

@@ -12,6 +12,7 @@ import tools.IDGenerator;
 
 public abstract class Component extends GUIComponent {
 
+	protected boolean scaleFont; // scale the font to the size of this lable's parent container
 	protected String text;
 	protected String protectedText;
 	protected Font font = new Font("Times Roman", Font.PLAIN, 12);
@@ -73,6 +74,14 @@ public abstract class Component extends GUIComponent {
 
 	public void setForeground(Color foreground) {
 		this.foreground = foreground;
+	}
+	
+	public boolean isScaledFont() {
+		return scaleFont;
+	}
+
+	public void scaleFont(boolean scaleFont) {
+		this.scaleFont = scaleFont;
 	}
 
 }

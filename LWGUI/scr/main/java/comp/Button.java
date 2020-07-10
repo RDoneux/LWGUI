@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 
 import tools.Maths;
+import tools.Utils;
 
 /**
  * 
@@ -24,7 +25,7 @@ import tools.Maths;
 public class Button extends Component {
 
 	private Color background;
-	private Color boarder;
+	private Color border;
 
 	private int roundEdge;
 	private int foregroundTransparency; // the transparency of the text
@@ -42,7 +43,7 @@ public class Button extends Component {
 
 		foregroundTransparency = 255;
 		background = Color.LIGHT_GRAY;
-		boarder = Color.BLACK;
+		border = Color.BLACK;
 		roundEdge = 5;
 
 	}
@@ -56,7 +57,7 @@ public class Button extends Component {
 		protectedText = text;
 		foregroundTransparency = 255;
 		background = Color.LIGHT_GRAY;
-		boarder = Color.BLACK;
+		border = Color.BLACK;
 		roundEdge = 5;
 	}
 
@@ -80,6 +81,9 @@ public class Button extends Component {
 	public void paint(Graphics g) {
 
 		g.setFont(font);
+		if (scaleFont && width > 0 && height > 0) {
+			Utils.scaleFont(protectedText, getBounds(), g); // scale the font to fit with the size of the button
+		}
 		if (width == 0 && height == 0) {
 			width = g.getFontMetrics().stringWidth(text) + 50;
 			height = g.getFontMetrics().getHeight() + 10;
@@ -109,7 +113,7 @@ public class Button extends Component {
 				g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
 
 				// draw the boarder
-				g.setColor(new Color(boarder.getRed(), boarder.getGreen(), boarder.getBlue(), transparency));
+				g.setColor(new Color(border.getRed(), border.getGreen(), border.getBlue(), transparency));
 				g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
 			} else {
 				// if an image has been set as the background, draw it under the text
@@ -213,5 +217,13 @@ public class Button extends Component {
 	public void setForegroundTransparency(int foregroundTransparency) {
 		this.foregroundTransparency = foregroundTransparency;
 	}
-	
+
+	public Color getBorder() {
+		return border;
+	}
+
+	public void setBorder(Color boarder) {
+		this.border = boarder;
+	}
+
 }
