@@ -48,7 +48,9 @@ public class ProgressBar extends Component {
 
 	@Override
 	public void revise() {
-		this.value = holdValue * width / max;
+		if (max > 0) {
+			this.value = holdValue * width / max;
+		}
 		if (displayProgress) {
 			text = String.valueOf(holdValue * 100 / max) + "%";
 			protectedText = String.valueOf(text);

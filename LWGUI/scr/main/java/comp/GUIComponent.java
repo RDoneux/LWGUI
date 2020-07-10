@@ -40,13 +40,15 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected int transparency;
 
 	protected int edge;
-	
+
 	protected int level; // specify in which order the item should be rendered at
 
 	protected double weightX;
 	protected double weightY;
 
 	protected String name;
+
+	protected Rectangle layoutBounds;
 
 	protected GUIComponent parent;
 	protected Frame topLevelParent;
@@ -60,11 +62,11 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected boolean minimised;
 	protected boolean loaded;
 	protected boolean show;
-	protected boolean autoLayout; // indicate if the layout manager should control the x, y, width & variables for this component. Set to true for default
+	protected boolean autoLayout; // indicate if the layout manager should control the x, y, width & variables for
+									// this component. Set to true for default
 
 	protected Animation currentAnimation;
 	protected Effect currentEffect;
-	
 
 	public enum alignment {
 		NORTH, EAST, SOUTH, WEST, CENTRE;
@@ -104,11 +106,6 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	 * @param animation
 	 */
 	public void queAnimation(Animation animation) {
-
-//		System.out.println(name + ": animation qued ~ " + animation.getType());
-//		System.out.println("");
-
-		// System.out.println(parent);
 
 		// if the animation hasn't been set yet, create a new animation and start the
 		// animation loop
@@ -477,5 +474,13 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	public void setDisplayWindow(Frame displayWindow) {
 		this.displayWindow = displayWindow;
 	}
-		
+
+	public Rectangle getLayoutBounds() {
+		return layoutBounds;
+	}
+
+	public void setLayoutBounds(Rectangle layoutBounds) {
+		this.layoutBounds = layoutBounds;
+	}
+
 }

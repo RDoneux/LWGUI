@@ -131,6 +131,12 @@ public class PercentLayout extends Layout {
 					}
 				}
 
+				child.setLayoutBounds(new Rectangle(targetTile.width * child.getGridWidth(),
+						targetTile.height * child.getGridHeight())); // provide the child with information on what their
+																		// layout bounds are. This is relevant for the
+																		// Label class that needs to know the size in
+																		// which to scale it's text
+
 				// set the alignment of the child component within the window frame. This will
 				// only have an effect if the child component is smaller than the window frame
 				if (child.getAlignmentX() == alignment.WEST) {

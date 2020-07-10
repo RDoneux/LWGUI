@@ -59,8 +59,8 @@ public class Label extends Component {
 		g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
 		g.setFont(font);
 
-		if (scaleFont) {
-			font = Utils.scaleFont(protectedText, parent.getBounds(), g);
+		if (scaleFont && layoutBounds != null) {
+			font = Utils.scaleFont(protectedText, layoutBounds, g);
 		}
 
 		if (text != null && text.length() > 0) {
