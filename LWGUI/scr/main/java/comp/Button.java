@@ -102,20 +102,21 @@ public class Button extends Component {
 		if (show) {
 			// if an image has been set, use that as the button. If not, use the defualt
 			// layout.
-			if (image == null) {
-				// draw the shadow.
-				g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
-						transparency));
-				g.fillRoundRect(x + 2, y + 2, width, height, roundEdge + 2, roundEdge + 2);
 
-				// draw the background
-				g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
-				g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+			// draw the shadow.
+			g.setColor(new Color(Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getGreen(), Color.DARK_GRAY.getBlue(),
+					transparency));
+			g.fillRoundRect(x + 2, y + 2, width, height, roundEdge + 2, roundEdge + 2);
 
-				// draw the boarder
-				g.setColor(new Color(border.getRed(), border.getGreen(), border.getBlue(), transparency));
-				g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
-			} else {
+			// draw the background
+			g.setColor(new Color(background.getRed(), background.getGreen(), background.getBlue(), transparency));
+			g.fillRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+			// draw the boarder
+			g.setColor(new Color(border.getRed(), border.getGreen(), border.getBlue(), transparency));
+			g.drawRoundRect(x, y, width, height, roundEdge, roundEdge);
+
+			if (image != null) {
 				// if an image has been set as the background, draw it under the text
 				g.drawImage(image, x, y, width, height, null);
 			}
