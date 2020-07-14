@@ -54,6 +54,7 @@ public class Frame extends Canvas
 	private Layout layout;
 
 	private boolean running;
+	private boolean decorated;
 	private Thread thread;
 
 	private CopyOnWriteArrayList<GUIComponent> children = new CopyOnWriteArrayList<>();
@@ -87,6 +88,8 @@ public class Frame extends Canvas
 	}
 
 	public Frame(Boolean decorate) {
+
+		this.decorated = decorate;
 
 		frame = new JFrame();
 		frame.setSize(new Dimension(600, 400));
@@ -136,8 +139,11 @@ public class Frame extends Canvas
 	}
 
 	public void setFullScreen() {
+
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 		requestFocus();
+
 	}
 
 	private void setListeners() {
