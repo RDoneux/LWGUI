@@ -71,7 +71,7 @@ public class TextArea extends Component {
 		// charCount is 0, there is no maximum char count - user can input as many chars
 		// as they want
 		if (charCount > 0 && protectedText.length() > charCount) {
-			protectedText = protectedText.substring(0, charCount);
+			// protectedText = protectedText.substring(0, charCount);
 		}
 	}
 
@@ -332,7 +332,7 @@ public class TextArea extends Component {
 			focused = false;
 		}
 
-		// find the user click location and set the x and y cusor values to that
+		// find the user click location and set the x and y cursor values to that
 		// location.
 		if (focused && protectedText.length() > 0) {
 			findXandYfromMouseLocation(arg0);
@@ -344,6 +344,10 @@ public class TextArea extends Component {
 
 	public void setFocused(boolean focus) {
 		this.focused = focus;
+	}
+
+	public boolean getFocused() {
+		return focused;
 	}
 
 	public void clearText() {
@@ -387,10 +391,6 @@ public class TextArea extends Component {
 			}
 			if (lines[cursorLocation.y].equals("\n ")) {
 				cursorLocation.x = 1;
-			}
-
-			if (protectedText.length() >= charCount) {
-				return;
 			}
 
 			StringBuilder sb = new StringBuilder(protectedText);
@@ -488,9 +488,11 @@ public class TextArea extends Component {
 				flatCursorPosition += 2;
 				break;
 			default:
-				sb.insert(flatCursorPosition, arg0.getKeyChar());
-				cursorLocation.x++;
-				backwardsCheckCursor = true;
+				if (protectedText.length() < charCount) {
+					sb.insert(flatCursorPosition, arg0.getKeyChar());
+					cursorLocation.x++;
+					backwardsCheckCursor = true;
+				}
 				break;
 			}
 
