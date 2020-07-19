@@ -35,7 +35,7 @@ public class Utils {
 	 * @param g    - the graphics object that will draw the string
 	 * @return - the correct font size
 	 */
-	public static Font scaleFont(String text, Rectangle rect, Graphics g) {
+	public static Font scaleFont(String text, Rectangle rect, Graphics g, int maxFont, int minFont) {
 
 		// if the text already fits the rectangle in width or height, the font has been
 		// scaled correctly before so return it.
@@ -56,6 +56,15 @@ public class Utils {
 		while (g.getFontMetrics(font).stringWidth(text) >= rect.width) {
 			fontSize--;
 			font = new Font(g.getFont().getFamily(), g.getFont().getStyle(), fontSize);
+		}
+
+		// if the user has specified a minimum and maximum font, check if it is outside
+		// of that range and set it to the equivalent range if so.
+		if (minFont > 0 && fontSize < minFont) {
+			fontSize = minFont;
+		}
+		if (maxFont > 0 && fontSize > maxFont) {
+			fontSize = maxFont;
 		}
 		return new Font(g.getFont().getFamily(), g.getFont().getStyle(), fontSize);
 	}

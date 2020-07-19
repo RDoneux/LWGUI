@@ -58,7 +58,7 @@ public class Label extends Component {
 		g.setFont(font);
 
 		if (scaleFont && layoutBounds != null) {
-			font = Utils.scaleFont(protectedText, layoutBounds, g);
+			font = Utils.scaleFont(protectedText, layoutBounds, g, maxFont, minFont);
 		}
 
 		if (text != null && text.length() > 0) {
@@ -90,8 +90,6 @@ public class Label extends Component {
 		g.setClip(clipArea);
 
 	}
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {

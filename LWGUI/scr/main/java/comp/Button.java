@@ -82,7 +82,8 @@ public class Button extends Component {
 
 		g.setFont(font);
 		if (scaleFont && width > 0 && height > 0) {
-			Utils.scaleFont(protectedText, getBounds(), g); // scale the font to fit with the size of the button
+			Utils.scaleFont(protectedText, getBounds(), g, maxFont, minFont); // scale the font to fit with the size of
+																				// the button
 		}
 		if (width == 0 && height == 0) {
 			width = g.getFontMetrics().stringWidth(text) + 50;
