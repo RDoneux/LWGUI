@@ -31,6 +31,8 @@ public class TextArea extends Component {
 	private int yScroll;
 	private int scrollHeight;
 
+	private int spacing;
+
 	private String[] lines;
 
 	private Color background;
@@ -156,8 +158,11 @@ public class TextArea extends Component {
 			if (lines[cursorLocation.y] != null) {
 				cursorX = g.getFontMetrics(font).stringWidth(lines[cursorLocation.y].substring(0, cursorLocation.x));
 			}
-			cursorY = cursorLocation.y * textHeight;
-
+			if (spacing == 0) {
+				cursorY = cursorLocation.y * textHeight;
+			} else {
+				cursorY = cursorLocation.y * spacing;
+			}
 			// System.out.println(cursorY + " ~ " + textY + " ~ " + scrollHeight + " ~ " +
 			// (-textY + (height + 2)));
 			if (timer + 500 < System.currentTimeMillis()) {
@@ -566,4 +571,12 @@ public class TextArea extends Component {
 		return protectedText.replace("\f", " ");
 	}
 
+	public int getSpacing() {
+		return spacing;
+	}
+
+	public void setSpacing(int spacing) {
+		this.spacing = spacing;
+	}
+	
 }
