@@ -362,7 +362,7 @@ public class Frame extends Canvas
                 frames = 0;
                 updates = 0;
                 for (CustomLoopTask task : customTasks) {
-                    title = title + " " + task.getName() + ": " + task.getCalls();
+                    title = title + " " + task.getName() + ": " + task.getCalls() + " | " + task.getInformation();
                     task.resetCalls();
                 }
                 frame.setTitle(title);
