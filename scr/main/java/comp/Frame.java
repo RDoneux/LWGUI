@@ -46,10 +46,15 @@ public class Frame extends Canvas
     public Frame() {
 
         frame = new JFrame();
-        frame.setSize(new Dimension(600, 400));
+        frame.setSize(new Dimension(800, 600));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+
+//        GraphicsDevice graphics = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//        graphics.setFullScreenWindow(frame);
+//        graphics.setDisplayMode(new DisplayMode(800, 600, 32, DisplayMode.REFRESH_RATE_UNKNOWN));
+
         frame.setVisible(true);
 
         setListeners();
