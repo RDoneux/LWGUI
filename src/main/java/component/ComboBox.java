@@ -1,13 +1,13 @@
-package comp;
+package component;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import tools.Utils;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 
-import tools.Utils;
 
 public class ComboBox extends Component {
 

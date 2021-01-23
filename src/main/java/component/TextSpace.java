@@ -1,4 +1,4 @@
-package comp;
+package component;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,7 +22,6 @@ import java.awt.event.MouseWheelEvent;
  * 
  * @author Robert Doneux
  * @version 0.1
- * @deprecated
  *
  */
 

@@ -1,8 +1,8 @@
 package effects;
 
-import java.awt.Graphics;
+import component.GUIComponent;
 
-import comp.GUIComponent;
+import java.awt.Graphics;
 
 public abstract class Effect {
 

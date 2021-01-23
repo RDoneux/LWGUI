@@ -1,6 +1,6 @@
 package animation;
 
-import comp.GUIComponent;
+import component.GUIComponent;
 import tools.IDGenerator;
 
 public abstract class Animation implements Runnable {

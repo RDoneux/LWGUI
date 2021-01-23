@@ -1,16 +1,14 @@
 package constraints;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.*;
 
-import comp.Component;
-import comp.Frame;
-import comp.GUIComponent;
-import comp.GUIComponent.alignment;
+import animation.Animation;
+import component.Component;
+import component.Container;
+import component.GUIComponent;
 import tools.Maths;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Basic grid based layout manager. Creates a grid of {@link Tile}, splitting
@@ -138,22 +136,22 @@ public class PercentLayout extends Layout {
 
 				// set the alignment of the child component within the window frame. This will
 				// only have an effect if the child component is smaller than the window frame
-				if (child.getAlignmentX() == alignment.WEST) {
+				if (child.getAlignmentX() == GUIComponent.alignment.WEST) {
 					child.setX(targetTile.x + child.getxOffset());
-				} else if (child.getAlignmentX() == alignment.CENTRE) {
+				} else if (child.getAlignmentX() == GUIComponent.alignment.CENTRE) {
 					child.setX(targetTile.x + (targetTile.width * child.getGridWidth() / 2) - (child.getWidth() / 2)
 							+ child.getxOffset());
-				} else if (child.getAlignmentX() == alignment.EAST) {
+				} else if (child.getAlignmentX() == GUIComponent.alignment.EAST) {
 					child.setX(targetTile.x + targetTile.width * child.getGridWidth() - child.getWidth()
 							+ child.getxOffset());
 				}
 
-				if (child.getAlignmentY() == alignment.NORTH) {
+				if (child.getAlignmentY() == GUIComponent.alignment.NORTH) {
 					child.setY(targetTile.y + child.getyOffset());
-				} else if (child.getAlignmentY() == alignment.CENTRE) {
+				} else if (child.getAlignmentY() == GUIComponent.alignment.CENTRE) {
 					child.setY(targetTile.y + (targetTile.height * child.getGridHeight() / 2) - (child.getHeight() / 2)
 							+ child.getyOffset());
-				} else if (child.getAlignmentY() == alignment.SOUTH) {
+				} else if (child.getAlignmentY() == GUIComponent.alignment.SOUTH) {
 					child.setY(targetTile.y + (targetTile.height - child.getHeight()) * child.getGridHeight()
 							+ child.getyOffset());
 				}
@@ -182,8 +180,8 @@ public class PercentLayout extends Layout {
 	 * enables the user to update the {@link Tile} width and height after the layout
 	 * manager has been created and added to a {@link Container} or {@link Frame}
 	 * 
-	 * @param x
-	 * @param y
+	 * @param width
+	 * @param height
 	 */
 	public void updateGrid(int width, int height) {
 		columns = width;

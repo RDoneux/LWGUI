@@ -3,7 +3,7 @@ package animation;
 /**
  * 
  * An exception of {@link Animation} this class provides an initial offset to a
- * {@link GUIComponent}. It can also be used to 'jump' a component off to the
+ * {@link component.GUIComponent}. It can also be used to 'jump' a component off to the
  * side of a parent clip space without any animation making it seem like it's
  * disappeared
  * 

@@ -1,11 +1,11 @@
-package comp;
+package component;
+
+import constraints.Layout;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import constraints.Layout;
 
 public abstract class Container extends GUIComponent {
 

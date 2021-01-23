@@ -1,13 +1,10 @@
-package comp;
+package component;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Rectangle;
+import tools.IDGenerator;
+
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-
-import constraints.Layout;
-import tools.IDGenerator;
 
 public abstract class Component extends GUIComponent {
 

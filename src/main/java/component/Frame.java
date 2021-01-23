@@ -1,4 +1,5 @@
-package comp;
+package component;
+
 
 import constraints.Layout;
 import tools.CustomLoopTask;

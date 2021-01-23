@@ -1,10 +1,12 @@
 package constraints;
 
-import java.awt.Graphics;
 
-import comp.Container;
-import comp.Frame;
-import comp.GUIComponent.alignment;
+import component.Container;
+import component.Frame;
+import component.GUIComponent;
+
+import java.awt.*;
+
 
 public abstract class Layout {
 
@@ -22,8 +24,8 @@ public abstract class Layout {
 	protected Container container;
 	protected Frame topLevelContainer;
 
-	protected alignment alignmentX;
-	protected alignment alignmentY;
+	protected GUIComponent.alignment alignmentX;
+	protected GUIComponent.alignment alignmentY;
 
 	protected boolean debugging;
 

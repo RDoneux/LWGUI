@@ -1,12 +1,4 @@
-package comp;
-
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
+package component;
 
 import animation.Animation;
 import animation.FlyIn;
@@ -14,6 +6,12 @@ import animation.FlyOut;
 import effects.Effect;
 import tools.IDGenerator;
 import tools.Maths;
+
+import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 
 public abstract class GUIComponent implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
