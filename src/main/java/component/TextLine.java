@@ -13,13 +13,13 @@ public class TextLine extends Component {
 
     private boolean focused;
 
-    private StringBuilder text;
+    private StringBuilder textBuilder;
 
     private String punctuation = "?!,.'-;()";
 
     public TextLine() {
 
-        text = new StringBuilder();
+        textBuilder = new StringBuilder();
 
         background = Color.LIGHT_GRAY;
         border = Color.BLACK;
@@ -29,7 +29,7 @@ public class TextLine extends Component {
 
     }
 
-    public Font scaleFont(String text, Rectangle rect, Graphics g, Font font) {
+    public Font scaleFont(String text, Rectangle rect, Graphics g) {
         float fontSize = 20.0f;
 
         font = g.getFont().deriveFont(fontSize);
@@ -56,9 +56,14 @@ public class TextLine extends Component {
 
             g.setFont(font);
             g.setColor(new Color(foreground.getRed(), foreground.getGreen(), foreground.getBlue(), transparency));
-            //g.drawString(text.toString(), x + 5, (y + (height / 2) + (g.getFontMetrics(font).getAscent() / 2)));
-            g.drawString(text.toString(), x + 5, (y + g.getFontMetrics(font).getAscent()) + 2);
 
+            int xOffset = 0; // if the text is larger than the display area, move it left by the excess amount
+            if (g.getFontMetrics(font).stringWidth(textBuilder.toString()) > width) {
+                xOffset = g.getFontMetrics(font).stringWidth(textBuilder.toString()) - width;
+            }
+            g.setClip(this.getBounds());
+            g.drawString(textBuilder.toString(), ((x + 5) - xOffset), (y + g.getFontMetrics(font).getAscent()) + 2);
+            g.setClip(parent.getBounds());
 
             g.setColor(new Color(border.getRed(), border.getGreen(), border.getBlue(), transparency));
             g.drawRoundRect(x, y, width, height, edge, edge);
@@ -86,15 +91,11 @@ public class TextLine extends Component {
         if (show && focused) {
             if (Character.isLetterOrDigit(e.getKeyCode()) || Character.isSpaceChar(e.getKeyCode())
                     || Pattern.matches("[\\p{Punct}\\p{IsPunctuation}]", String.valueOf(e.getKeyChar()))) {
-                text.append(e.getKeyChar());
-            } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length() > 0) {
-                text.replace(text.length() - 1, text.length(), "");
+                textBuilder.append(e.getKeyChar());
+            } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && textBuilder.length() > 0) {
+                textBuilder.replace(textBuilder.length() - 1, textBuilder.length(), "");
             }
-
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                System.out.println("sent: " + text.toString());
-                text.replace(0, text.length(), "");
-            }
+            setText(textBuilder.toString());
         }
     }
 
@@ -146,6 +147,11 @@ public class TextLine extends Component {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
 
+    }
+
+    public void resetText() {
+        setText("");
+        textBuilder = new StringBuilder();
     }
 
     public boolean isFocused() {

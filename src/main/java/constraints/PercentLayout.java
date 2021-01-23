@@ -189,6 +189,14 @@ public class PercentLayout extends Layout {
 		tiles = new Tile[columns][rows];
 	}
 
+	public int getRows() {
+		return rows;
+	}
+
+	public int getColumns() {
+		return columns;
+	}
+
 	/**
 	 * holds an x, y, width and height value which the {@link PercentLayout} layout
 	 * manager uses to split the screen evenly and layout the attached
@@ -221,5 +229,7 @@ public class PercentLayout extends Layout {
 		private Rectangle getBounds() {
 			return new Rectangle(x, y, width, height);
 		}
+
+
 	}
 }
