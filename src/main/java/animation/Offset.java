@@ -14,7 +14,7 @@ package animation;
 
 public class Offset extends Animation {
 
-	private animationConstraint constraint;
+	private final animationConstraint constraint;
 
 	public Offset(animationConstraint constraint) {
 		// ensure that the user has entered a valid animationConstraint

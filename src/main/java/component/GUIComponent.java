@@ -67,8 +67,8 @@ public abstract class GUIComponent implements MouseListener, MouseMotionListener
 	protected Effect currentEffect;
 
 	public enum alignment {
-		NORTH, EAST, SOUTH, WEST, CENTRE;
-	}
+		NORTH, EAST, SOUTH, WEST, CENTRE
+    }
 
 	public GUIComponent() {
 		id = IDGenerator.generateID();

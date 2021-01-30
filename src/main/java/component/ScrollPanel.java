@@ -8,9 +8,9 @@ import java.awt.event.MouseWheelEvent;
 
 public class ScrollPanel extends Component {
 
-	private Container child;
+	private final Container child;
 	
-	private Color background;
+	private final Color background;
 
 	public ScrollPanel(Container child) {
 		this.child = child;

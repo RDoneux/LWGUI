@@ -16,12 +16,12 @@ public abstract class Animation implements Runnable {
 	protected GUIComponent parent;
 
 	public enum animationConstraint {
-		LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP, NORTH, EAST, SOUTH, WEST;
-	}
+		LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP, NORTH, EAST, SOUTH, WEST
+    }
 
 	public enum animationType {
-		FLY_IN, FLY_OUT, OFFSET, GROW, SHRINK;
-	}
+		FLY_IN, FLY_OUT, OFFSET, GROW, SHRINK
+    }
 
 	public Animation() {
 		ID = IDGenerator.generateID();

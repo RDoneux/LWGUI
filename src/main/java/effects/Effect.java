@@ -16,8 +16,8 @@ public abstract class Effect {
 	protected GUIComponent parent;
 
 	public enum effectType {
-		HIGHLIGHT;
-	}
+		HIGHLIGHT
+    }
 
 	public abstract void paint(Graphics g);
 

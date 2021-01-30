@@ -14,7 +14,7 @@ package animation;
 
 public class FlyOut extends Animation {
 
-	private animationConstraint constraint;
+	private final animationConstraint constraint;
 	private int speed;
 
 	public FlyOut(animationConstraint constraint) {

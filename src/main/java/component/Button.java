@@ -24,7 +24,7 @@ public class Button extends Component {
 	private Color background;
 	private Color border;
 
-	private int roundEdge;
+	private final int roundEdge;
 	private int foregroundTransparency; // the transparency of the text
 
 	private Image image;

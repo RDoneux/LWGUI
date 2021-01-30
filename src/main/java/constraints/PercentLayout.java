@@ -209,8 +209,8 @@ public class PercentLayout extends Layout {
 
 		private int x;
 		private int y;
-		private int width;
-		private int height;
+		private final int width;
+		private final int height;
 
 		private Tile(int width, int height) {
 			this.width = width;

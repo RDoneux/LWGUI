@@ -31,7 +31,7 @@ public class Frame extends Canvas
     public static int FRAME_HEIGHT;
     // public static Point MOUSE_LOCATION;
 
-    private JFrame frame;
+    private final JFrame frame;
 
     private Layout layout;
 
@@ -39,7 +39,7 @@ public class Frame extends Canvas
     private boolean decorated;
     private Thread thread;
 
-    private CopyOnWriteArrayList<GUIComponent> children = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<GUIComponent> children = new CopyOnWriteArrayList<>();
 
     public Point mouseLocation; // the current mouse location on the screen mapped to the frame's content pane
     // size
@@ -297,7 +297,7 @@ public class Frame extends Canvas
         return customTasks;
     }
 
-    private ArrayList<CustomLoopTask> customTasks = new ArrayList<>();
+    private final ArrayList<CustomLoopTask> customTasks = new ArrayList<>();
     private double targetUPS = 30.0;
     private double targetFPS = 30.0;
     private double us;

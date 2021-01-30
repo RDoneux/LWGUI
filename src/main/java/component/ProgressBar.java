@@ -19,8 +19,8 @@ import java.awt.event.MouseWheelEvent;
 
 public class ProgressBar extends Component {
 
-	private Color background;
-	private Color boarder;
+	private final Color background;
+	private final Color boarder;
 	private Color gradientMin;
 	private Color gradientMax;
 
@@ -32,7 +32,7 @@ public class ProgressBar extends Component {
 	private int value;
 	private int holdValue;
 	private int max;
-	private int roundEdge;
+	private final int roundEdge;
 
 	public ProgressBar() {
 		background = Color.LIGHT_GRAY;
@@ -49,8 +49,8 @@ public class ProgressBar extends Component {
 			this.value = holdValue * width / max;
 		}
 		if (displayProgress) {
-			text = String.valueOf(holdValue * 100 / max) + "%";
-			protectedText = String.valueOf(text);
+			text = holdValue * 100 / max + "%";
+			protectedText = text;
 		}
 	}
 

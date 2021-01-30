@@ -8,14 +8,14 @@ import java.util.regex.Pattern;
 
 public class TextLine extends Component {
 
-    private Color background;
-    private Color border;
+    private final Color background;
+    private final Color border;
 
     private boolean focused;
 
     private StringBuilder textBuilder;
 
-    private String punctuation = "?!,.'-;()";
+    private final String punctuation = "?!,.'-;()";
 
     public TextLine() {
 
@@ -112,11 +112,7 @@ public class TextLine extends Component {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (getBounds().contains(e.getPoint())) {
-            focused = true;
-        } else {
-            focused = false;
-        }
+        focused = getBounds().contains(e.getPoint());
     }
 
     @Override

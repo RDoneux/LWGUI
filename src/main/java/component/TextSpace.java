@@ -27,10 +27,10 @@ import java.awt.event.MouseWheelEvent;
 
 public class TextSpace extends Component {
 
-	private Color background;
-	private Color boarder;
+	private final Color background;
+	private final Color boarder;
 
-	private int roundEdge;
+	private final int roundEdge;
 	private int textX;
 	private int textY;
 	private int textHeight;
@@ -72,7 +72,7 @@ public class TextSpace extends Component {
 
 		int lineWidth = 0;
 		int lineHeight = 0;
-		String split[] = length.split("\f");
+		String[] split = length.split("\f");
 
 		for (String word : split) {
 			if (lineWidth + g.getFontMetrics().stringWidth(word) > getBounds().width - 10) {
@@ -105,7 +105,7 @@ public class TextSpace extends Component {
 
 		int lineWidth = 0;
 		int lineHeight = 0;
-		String words[] = protectedText.split("\f");
+		String[] words = protectedText.split("\f");
 
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
@@ -161,11 +161,7 @@ public class TextSpace extends Component {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		if (getBounds().contains(arg0.getPoint())) {
-			focused = true;
-		} else {
-			focused = false;
-		}
+        focused = getBounds().contains(arg0.getPoint());
 	}
 
 	@Override

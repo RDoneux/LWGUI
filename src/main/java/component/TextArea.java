@@ -24,7 +24,7 @@ public class TextArea extends Component {
 	private int textY;
 	private int textHeight;
 	private int cursorY;
-	private int roundEdge;
+	private final int roundEdge;
 	private int flatCursorPosition;
 	private int charCount;
 	private int xScroll;
@@ -35,11 +35,11 @@ public class TextArea extends Component {
 
 	private String[] lines;
 
-	private Color background;
-	private Color shadow;
-	private Color boarder;
+	private final Color background;
+	private final Color shadow;
+	private final Color boarder;
 
-	private Point cursorLocation;
+	private final Point cursorLocation;
 
 	private boolean focused;
 	private boolean editable;
@@ -98,7 +98,7 @@ public class TextArea extends Component {
 		int lineHeight = 0;
 		textHeight = g.getFontMetrics(font).getHeight() + 2;
 		setScrollMagnitude(textHeight);
-		String words[] = protectedText.split("\f");
+		String[] words = protectedText.split("\f");
 		int lineBreaks = protectedText.split("\n").length;
 		lines = new String[(((g.getFontMetrics(font).stringWidth(protectedText)) / (getBounds().width - 15)) + 3
 				+ lineBreaks) * 2];
@@ -187,7 +187,7 @@ public class TextArea extends Component {
 	 * 
 	 * @param lines: the 2D array of text
 	 */
-	private void normaliseXandY(String lines[]) {
+	private void normaliseXandY(String[] lines) {
 
 		int y = 0;
 		int x = 0;

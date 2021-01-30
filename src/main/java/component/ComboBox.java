@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 
 public class ComboBox extends Component {
 
-	private int roundedEdgeValue;
-	private BufferedImage downArrow;
+	private final int roundedEdgeValue;
+	private final BufferedImage downArrow;
 
 	public ComboBox() {
 
