@@ -12,7 +12,7 @@ public abstract class Layout {
 
 	/**
 	 * Abstract class for all Layouts. Contains abstract methods, 'updateLayout()'
-	 * and 'debug();
+	 * and 'constants();
 	 * 
 	 * @param container
 	 * @param frame
